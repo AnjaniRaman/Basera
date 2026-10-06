@@ -37,8 +37,25 @@ export const PERMISSIONS = {
   'activity.clear': OWNER
 };
 
-export function canPerform(type, role) {
-  return (PERMISSIONS[type] || []).includes(role);
+// Extra commands a staff member may issue when the owner gives them an access level.
+const ACCOUNTS = ['tenant.add', 'tenant.update', 'tenant.move', 'tenant.giveNotice', 'tenant.cancelNotice', 'billing.generate', 'billing.addLine',
+  'billing.removeLine', 'billing.updateDue', 'billing.applyLateFees', 'meter.record', 'payment.record', 'payment.confirm', 'payment.reject',
+  'expense.add', 'expense.update', 'request.create', 'request.update', 'request.comment', 'document.add', 'document.remove'];
+const MANAGER = [...ACCOUNTS, 'tenant.settle', 'tenant.reactivate', 'billing.void', 'meter.remove', 'room.add', 'room.addMany', 'room.update', 'room.remove',
+  'expense.remove', 'attendance.mark', 'task.add', 'task.update', 'task.remove', 'notice.post', 'notice.update', 'notice.remove', 'menu.update', 'menu.replace', 'meal.skip'];
+export const ACCESS_COMMANDS = { basic: new Set(), accounts: new Set(ACCOUNTS), manager: new Set(MANAGER) };
+
+/** Never delegated: settings, staff and salaries, deleting payments. */
+export function canPerform(type, role, access = 'basic') {
+  if ((PERMISSIONS[type] || []).includes(role)) return true;
+  return role === 'staff' && Boolean(ACCESS_COMMANDS[access]?.has(type));
+}
+
+/** The access level comes from the stored staff record, never from the caller. */
+export function staffAccess(state, actor) {
+  if (actor?.role !== 'staff') return 'basic';
+  const member = state.staff.find((s) => s.id === actor.refId && s.active);
+  return member?.access || 'basic';
 }
 
 export const BED_LABELS = 'ABCDEFGHIJKL'.split('');
@@ -687,7 +704,7 @@ const HANDLERS = {
       // A resident may only close their own resolved request (or reopen it).
       assert(p.assignedTo === undefined && p.priority === undefined, 'forbidden');
       assert(!p.status || p.status === 'closed' || p.status === 'open', 'forbidden');
-    } else if (actor.role === 'staff') {
+    } else if (actor.role === 'staff' && !api.elevated) {
       const self = selfStaff(api);
       assert(!request.assignedTo || request.assignedTo === self.id, 'forbidden');
       assert(p.assignedTo === undefined && p.priority === undefined, 'forbidden');
@@ -740,14 +757,14 @@ const HANDLERS = {
   },
 
   'menu.update'(api, p) {
-    const self = selfStaff(api);
+    const self = api.access === 'manager' ? null : selfStaff(api);
     if (self) assert(['cook', 'manager', 'warden'].includes(self.role), 'forbidden');
     api.state.menu[p.day] = { ...api.state.menu[p.day], ...p.meals };
     api.log('menu.updated', { day: p.day });
   },
 
   'menu.replace'(api, p) {
-    const self = selfStaff(api);
+    const self = api.access === 'manager' ? null : selfStaff(api);
     if (self) assert(['cook', 'manager', 'warden'].includes(self.role), 'forbidden');
     for (const [day, meals] of Object.entries(p)) api.state.menu[day] = { ...api.state.menu[day], ...meals };
     api.log('menu.updated', { day: 'week' });
@@ -769,7 +786,7 @@ const HANDLERS = {
   'document.add'(api, p) {
     const { state } = api;
     const { actor } = api.ctx;
-    if (actor.role !== 'owner') assert(p.ownerType === actor.role && p.ownerId === actor.refId, 'forbidden');
+    if (actor.role !== 'owner' && !(api.elevated && p.ownerType === 'tenant')) assert(p.ownerType === actor.role && p.ownerId === actor.refId, 'forbidden');
     const list = p.ownerType === 'tenant' ? state.tenants : state.staff;
     find(list, p.ownerId);
     const count = state.documents.filter((d) => d.ownerType === p.ownerType && d.ownerId === p.ownerId).length;
@@ -784,7 +801,7 @@ const HANDLERS = {
     const { state } = api;
     const doc = find(state.documents, p.documentId);
     const { actor } = api.ctx;
-    if (actor.role !== 'owner') assert(doc.ownerType === actor.role && doc.ownerId === actor.refId, 'forbidden');
+    if (actor.role !== 'owner' && !(api.elevated && doc.ownerType === 'tenant')) assert(doc.ownerType === actor.role && doc.ownerId === actor.refId, 'forbidden');
     state.documents = state.documents.filter((d) => d.id !== doc.id);
     return { fileId: doc.fileId };
   },
@@ -805,7 +822,8 @@ export function applyCommand(state, command, ctx) {
   const type = command?.type;
   if (!COMMANDS[type]) throw new DomainError('unknown_command', { type });
   const role = ctx?.actor?.role;
-  if (!canPerform(type, role)) throw new DomainError('forbidden', { type, role });
+  const access = staffAccess(state, ctx?.actor);
+  if (!canPerform(type, role, access)) throw new DomainError('forbidden', { type, role });
   const parsed = validatePayload(type, command.payload);
   if (!parsed.ok) throw new DomainError(parsed.error.code, parsed.error.details);
   if (!ctx.newId) throw new Error('ctx.newId is required');
@@ -822,6 +840,8 @@ export function applyCommand(state, command, ctx) {
   const api = {
     state: next,
     ctx,
+    access,
+    elevated: role === 'staff' && access !== 'basic',
     today: ctx.now.slice(0, 10),
     id: ctx.newId,
     log(kind, data) {

@@ -1,7 +1,7 @@
 // Property documents on the server: create, load, apply commands through the shared reducer,
 // keep the sign-in index in step, scope snapshots by role and store uploaded files.
 import {
-  createPropertyState, normalizeState, applyCommand, scopeState, DomainError, propertySchema, SCHEMA_VERSION
+  createPropertyState, normalizeState, applyCommand, scopeState, DomainError, propertySchema, SCHEMA_VERSION, staffAccess
 } from '@basera/domain';
 import { newId, nowIso, badRequest, forbidden, notFound, conflict, HttpError } from '../lib/util.js';
 
@@ -143,7 +143,8 @@ export function createPropertyService({ db, auth, config }) {
     const doc = row.state.documents.find((d) => d.fileId === fileId);
     if (m.role !== 'owner') {
       // Residents and staff may only open their own documents.
-      if (!doc || doc.ownerType !== m.role || doc.ownerId !== m.refId) throw forbidden('not_your_document');
+      const desk = m.role === 'staff' && staffAccess(row.state, m) !== 'basic' && doc?.ownerType === 'tenant';
+      if (!desk && (!doc || doc.ownerType !== m.role || doc.ownerId !== m.refId)) throw forbidden('not_your_document');
     }
     const file = await db.one(`SELECT id, mime, size, data FROM files WHERE id = $1 AND property_id = $2`, [fileId, propertyId]);
     if (!file) throw notFound('file_not_found');

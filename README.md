@@ -19,6 +19,12 @@ PG and hostel management for owners, residents and staff in one app: web, Androi
 
 **Staff** sign in the same way: check in and out, tick off the day's work, handle requests, see plate counts, edit the menu (kitchen roles), view salary slips.
 
+## Who can do what
+
+- **One owner, many PGs**: sign in once; "My PGs" in the menu switches between them or adds another. No second registration.
+- **Staff access levels**, set per person by the owner: *Own work only* (attendance, checklist, requests), *Accounts desk* (add residents, bills, record and confirm payments, expenses) or *Manager* (accounts desk plus rooms, move-outs, notices, staff attendance). Settings, staff records, salaries and deleting payments always stay with the owner. Every receipt and activity entry carries the name of whoever did it.
+- **Sign-in**: online accounts use a one-time code sent by SMS (or email and password). On a shared device without a server, each number needs a 4 to 6 digit PIN: the owner chooses theirs at setup and sets one for each resident or staff member; five wrong tries lock that number for five minutes.
+
 ## Two ways to keep data
 
 - **This device only**: no account or server. Data is stored in the browser (IndexedDB). Back up from Settings.
@@ -42,7 +48,7 @@ Both run the same rules, because every change goes through one reducer in `share
 npm install
 npm run dev          # API on :4000 (embedded database, OTP 123456), app on :5173
 npm test             # domain + API tests
-npm run build && npm run test:e2e   # 31 browser checks (needs Playwright's Chromium)
+npm run build && npm run test:e2e   # 37 browser checks (needs Playwright's Chromium)
 npm run check:locales
 ```
 

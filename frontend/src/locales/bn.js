@@ -20,7 +20,7 @@ export default {
   'start.title': 'আপনার PG চালু করুন', 'start.rooms': 'রুম ও বেড যোগ করুন', 'start.residents': 'প্রথম বাসিন্দা যোগ করুন', 'start.bills': 'এই মাসের ভাড়ার বিল তৈরি করুন', 'start.upi': 'আপনার UPI ID দিন যাতে বাসিন্দারা টাকা দিতে পারেন', 'start.staff': 'কর্মীদের যোগ করুন',
   // shell
   'nav.home': 'হোম', 'nav.rooms': 'রুম', 'nav.residents': 'বাসিন্দা', 'nav.billing': 'ভাড়া', 'nav.expenses': 'খরচ', 'nav.staff': 'কর্মী', 'nav.requests': 'অনুরোধ', 'nav.community': 'নোটিস ও খাবার', 'nav.reports': 'রিপোর্ট', 'nav.settings': 'সেটিংস',
-  'shell.menu': 'মেনু', 'shell.more': 'আরও', 'shell.switch': 'PG বা ভূমিকা বদলান', 'shell.previewing': 'আপনি {name} ({role}) হিসেবে অ্যাপটি দেখছেন।', 'shell.stopPreview': 'মালিকের ভিউতে ফিরুন',
+  'shell.menu': 'মেনু', 'shell.more': 'আরও', 'shell.switch': 'আমার PG', 'shell.previewing': 'আপনি {name} ({role}) হিসেবে অ্যাপটি দেখছেন।', 'shell.stopPreview': 'মালিকের ভিউতে ফিরুন',
   // fields
   'field.address': 'ঠিকানা', 'field.amount': 'টাকার অঙ্ক (₹)', 'field.bed': 'বেড', 'field.beds': 'বেড', 'field.bedsPerRoom': 'প্রতি রুমে বেড', 'field.category': 'ধরন', 'field.city': 'শহর', 'field.date': 'তারিখ', 'field.deposit': 'সিকিউরিটি ডিপোজিট (₹)',
   'field.depositPaidNow': 'এখন পাওয়া ডিপোজিট (₹)', 'field.description': 'বিবরণ', 'field.details': 'বিস্তারিত', 'field.docKind': 'নথির ধরন', 'field.dueDay': 'ভাড়া দেওয়ার তারিখ', 'field.electricity': 'বিদ্যুৎ', 'field.email': 'ইমেল', 'field.emailOptional': 'ইমেল (না দিলেও চলবে)',
@@ -104,7 +104,7 @@ export default {
   'val.expcat.groceries': 'বাজার', 'val.expcat.electricity': 'বিদ্যুতের বিল', 'val.expcat.water': 'জল', 'val.expcat.gas': 'রান্নার গ্যাস', 'val.expcat.internet': 'ইন্টারনেট', 'val.expcat.salary': 'বেতন', 'val.expcat.maintenance': 'মেরামত', 'val.expcat.cleaning': 'সাফাই',
   'val.expcat.rent': 'বাড়ির ভাড়া', 'val.expcat.tax': 'ট্যাক্স', 'val.expcat.other': 'অন্য',
   'val.reqcat.plumbing': 'কল ও পাইপ', 'val.reqcat.electrical': 'ইলেকট্রিক', 'val.reqcat.cleaning': 'সাফাই', 'val.reqcat.wifi': 'ওয়াই-ফাই', 'val.reqcat.food': 'খাবার', 'val.reqcat.furniture': 'আসবাব', 'val.reqcat.security': 'নিরাপত্তা', 'val.reqcat.noise': 'আওয়াজ', 'val.reqcat.other': 'অন্য',
-  'val.staffrole.cook': 'রাঁধুনি', 'val.staffrole.cleaner': 'সাফাইকর্মী', 'val.staffrole.warden': 'ওয়ার্ডেন', 'val.staffrole.security': 'দারোয়ান', 'val.staffrole.maintenance': 'মেরামতের কাজ', 'val.staffrole.manager': 'ম্যানেজার', 'val.staffrole.other': 'অন্য',
+  'val.staffrole.cook': 'রাঁধুনি', 'val.staffrole.cleaner': 'সাফাইকর্মী', 'val.staffrole.warden': 'ওয়ার্ডেন', 'val.staffrole.security': 'দারোয়ান', 'val.staffrole.maintenance': 'মেরামতের কাজ', 'val.staffrole.manager': 'ম্যানেজার', 'val.staffrole.other': 'অন্য (নিজে লিখুন)',
   'val.audience.all': 'সবাই', 'val.audience.tenants': 'বাসিন্দা', 'val.audience.staff': 'কর্মী', 'val.meal.breakfast': 'জলখাবার', 'val.meal.lunch': 'দুপুরের খাবার', 'val.meal.dinner': 'রাতের খাবার',
   'val.theme.system': 'ডিভাইসের মতো', 'val.theme.light': 'হালকা', 'val.theme.dark': 'গাঢ়', 'val.server.online': 'যুক্ত আছে', 'val.server.offline': 'পাওয়া যাচ্ছে না', 'val.server.checking': 'দেখা হচ্ছে…', 'val.server.idle': 'সেট করা নেই',
   // activity
@@ -129,5 +129,30 @@ export default {
   'time.am': 'এএম', 'time.pm': 'পিএম', 'time.justNow': 'এইমাত্র', 'time.minutesAgo': '{n} মিনিট আগে', 'time.hoursAgo': '{n} ঘণ্টা আগে', 'time.daysAgo': '{n} দিন আগে',
   'month.1': 'জানুয়ারি', 'month.2': 'ফেব্রুয়ারি', 'month.3': 'মার্চ', 'month.4': 'এপ্রিল', 'month.5': 'মে', 'month.6': 'জুন', 'month.7': 'জুলাই', 'month.8': 'আগস্ট', 'month.9': 'সেপ্টেম্বর', 'month.10': 'অক্টোবর', 'month.11': 'নভেম্বর', 'month.12': 'ডিসেম্বর',
   'monthShort.1': 'জানু', 'monthShort.2': 'ফেব', 'monthShort.3': 'মার্চ', 'monthShort.4': 'এপ্রি', 'monthShort.5': 'মে', 'monthShort.6': 'জুন', 'monthShort.7': 'জুল', 'monthShort.8': 'আগ', 'monthShort.9': 'সেপ্ট', 'monthShort.10': 'অক্টো', 'monthShort.11': 'নভে', 'monthShort.12': 'ডিসে',
-  'weekday.mon': 'সোমবার', 'weekday.tue': 'মঙ্গলবার', 'weekday.wed': 'বুধবার', 'weekday.thu': 'বৃহস্পতিবার', 'weekday.fri': 'শুক্রবার', 'weekday.sat': 'শনিবার', 'weekday.sun': 'রবিবার'
+  'weekday.mon': 'সোমবার', 'weekday.tue': 'মঙ্গলবার', 'weekday.wed': 'বুধবার', 'weekday.thu': 'বৃহস্পতিবার', 'weekday.fri': 'শুক্রবার', 'weekday.sat': 'শনিবার', 'weekday.sun': 'রবিবার',
+  // PIN sign-in, staff access
+  'nav.mywork': 'আমার কাজ',
+  'choose.addPg': 'আরেকটি PG যোগ করুন',
+  'field.pin': 'সাইন ইন PIN',
+  'signin.pinHint': 'এই ফোনে এই নম্বরের PIN। নমুনা PG-র জন্য লাগবে না।',
+  'setup.pinHint': '৪ থেকে ৬টি সংখ্যা বেছে নিন।',
+  'pin.set': 'সাইন ইন PIN সেট করুন',
+  'pin.title': '{name}-এর সাইন ইন PIN',
+  'pin.body': 'তাঁরা এই ফোনে নিজের মোবাইল নম্বর আর এই PIN দিয়ে সাইন ইন করবেন। শুধু তাঁদেরই জানান। নতুন PIN সেট করলে পুরোনোটি বদলে যাবে।',
+  'pin.saved': 'PIN সেভ হয়েছে',
+  'field.access': 'অ্যাপে তাঁরা কী কী করতে পারবেন',
+  'access.basic': 'শুধু নিজের কাজ',
+  'access.accounts': 'হিসাবের ডেস্ক',
+  'access.manager': 'ম্যানেজার',
+  'access.hint.basic': 'হাজিরা, রোজকার কাজ আর তাঁদের দেওয়া অনুরোধ।',
+  'access.hint.accounts': 'বাসিন্দা যোগ করতে, বিল বানাতে, পেমেন্ট লিখতে ও নিশ্চিত করতে এবং খরচ যোগ করতে পারবেন। বেতন দেখতে বা সেটিংস বদলাতে পারবেন না।',
+  'access.hint.manager': 'হিসাবের ডেস্কের সব কিছু, সঙ্গে রুম, ঘর ছাড়া, নোটিস আর কর্মীদের হাজিরা। সেটিংস, কর্মী বা বেতন বদলাতে পারবেন না।',
+  'field.customRole': 'কাজের নাম',
+  'staff.customRolePh': 'যেমন মালি',
+  'val.staffrole.accountant': 'হিসাবরক্ষক',
+  'val.staffrole.operator': 'কম্পিউটার অপারেটর',
+  'err.pin_format': 'PIN ৪ থেকে ৬টি সংখ্যার হতে হবে।',
+  'err.pin_wrong': 'PIN ভুল।',
+  'err.pin_not_set': 'এই ফোনে এই নম্বরের জন্য কোনো PIN সেট করা নেই। মালিককে সেট করতে বলুন।',
+  'err.pin_locked': 'অনেকবার ভুল হয়েছে। পাঁচ মিনিট পরে আবার চেষ্টা করুন।'
 };

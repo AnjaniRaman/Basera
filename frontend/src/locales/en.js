@@ -20,7 +20,14 @@ export default {
   'start.title': 'Get your PG running', 'start.rooms': 'Add your rooms and beds', 'start.residents': 'Add your first resident', 'start.bills': 'Generate this month\'s rent bills', 'start.upi': 'Add your UPI ID so residents can pay you', 'start.staff': 'Add your staff',
   // shell
   'nav.home': 'Home', 'nav.rooms': 'Rooms', 'nav.residents': 'Residents', 'nav.billing': 'Rent', 'nav.expenses': 'Expenses', 'nav.staff': 'Staff', 'nav.requests': 'Requests', 'nav.community': 'Notices & food', 'nav.reports': 'Reports', 'nav.settings': 'Settings',
-  'shell.menu': 'Menu', 'shell.more': 'More', 'shell.switch': 'Switch PG or role', 'shell.previewing': 'You are viewing the app as {name} ({role}).', 'shell.stopPreview': 'Back to owner view',
+  'nav.mywork': 'My work', 'choose.addPg': 'Add another PG',
+  'field.pin': 'Sign-in PIN', 'signin.pinHint': 'The PIN for this number on this device. Not needed for the sample PG.', 'setup.pinHint': 'Choose 4 to 6 digits.', 'pin.set': 'Set sign-in PIN', 'pin.title': 'Sign-in PIN for {name}',
+  'pin.body': 'They sign in on this device with their mobile number and this PIN. Tell it only to them. Setting a new PIN replaces the old one.', 'pin.saved': 'PIN saved',
+  'field.access': 'What they can do in the app', 'access.basic': 'Own work only', 'access.accounts': 'Accounts desk', 'access.manager': 'Manager', 'access.hint.basic': 'Attendance, daily work and requests assigned to them.',
+  'access.hint.accounts': 'Can add residents, make bills, record and confirm payments and add expenses. Cannot see salaries or change settings.', 'access.hint.manager': 'Everything on the accounts desk, plus rooms, move-outs, notices and staff attendance. Cannot change settings, staff or salaries.',
+  'field.customRole': 'Role name', 'staff.customRolePh': 'e.g. Gardener', 'val.staffrole.accountant': 'Accountant', 'val.staffrole.operator': 'Computer operator',
+  'err.pin_format': 'The PIN must be 4 to 6 digits.', 'err.pin_wrong': 'Wrong PIN.', 'err.pin_not_set': 'No PIN is set for this number on this device. Ask the owner to set one.', 'err.pin_locked': 'Too many wrong tries. Try again in five minutes.',
+  'shell.menu': 'Menu', 'shell.more': 'More', 'shell.switch': 'My PGs', 'shell.previewing': 'You are viewing the app as {name} ({role}).', 'shell.stopPreview': 'Back to owner view',
   // fields
   'field.address': 'Address', 'field.amount': 'Amount (₹)', 'field.bed': 'Bed', 'field.beds': 'Beds', 'field.bedsPerRoom': 'Beds per room', 'field.category': 'Category', 'field.city': 'City', 'field.date': 'Date', 'field.deposit': 'Security deposit (₹)',
   'field.depositPaidNow': 'Deposit received now (₹)', 'field.description': 'Description', 'field.details': 'Details', 'field.docKind': 'Document type', 'field.dueDay': 'Rent due day', 'field.electricity': 'Electricity', 'field.email': 'Email', 'field.emailOptional': 'Email (optional)',
@@ -104,7 +111,7 @@ export default {
   'val.expcat.groceries': 'Groceries', 'val.expcat.electricity': 'Electricity bill', 'val.expcat.water': 'Water', 'val.expcat.gas': 'Cooking gas', 'val.expcat.internet': 'Internet', 'val.expcat.salary': 'Salary', 'val.expcat.maintenance': 'Repairs', 'val.expcat.cleaning': 'Cleaning',
   'val.expcat.rent': 'Building rent', 'val.expcat.tax': 'Tax', 'val.expcat.other': 'Other',
   'val.reqcat.plumbing': 'Plumbing', 'val.reqcat.electrical': 'Electrical', 'val.reqcat.cleaning': 'Cleaning', 'val.reqcat.wifi': 'Wi-Fi', 'val.reqcat.food': 'Food', 'val.reqcat.furniture': 'Furniture', 'val.reqcat.security': 'Security', 'val.reqcat.noise': 'Noise', 'val.reqcat.other': 'Other',
-  'val.staffrole.cook': 'Cook', 'val.staffrole.cleaner': 'Cleaner', 'val.staffrole.warden': 'Warden', 'val.staffrole.security': 'Security', 'val.staffrole.maintenance': 'Maintenance', 'val.staffrole.manager': 'Manager', 'val.staffrole.other': 'Other',
+  'val.staffrole.cook': 'Cook', 'val.staffrole.cleaner': 'Cleaner', 'val.staffrole.warden': 'Warden', 'val.staffrole.security': 'Security', 'val.staffrole.maintenance': 'Maintenance', 'val.staffrole.manager': 'Manager', 'val.staffrole.other': 'Other (type your own)',
   'val.audience.all': 'Everyone', 'val.audience.tenants': 'Residents', 'val.audience.staff': 'Staff', 'val.meal.breakfast': 'Breakfast', 'val.meal.lunch': 'Lunch', 'val.meal.dinner': 'Dinner',
   'val.theme.system': 'Match device', 'val.theme.light': 'Light', 'val.theme.dark': 'Dark', 'val.server.online': 'Connected', 'val.server.offline': 'Not reachable', 'val.server.checking': 'Checking…', 'val.server.idle': 'Not set',
   // activity

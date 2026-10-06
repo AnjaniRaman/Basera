@@ -15,6 +15,24 @@ export function lineLabel(t, line) {
   return line.label || t(`val.line.${line.type}`);
 }
 
+export function roleName(t, member) {
+  return member.role === 'other' && member.roleLabel ? member.roleLabel : t(`val.staffrole.${member.role}`);
+}
+
+/** Device mode only: the owner sets the PIN a resident or staff member signs in with on this device. */
+export function PinModal({ phone, name, onClose }) {
+  const app = useApp();
+  const { t } = useI18n();
+  const ui = useUi();
+  const [pin, setPin] = useState('');
+  const save = async () => { if (await ui.run(() => app.setLocalPin(phone, pin), t('pin.saved'))) onClose(); };
+  return (
+    <Modal title={t('pin.title', { name })} onClose={onClose} footer={<><button className="btn" onClick={onClose}>{t('common.cancel')}</button><button className="btn primary" onClick={save} disabled={!/^\d{4,6}$/.test(pin)} data-testid="pin-save">{t('common.save')}</button></>}>
+      <div className="stack"><p className="small muted">{t('pin.body')}</p><Input id="pin-input" label={t('field.pin')} inputMode="numeric" maxLength={6} value={pin} onChange={setPin} hint={t('setup.pinHint')} /></div>
+    </Modal>
+  );
+}
+
 export function printPage() {
   try { window.print(); } catch { /* blocked in previews */ }
 }
@@ -29,7 +47,7 @@ export function InvoiceModal({ invoiceId, onClose, onPay }) {
   if (!inv) return null;
   const tenant = app.state.tenants.find((x) => x.id === inv.tenantId);
   const room = app.state.rooms.find((r) => r.id === tenant?.roomId);
-  const owner = app.role === 'owner';
+  const owner = app.manages;
   const balance = invoiceBalance(inv);
   const addLine = () => ui.run(async () => {
     await app.dispatch({ type: 'billing.addLine', payload: { invoiceId, line: { type: adding, label: f.label, amount: Number(f.amount) } } });
@@ -39,7 +57,7 @@ export function InvoiceModal({ invoiceId, onClose, onPay }) {
     <Modal wide title={`${t('bill.title')} ${inv.number}`} onClose={onClose}
       footer={<>
         <button className="btn no-print" onClick={printPage}><Printer />{t('common.print')}</button>
-        {owner && inv.status !== 'void' && inv.paid === 0 && <button className="btn danger" onClick={async () => { if (await ui.confirm({ title: t('bill.voidTitle'), body: t('bill.voidBody'), action: t('bill.void'), danger: true })) { await ui.run(() => app.dispatch({ type: 'billing.void', payload: { invoiceId } }), t('toast.saved')); onClose(); } }}>{t('bill.void')}</button>}
+        {app.can('billing.void') && inv.status !== 'void' && inv.paid === 0 && <button className="btn danger" onClick={async () => { if (await ui.confirm({ title: t('bill.voidTitle'), body: t('bill.voidBody'), action: t('bill.void'), danger: true })) { await ui.run(() => app.dispatch({ type: 'billing.void', payload: { invoiceId } }), t('toast.saved')); onClose(); } }}>{t('bill.void')}</button>}
         {balance > 0 && onPay && <button className="btn primary" onClick={() => onPay(inv)} data-testid="invoice-pay">{owner ? t('pay.record') : t('pay.payNow')}</button>}
       </>}>
       <div className="receipt stack">
@@ -194,7 +212,7 @@ export function RequestForm({ onClose, tenantId }) {
       <div className="form-grid">
         <Select id="req-category" label={t('field.category')} value={f.category} onChange={set('category')} options={REQUEST_CATEGORIES.map((c) => ({ value: c, label: t(`val.reqcat.${c}`) }))} />
         <Select id="req-priority" label={t('field.priority')} value={f.priority} onChange={set('priority')} options={['low', 'normal', 'high'].map((c) => ({ value: c, label: t(`val.${c}`) }))} />
-        {app.role === 'owner' && <Select id="req-tenant" full label={t('field.resident')} value={f.tenantId} onChange={set('tenantId')} options={[{ value: '', label: t('req.common') }, ...app.state.tenants.filter((x) => x.status !== 'left').map((x) => ({ value: x.id, label: x.name }))]} />}
+        {app.manages && <Select id="req-tenant" full label={t('field.resident')} value={f.tenantId} onChange={set('tenantId')} options={[{ value: '', label: t('req.common') }, ...app.state.tenants.filter((x) => x.status !== 'left').map((x) => ({ value: x.id, label: x.name }))]} />}
         <Input id="req-title" full label={t('req.what')} value={f.title} onChange={set('title')} placeholder={t('req.whatPh')} />
         <div className="field full"><label htmlFor="req-desc">{t('field.details')}</label><textarea id="req-desc" className="input" value={f.description} onChange={(e) => set('description')(e.target.value)} /></div>
       </div>
@@ -211,7 +229,7 @@ export function RequestCard({ request }) {
   const tenant = app.state.tenants.find((x) => x.id === request.tenantId);
   const room = app.state.rooms.find((r) => r.id === request.roomId);
   const assignee = app.state.staff.find((s) => s.id === request.assignedTo);
-  const role = app.role;
+  const role = app.manages ? 'owner' : app.role;
   const update = (payload, ok = t('toast.saved')) => ui.run(() => app.dispatch({ type: 'request.update', payload: { requestId: request.id, ...payload } }), ok);
   const live = request.status === 'open' || request.status === 'in_progress';
   return (
@@ -242,7 +260,7 @@ export function NoticeCard({ notice }) {
   const app = useApp();
   const { t, formatRelative } = useI18n();
   const ui = useUi();
-  const owner = app.role === 'owner';
+  const owner = app.can('notice.remove');
   const acked = !owner && notice.acks.some((a) => a.refId === app.refId);
   return (
     <div className="card stack sm">

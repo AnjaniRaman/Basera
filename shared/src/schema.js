@@ -6,7 +6,9 @@ import { z } from 'zod';
 export const SCHEMA_VERSION = 2;
 
 export const ROLES = ['owner', 'tenant', 'staff'];
-export const STAFF_ROLES = ['cook', 'cleaner', 'warden', 'security', 'maintenance', 'manager', 'other'];
+export const STAFF_ROLES = ['cook', 'cleaner', 'warden', 'security', 'maintenance', 'manager', 'accountant', 'operator', 'other'];
+// What a staff member may do in the app beyond their own work.
+export const STAFF_ACCESS = ['basic', 'accounts', 'manager'];
 export const PAYMENT_MODES = ['upi', 'cash', 'bank', 'cheque', 'other'];
 export const PAYMENT_KINDS = ['rent', 'deposit', 'other'];
 export const EXPENSE_CATEGORIES = [
@@ -166,6 +168,8 @@ export const staffSchema = z.object({
   name: shortText,
   phone,
   role: z.enum(STAFF_ROLES),
+  roleLabel: z.string().trim().max(40).default(''),
+  access: z.enum(STAFF_ACCESS).default('basic'),
   salary: money,
   payDay: z.number().int().min(1).max(28).default(1),
   joinedOn: isoDate,

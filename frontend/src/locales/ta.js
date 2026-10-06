@@ -20,7 +20,7 @@ export default {
   'start.title': 'உங்கள் PG-ஐத் தொடங்குங்கள்', 'start.rooms': 'அறைகளையும் பெட்களையும் சேருங்கள்', 'start.residents': 'முதல் தங்குபவரைச் சேருங்கள்', 'start.bills': 'இந்த மாத வாடகை பில்களை உருவாக்குங்கள்', 'start.upi': 'தங்குபவர்கள் பணம் செலுத்த உங்கள் UPI ID-ஐச் சேருங்கள்', 'start.staff': 'பணியாளர்களைச் சேருங்கள்',
   // shell
   'nav.home': 'முகப்பு', 'nav.rooms': 'அறைகள்', 'nav.residents': 'தங்குபவர்கள்', 'nav.billing': 'வாடகை', 'nav.expenses': 'செலவுகள்', 'nav.staff': 'பணியாளர்கள்', 'nav.requests': 'கோரிக்கைகள்', 'nav.community': 'அறிவிப்புகள் & உணவு', 'nav.reports': 'அறிக்கைகள்', 'nav.settings': 'அமைப்புகள்',
-  'shell.menu': 'மெனு', 'shell.more': 'மேலும்', 'shell.switch': 'PG அல்லது பங்கை மாற்று', 'shell.previewing': 'நீங்கள் ஆப்பை {name} ({role}) ஆகப் பார்க்கிறீர்கள்.', 'shell.stopPreview': 'உரிமையாளர் பார்வைக்குத் திரும்பு',
+  'shell.menu': 'மெனு', 'shell.more': 'மேலும்', 'shell.switch': 'என் PG-கள்', 'shell.previewing': 'நீங்கள் ஆப்பை {name} ({role}) ஆகப் பார்க்கிறீர்கள்.', 'shell.stopPreview': 'உரிமையாளர் பார்வைக்குத் திரும்பு',
   // fields
   'field.address': 'முகவரி', 'field.amount': 'தொகை (₹)', 'field.bed': 'பெட்', 'field.beds': 'பெட்கள்', 'field.bedsPerRoom': 'ஒரு அறைக்கு பெட்கள்', 'field.category': 'வகை', 'field.city': 'ஊர்', 'field.date': 'தேதி', 'field.deposit': 'டெபாசிட் தொகை (₹)',
   'field.depositPaidNow': 'இப்போது பெற்ற டெபாசிட் (₹)', 'field.description': 'விளக்கம்', 'field.details': 'விவரங்கள்', 'field.docKind': 'ஆவண வகை', 'field.dueDay': 'வாடகை செலுத்தும் தேதி', 'field.electricity': 'மின்சாரம்', 'field.email': 'மின்னஞ்சல்', 'field.emailOptional': 'மின்னஞ்சல் (விருப்பம்)',
@@ -104,7 +104,7 @@ export default {
   'val.expcat.groceries': 'மளிகை', 'val.expcat.electricity': 'மின் கட்டணம்', 'val.expcat.water': 'தண்ணீர்', 'val.expcat.gas': 'சமையல் எரிவாயு', 'val.expcat.internet': 'இன்டர்நெட்', 'val.expcat.salary': 'சம்பளம்', 'val.expcat.maintenance': 'பழுது பார்த்தல்', 'val.expcat.cleaning': 'சுத்தம்',
   'val.expcat.rent': 'கட்டிட வாடகை', 'val.expcat.tax': 'வரி', 'val.expcat.other': 'மற்றவை',
   'val.reqcat.plumbing': 'பிளம்பிங்', 'val.reqcat.electrical': 'எலக்ட்ரிக்கல்', 'val.reqcat.cleaning': 'சுத்தம்', 'val.reqcat.wifi': 'Wi-Fi', 'val.reqcat.food': 'உணவு', 'val.reqcat.furniture': 'ஃபர்னிச்சர்', 'val.reqcat.security': 'பாதுகாப்பு', 'val.reqcat.noise': 'சத்தம்', 'val.reqcat.other': 'மற்றவை',
-  'val.staffrole.cook': 'சமையல்காரர்', 'val.staffrole.cleaner': 'துப்புரவாளர்', 'val.staffrole.warden': 'வார்டன்', 'val.staffrole.security': 'காவலாளி', 'val.staffrole.maintenance': 'பராமரிப்பு', 'val.staffrole.manager': 'மேலாளர்', 'val.staffrole.other': 'மற்றவை',
+  'val.staffrole.cook': 'சமையல்காரர்', 'val.staffrole.cleaner': 'துப்புரவாளர்', 'val.staffrole.warden': 'வார்டன்', 'val.staffrole.security': 'காவலாளி', 'val.staffrole.maintenance': 'பராமரிப்பு', 'val.staffrole.manager': 'மேலாளர்', 'val.staffrole.other': 'மற்றவை (நீங்களே தட்டச்சு செய்யுங்கள்)',
   'val.audience.all': 'எல்லோரும்', 'val.audience.tenants': 'தங்குபவர்கள்', 'val.audience.staff': 'பணியாளர்கள்', 'val.meal.breakfast': 'காலை உணவு', 'val.meal.lunch': 'மதிய உணவு', 'val.meal.dinner': 'இரவு உணவு',
   'val.theme.system': 'சாதனத்தின்படி', 'val.theme.light': 'வெளிச்சம்', 'val.theme.dark': 'இருள்', 'val.server.online': 'இணைந்துள்ளது', 'val.server.offline': 'தொடர்பு கிடைக்கவில்லை', 'val.server.checking': 'சரிபார்க்கிறது…', 'val.server.idle': 'அமைக்கவில்லை',
   // activity
@@ -129,5 +129,29 @@ export default {
   'time.am': 'முற்பகல்', 'time.pm': 'பிற்பகல்', 'time.justNow': 'இப்போதுதான்', 'time.minutesAgo': '{n} நிமி. முன்', 'time.hoursAgo': '{n} மணி முன்', 'time.daysAgo': '{n} நாள் முன்',
   'month.1': 'ஜனவரி', 'month.2': 'பிப்ரவரி', 'month.3': 'மார்ச்', 'month.4': 'ஏப்ரல்', 'month.5': 'மே', 'month.6': 'ஜூன்', 'month.7': 'ஜூலை', 'month.8': 'ஆகஸ்ட்', 'month.9': 'செப்டம்பர்', 'month.10': 'அக்டோபர்', 'month.11': 'நவம்பர்', 'month.12': 'டிசம்பர்',
   'monthShort.1': 'ஜன.', 'monthShort.2': 'பிப்.', 'monthShort.3': 'மார்.', 'monthShort.4': 'ஏப்.', 'monthShort.5': 'மே', 'monthShort.6': 'ஜூன்', 'monthShort.7': 'ஜூலை', 'monthShort.8': 'ஆக.', 'monthShort.9': 'செப்.', 'monthShort.10': 'அக்.', 'monthShort.11': 'நவ.', 'monthShort.12': 'டிச.',
-  'weekday.mon': 'திங்கள்', 'weekday.tue': 'செவ்வாய்', 'weekday.wed': 'புதன்', 'weekday.thu': 'வியாழன்', 'weekday.fri': 'வெள்ளி', 'weekday.sat': 'சனி', 'weekday.sun': 'ஞாயிறு'
+  'weekday.mon': 'திங்கள்', 'weekday.tue': 'செவ்வாய்', 'weekday.wed': 'புதன்', 'weekday.thu': 'வியாழன்', 'weekday.fri': 'வெள்ளி', 'weekday.sat': 'சனி', 'weekday.sun': 'ஞாயிறு',
+  'nav.mywork': 'என் வேலை',
+  'choose.addPg': 'மற்றொரு PG-ஐச் சேர்',
+  'field.pin': 'உள்நுழைவு PIN',
+  'signin.pinHint': 'இந்தச் சாதனத்தில் இந்த எண்ணுக்கான PIN. மாதிரி PG-க்குத் தேவையில்லை.',
+  'setup.pinHint': '4 முதல் 6 இலக்கங்களைத் தேர்வு செய்யுங்கள்.',
+  'pin.set': 'உள்நுழைவு PIN அமை',
+  'pin.title': '{name} க்கான உள்நுழைவு PIN',
+  'pin.body': 'அவர்கள் இந்தச் சாதனத்தில் தங்கள் மொபைல் எண் மற்றும் இந்த PIN மூலம் உள்நுழைவார்கள். இதை அவர்களிடம் மட்டும் சொல்லுங்கள். புதிய PIN அமைத்தால் பழையது நீக்கப்படும்.',
+  'pin.saved': 'PIN சேமிக்கப்பட்டது',
+  'field.access': 'ஆப்பில் அவர்கள் என்ன செய்யலாம்',
+  'access.basic': 'சொந்த வேலை மட்டும்',
+  'access.accounts': 'கணக்குப் பிரிவு',
+  'access.manager': 'மேலாளர்',
+  'access.hint.basic': 'வருகைப் பதிவு, தினசரி வேலை மற்றும் அவர்களுக்கு ஒதுக்கப்பட்ட கோரிக்கைகள்.',
+  'access.hint.accounts': 'குடியிருப்பாளர்களைச் சேர்க்கலாம், பில்களை உருவாக்கலாம், கட்டணங்களைப் பதிவு செய்து உறுதிப்படுத்தலாம், செலவுகளைச் சேர்க்கலாம். சம்பளங்களைப் பார்க்கவோ அமைப்புகளை மாற்றவோ முடியாது.',
+  'access.hint.manager': 'கணக்குப் பிரிவில் உள்ள அனைத்தும், கூடுதலாக அறைகள், வெளியேறுதல்கள், அறிவிப்புகள் மற்றும் பணியாளர் வருகைப் பதிவு. அமைப்புகள், பணியாளர்கள் அல்லது சம்பளங்களை மாற்ற முடியாது.',
+  'field.customRole': 'பணியின் பெயர்',
+  'staff.customRolePh': 'எ.கா. தோட்டக்காரர்',
+  'val.staffrole.accountant': 'கணக்காளர்',
+  'val.staffrole.operator': 'கணினி இயக்குநர்',
+  'err.pin_format': 'PIN 4 முதல் 6 இலக்கங்களாக இருக்க வேண்டும்.',
+  'err.pin_wrong': 'தவறான PIN.',
+  'err.pin_not_set': 'இந்தச் சாதனத்தில் இந்த எண்ணுக்கு PIN அமைக்கப்படவில்லை. அமைக்குமாறு உரிமையாளரிடம் கேளுங்கள்.',
+  'err.pin_locked': 'பல முறை தவறாக முயன்றுள்ளீர்கள். ஐந்து நிமிடங்களுக்குப் பிறகு மீண்டும் முயலுங்கள்.'
 };

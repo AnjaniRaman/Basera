@@ -36,7 +36,7 @@ try {
   let { page, context, errors } = await open();
   await page.click(tid('start-setup'));
   await page.click('button.choice:has-text("This device only")');
-  await page.fill('#setup-owner-name', 'Meena Rao'); await page.fill('#setup-owner-phone', '9811100001'); await page.click(tid('setup-next'));
+  await page.fill('#setup-owner-name', 'Meena Rao'); await page.fill('#setup-owner-phone', '9811100001'); await page.fill('#setup-pin', '4321'); await page.click(tid('setup-next'));
   await page.fill('#setup-pg-name', 'Rao Ladies PG'); await page.fill('#setup-city', 'Mysuru'); await page.fill('#setup-upi', 'meena@okhdfc'); await page.click(tid('setup-next'));
   await page.fill('#setup-floors', '2'); await page.fill('#setup-rooms-per-floor', '3'); await page.fill('#setup-beds', '2'); await page.fill('#setup-rent', '6500'); await page.click(tid('setup-next'));
   await page.waitForSelector('h1:has-text("Rao Ladies PG")');
@@ -64,8 +64,11 @@ try {
   // expense, staff, notice
   await page.click(tid('nav-expenses')); await page.click(tid('expense-add')); await page.fill('#exp-amount', '1800'); await page.fill('#exp-vendor', 'Local market'); await page.click(tid('expense-save'));
   await page.waitForSelector('.list:has-text("Local market")');
-  await page.click(tid('nav-staff')); await page.click(tid('staff-add')); await page.fill('#staff-name', 'Gowri Amma'); await page.fill('#staff-phone', '9811100003'); await page.fill('#staff-salary', '11000'); await page.click(tid('staff-save'));
+  await page.click(tid('nav-staff')); await page.click(tid('staff-add')); await page.fill('#staff-name', 'Gowri Amma'); await page.fill('#staff-phone', '9811100003'); await page.fill('#staff-salary', '11000');
+  await page.selectOption('#staff-role', 'other'); await page.fill('#staff-role-custom', 'Gardener'); await page.click(tid('staff-save'));
   await page.waitForSelector(tid('staff-row'));
+  check('staff role picked from a list with a custom name', (await page.locator(tid('staff-row')).innerText()).includes('Gardener'));
+  await page.click(tid('staff-row')); await page.click(tid('set-pin')); await page.fill('#pin-input', '7788'); await page.click(tid('pin-save')); await page.waitForSelector('.toast:has-text("PIN saved")'); await page.keyboard.press('Escape');
   await page.click(tid('nav-community')); await page.click(tid('notice-add')); await page.fill('#notice-title', 'Gate closes at 10 pm'); await page.click(tid('notice-save'));
   await page.waitForSelector('.card:has-text("Gate closes at 10 pm")');
   check('expense, staff and notice saved', true);
@@ -81,8 +84,16 @@ try {
   await page.click(tid('nav-reports')); await page.waitForSelector('.chart'); check('reports render', (await page.locator('.chart').count()) >= 2);
   check('no raw translation keys (device owner)', (await rawKeys(page)).length === 0, JSON.stringify(await rawKeys(page)));
   // the resident and staff can sign in on the same device with their phone
+  // a second PG for the same owner, without registering again
+  await page.click(tid('switch-pg')); await page.click(tid('add-pg'));
+  await page.fill('#setup-pg-name', 'Rao Boys PG'); await page.click(tid('setup-next')); await page.fill('#setup-rent', '5000'); await page.click(tid('setup-next'));
+  await page.waitForSelector('h1:has-text("Rao Boys PG")'); await page.click(tid('switch-pg')); await page.waitForSelector(tid('open-owner'));
+  check('one owner, two PGs, one sign-in', (await page.locator(tid('open-owner')).count()) === 2);
+  await page.click(`${tid('open-owner')}:has-text("Rao Ladies PG")`); await page.waitForSelector('h1:has-text("Rao Ladies PG")');
   await page.click(tid('sign-out')); await page.click(tid('start-signin')); await page.click('.seg button:has-text("This device only")');
-  await page.fill('#signin-phone', '9811100003'); await page.click(tid('signin-submit')); await page.waitForSelector(tid('staff-attendance'));
+  await page.fill('#signin-phone', '9811100001'); await page.fill('#signin-pin', '0000'); await page.click(tid('signin-submit')); await page.waitForSelector('.error-text');
+  check('wrong PIN is refused', (await page.locator('.error-text').innerText()).includes('Wrong PIN'));
+  await page.fill('#signin-phone', '9811100003'); await page.fill('#signin-pin', '7788'); await page.click(tid('signin-submit')); await page.waitForSelector(tid('staff-attendance'));
   await page.click(tid('check-in')); await page.waitForSelector('h2:has-text("Checked in at")'); check('staff signs in and checks in (device)', true);
   check('no page errors (device)', errors.length === 0, errors.join(' | '));
   await context.close();
@@ -96,9 +107,9 @@ try {
     const keys = await rawKeys(page); if (keys.length) check(`no raw keys on ${nav}`, false, JSON.stringify(keys));
   }
   check('all owner screens render with sample data', true);
-  await page.click(tid('nav-billing')); const before = await page.locator(`${tid('claims')} .list > div`).count();
+  await page.click(tid('nav-billing')); await page.waitForSelector(tid('claim-confirm')); const before = await page.locator(`${tid('claims')} .list > div`).count();
   await page.click(`${tid('claim-confirm')} >> nth=0`); await page.waitForSelector('.receipt'); await page.keyboard.press('Escape');
-  check('confirming a claim issues a receipt', (await page.locator(`${tid('claims')} .list > div`).count()) === before - 1);
+  await page.waitForTimeout(300); { const after = await page.locator(`${tid('claims')} .list > div`).count(); check('confirming a claim issues a receipt', after === before - 1, `${before}->${after}`); }
   // view as a resident, then language
   await page.click(tid('nav-residents')); await page.click('a.item >> nth=0'); await page.click(tid('view-as')); await page.waitForSelector(tid('tenant-due')); await shot(page, 'tenant');
   check('owner can preview the resident portal', (await page.locator(tid('preview-banner')).count()) === 1);
@@ -124,6 +135,8 @@ try {
   await page.click(tid('nav-rooms')); await page.waitForSelector(tid('room-101')); await page.click(`${tid('room-101')} .bed.free >> nth=0`);
   await page.fill('#res-name', 'Farhan Ali'); await page.fill('#res-phone', '9822200002'); await page.click(tid('resident-save')); await page.waitForSelector('h1:has-text("Farhan Ali")');
   await page.click(tid('nav-staff')); await page.click(tid('staff-add')); await page.fill('#staff-name', 'Raju Cook'); await page.fill('#staff-phone', '9822200003'); await page.fill('#staff-salary', '9000'); await page.click(tid('staff-save')); await page.waitForSelector(tid('staff-row'));
+  await page.click(tid('staff-add')); await page.fill('#staff-name', 'Sita Desk'); await page.fill('#staff-phone', '9822200004'); await page.fill('#staff-salary', '14000'); await page.selectOption('#staff-role', 'accountant'); await page.selectOption('#staff-access', 'accounts'); await page.click(tid('staff-save'));
+  await page.waitForSelector(`${tid('staff-row')}:has-text("Sita Desk")`);
   await page.click(tid('nav-billing')); await page.click(tid('generate-bills')); await page.click(tid('confirm-yes')); await page.waitForSelector(tid('invoice-row'));
   check('owner set up an online PG', true);
 
@@ -152,6 +165,18 @@ try {
   check('staff portal fits a phone', await noOverflow(sp));
   await tp.click('.seg button:has-text("Requests")'); await tp.waitForSelector('button:has-text("Yes, it is fixed")', { timeout: 30000 }); check('resident is asked to confirm the fix', true);
   for (const [who, e] of [['owner', owner.errors], ['resident', tenant.errors], ['staff', staff.errors]]) check(`no page errors (${who}, online)`, e.length === 0, e.join(' | '));
+
+  // accounts-desk staff: can run the money side, cannot reach settings or staff
+  const desk = await open();
+  const dp = desk.page;
+  await dp.click(tid('start-signin')); await dp.fill('#signin-phone', '9822200004'); await dp.click(tid('signin-submit')); await dp.fill('#signin-code', '123456'); await dp.click(tid('signin-submit'));
+  await dp.waitForSelector(tid('nav-billing'));
+  check('accounts desk has no settings, staff or reports', (await dp.locator(`${tid('nav-settings')}, ${tid('nav-staff')}, ${tid('nav-reports')}, ${tid('nav-rooms')}`).count()) === 0);
+  await dp.click(tid('nav-expenses')); await dp.click(tid('expense-add')); await dp.fill('#exp-amount', '640'); await dp.fill('#exp-vendor', 'Milk booth'); await dp.click(tid('expense-save')); await dp.waitForSelector('.list:has-text("Milk booth")');
+  await dp.click(tid('nav-residents')); await dp.click('a.item:has-text("Farhan Ali")'); await dp.click(tid('resident-pay')); await dp.fill('#pay-amount', '500'); await dp.click(tid('payment-save')); await dp.waitForSelector('.modal:has-text("Sita Desk")');
+  check('accounts desk records an expense and a payment under their own name', true);
+  await dp.keyboard.press('Escape'); await dp.click(tid('nav-mywork')); await dp.waitForSelector(tid('staff-attendance'));
+  check('no page errors (accounts desk)', desk.errors.length === 0, desk.errors.join(' | '));
 
   // owner console on a phone
   const phone = await open({ width: 390, height: 844 });

@@ -20,7 +20,7 @@ export default {
   'start.title': 'ನಿಮ್ಮ PG ಶುರುಮಾಡಿ', 'start.rooms': 'ನಿಮ್ಮ ರೂಮ್ ಮತ್ತು ಬೆಡ್‌ಗಳನ್ನು ಸೇರಿಸಿ', 'start.residents': 'ನಿಮ್ಮ ಮೊದಲ ನಿವಾಸಿಯನ್ನು ಸೇರಿಸಿ', 'start.bills': 'ಈ ತಿಂಗಳ ಬಾಡಿಗೆ ಬಿಲ್‌ಗಳನ್ನು ತಯಾರಿಸಿ', 'start.upi': 'ನಿವಾಸಿಗಳು ಹಣ ಕಟ್ಟಲು ನಿಮ್ಮ UPI ID ಸೇರಿಸಿ', 'start.staff': 'ನಿಮ್ಮ ಸಿಬ್ಬಂದಿಯನ್ನು ಸೇರಿಸಿ',
   // shell
   'nav.home': 'ಮುಖಪುಟ', 'nav.rooms': 'ರೂಮ್‌ಗಳು', 'nav.residents': 'ನಿವಾಸಿಗಳು', 'nav.billing': 'ಬಾಡಿಗೆ', 'nav.expenses': 'ಖರ್ಚು', 'nav.staff': 'ಸಿಬ್ಬಂದಿ', 'nav.requests': 'ದೂರುಗಳು', 'nav.community': 'ಸೂಚನೆ ಮತ್ತು ಊಟ', 'nav.reports': 'ವರದಿಗಳು', 'nav.settings': 'ಸೆಟ್ಟಿಂಗ್ಸ್',
-  'shell.menu': 'ಮೆನು', 'shell.more': 'ಇನ್ನಷ್ಟು', 'shell.switch': 'PG ಅಥವಾ ಪಾತ್ರ ಬದಲಾಯಿಸಿ', 'shell.previewing': 'ನೀವು ಆ್ಯಪ್ ಅನ್ನು {name} ({role}) ಆಗಿ ನೋಡುತ್ತಿದ್ದೀರಿ.', 'shell.stopPreview': 'ಮಾಲೀಕರ ನೋಟಕ್ಕೆ ಹಿಂತಿರುಗಿ',
+  'shell.menu': 'ಮೆನು', 'shell.more': 'ಇನ್ನಷ್ಟು', 'shell.switch': 'ನನ್ನ PGಗಳು', 'shell.previewing': 'ನೀವು ಆ್ಯಪ್ ಅನ್ನು {name} ({role}) ಆಗಿ ನೋಡುತ್ತಿದ್ದೀರಿ.', 'shell.stopPreview': 'ಮಾಲೀಕರ ನೋಟಕ್ಕೆ ಹಿಂತಿರುಗಿ',
   // fields
   'field.address': 'ವಿಳಾಸ', 'field.amount': 'ಮೊತ್ತ (₹)', 'field.bed': 'ಬೆಡ್', 'field.beds': 'ಬೆಡ್‌ಗಳು', 'field.bedsPerRoom': 'ಪ್ರತಿ ರೂಮ್‌ಗೆ ಬೆಡ್‌ಗಳು', 'field.category': 'ವಿಭಾಗ', 'field.city': 'ಊರು', 'field.date': 'ದಿನಾಂಕ', 'field.deposit': 'ಡೆಪಾಸಿಟ್ (₹)',
   'field.depositPaidNow': 'ಈಗ ಪಡೆದ ಡೆಪಾಸಿಟ್ (₹)', 'field.description': 'ವಿವರಣೆ', 'field.details': 'ವಿವರಗಳು', 'field.docKind': 'ದಾಖಲೆಯ ಪ್ರಕಾರ', 'field.dueDay': 'ಬಾಡಿಗೆ ಕಟ್ಟುವ ದಿನ', 'field.electricity': 'ಕರೆಂಟ್', 'field.email': 'ಇಮೇಲ್', 'field.emailOptional': 'ಇಮೇಲ್ (ಬೇಕಿದ್ದರೆ)',
@@ -104,7 +104,7 @@ export default {
   'val.expcat.groceries': 'ದಿನಸಿ', 'val.expcat.electricity': 'ಕರೆಂಟ್ ಬಿಲ್', 'val.expcat.water': 'ನೀರು', 'val.expcat.gas': 'ಅಡುಗೆ ಗ್ಯಾಸ್', 'val.expcat.internet': 'ಇಂಟರ್ನೆಟ್', 'val.expcat.salary': 'ಸಂಬಳ', 'val.expcat.maintenance': 'ರಿಪೇರಿ', 'val.expcat.cleaning': 'ಸ್ವಚ್ಛತೆ',
   'val.expcat.rent': 'ಕಟ್ಟಡದ ಬಾಡಿಗೆ', 'val.expcat.tax': 'ತೆರಿಗೆ', 'val.expcat.other': 'ಇತರೆ',
   'val.reqcat.plumbing': 'ಪ್ಲಂಬಿಂಗ್', 'val.reqcat.electrical': 'ಎಲೆಕ್ಟ್ರಿಕಲ್', 'val.reqcat.cleaning': 'ಸ್ವಚ್ಛತೆ', 'val.reqcat.wifi': 'Wi-Fi', 'val.reqcat.food': 'ಊಟ', 'val.reqcat.furniture': 'ಪೀಠೋಪಕರಣ', 'val.reqcat.security': 'ಭದ್ರತೆ', 'val.reqcat.noise': 'ಗಲಾಟೆ', 'val.reqcat.other': 'ಇತರೆ',
-  'val.staffrole.cook': 'ಅಡುಗೆಯವರು', 'val.staffrole.cleaner': 'ಕ್ಲೀನರ್', 'val.staffrole.warden': 'ವಾರ್ಡನ್', 'val.staffrole.security': 'ಸೆಕ್ಯುರಿಟಿ', 'val.staffrole.maintenance': 'ನಿರ್ವಹಣೆ', 'val.staffrole.manager': 'ಮ್ಯಾನೇಜರ್', 'val.staffrole.other': 'ಇತರೆ',
+  'val.staffrole.cook': 'ಅಡುಗೆಯವರು', 'val.staffrole.cleaner': 'ಕ್ಲೀನರ್', 'val.staffrole.warden': 'ವಾರ್ಡನ್', 'val.staffrole.security': 'ಸೆಕ್ಯುರಿಟಿ', 'val.staffrole.maintenance': 'ನಿರ್ವಹಣೆ', 'val.staffrole.manager': 'ಮ್ಯಾನೇಜರ್', 'val.staffrole.other': 'ಇತರೆ (ನೀವೇ ಟೈಪ್ ಮಾಡಿ)',
   'val.audience.all': 'ಎಲ್ಲರೂ', 'val.audience.tenants': 'ನಿವಾಸಿಗಳು', 'val.audience.staff': 'ಸಿಬ್ಬಂದಿ', 'val.meal.breakfast': 'ತಿಂಡಿ', 'val.meal.lunch': 'ಮಧ್ಯಾಹ್ನದ ಊಟ', 'val.meal.dinner': 'ರಾತ್ರಿ ಊಟ',
   'val.theme.system': 'ಫೋನ್‌ನಂತೆ', 'val.theme.light': 'ಲೈಟ್', 'val.theme.dark': 'ಡಾರ್ಕ್', 'val.server.online': 'ಸಂಪರ್ಕವಾಗಿದೆ', 'val.server.offline': 'ಸಂಪರ್ಕ ಸಿಗುತ್ತಿಲ್ಲ', 'val.server.checking': 'ಪರಿಶೀಲಿಸಲಾಗುತ್ತಿದೆ…', 'val.server.idle': 'ಸೆಟ್ ಮಾಡಿಲ್ಲ',
   // activity
@@ -129,5 +129,29 @@ export default {
   'time.am': 'ಪೂರ್ವಾಹ್ನ', 'time.pm': 'ಅಪರಾಹ್ನ', 'time.justNow': 'ಈಗಷ್ಟೇ', 'time.minutesAgo': '{n} ನಿಮಿಷದ ಹಿಂದೆ', 'time.hoursAgo': '{n} ಗಂಟೆ ಹಿಂದೆ', 'time.daysAgo': '{n} ದಿನದ ಹಿಂದೆ',
   'month.1': 'ಜನವರಿ', 'month.2': 'ಫೆಬ್ರವರಿ', 'month.3': 'ಮಾರ್ಚ್', 'month.4': 'ಏಪ್ರಿಲ್', 'month.5': 'ಮೇ', 'month.6': 'ಜೂನ್', 'month.7': 'ಜುಲೈ', 'month.8': 'ಆಗಸ್ಟ್', 'month.9': 'ಸೆಪ್ಟೆಂಬರ್', 'month.10': 'ಅಕ್ಟೋಬರ್', 'month.11': 'ನವೆಂಬರ್', 'month.12': 'ಡಿಸೆಂಬರ್',
   'monthShort.1': 'ಜನ', 'monthShort.2': 'ಫೆಬ್ರ', 'monthShort.3': 'ಮಾರ್ಚ್', 'monthShort.4': 'ಏಪ್ರಿ', 'monthShort.5': 'ಮೇ', 'monthShort.6': 'ಜೂನ್', 'monthShort.7': 'ಜುಲೈ', 'monthShort.8': 'ಆಗ', 'monthShort.9': 'ಸೆಪ್ಟೆಂ', 'monthShort.10': 'ಅಕ್ಟೋ', 'monthShort.11': 'ನವೆಂ', 'monthShort.12': 'ಡಿಸೆಂ',
-  'weekday.mon': 'ಸೋಮವಾರ', 'weekday.tue': 'ಮಂಗಳವಾರ', 'weekday.wed': 'ಬುಧವಾರ', 'weekday.thu': 'ಗುರುವಾರ', 'weekday.fri': 'ಶುಕ್ರವಾರ', 'weekday.sat': 'ಶನಿವಾರ', 'weekday.sun': 'ಭಾನುವಾರ'
+  'weekday.mon': 'ಸೋಮವಾರ', 'weekday.tue': 'ಮಂಗಳವಾರ', 'weekday.wed': 'ಬುಧವಾರ', 'weekday.thu': 'ಗುರುವಾರ', 'weekday.fri': 'ಶುಕ್ರವಾರ', 'weekday.sat': 'ಶನಿವಾರ', 'weekday.sun': 'ಭಾನುವಾರ',
+  'nav.mywork': 'ನನ್ನ ಕೆಲಸ',
+  'choose.addPg': 'ಮತ್ತೊಂದು PG ಸೇರಿಸಿ',
+  'field.pin': 'ಸೈನ್-ಇನ್ PIN',
+  'signin.pinHint': 'ಈ ಸಾಧನದಲ್ಲಿ ಈ ಸಂಖ್ಯೆಗೆ ಇರುವ PIN. ಮಾದರಿ PGಗೆ ಅಗತ್ಯವಿಲ್ಲ.',
+  'setup.pinHint': '4 ರಿಂದ 6 ಅಂಕಿಗಳನ್ನು ಆಯ್ಕೆಮಾಡಿ.',
+  'pin.set': 'ಸೈನ್-ಇನ್ PIN ಹೊಂದಿಸಿ',
+  'pin.title': '{name} ಅವರ ಸೈನ್-ಇನ್ PIN',
+  'pin.body': 'ಅವರು ಈ ಸಾಧನದಲ್ಲಿ ತಮ್ಮ ಮೊಬೈಲ್ ಸಂಖ್ಯೆ ಮತ್ತು ಈ PIN ಬಳಸಿ ಸೈನ್ ಇನ್ ಮಾಡುತ್ತಾರೆ. ಇದನ್ನು ಅವರಿಗೆ ಮಾತ್ರ ತಿಳಿಸಿ. ಹೊಸ PIN ಹೊಂದಿಸಿದರೆ ಹಳೆಯದು ರದ್ದಾಗುತ್ತದೆ.',
+  'pin.saved': 'PIN ಉಳಿಸಲಾಗಿದೆ',
+  'field.access': 'ಆ್ಯಪ್‌ನಲ್ಲಿ ಅವರು ಏನು ಮಾಡಬಹುದು',
+  'access.basic': 'ಸ್ವಂತ ಕೆಲಸ ಮಾತ್ರ',
+  'access.accounts': 'ಅಕೌಂಟ್ಸ್ ಡೆಸ್ಕ್',
+  'access.manager': 'ಮ್ಯಾನೇಜರ್',
+  'access.hint.basic': 'ಹಾಜರಾತಿ, ದೈನಂದಿನ ಕೆಲಸ ಮತ್ತು ಅವರಿಗೆ ವಹಿಸಿದ ವಿನಂತಿಗಳು.',
+  'access.hint.accounts': 'ನಿವಾಸಿಗಳನ್ನು ಸೇರಿಸಬಹುದು, ಬಿಲ್‌ಗಳನ್ನು ತಯಾರಿಸಬಹುದು, ಪಾವತಿಗಳನ್ನು ದಾಖಲಿಸಿ ದೃಢೀಕರಿಸಬಹುದು, ವೆಚ್ಚಗಳನ್ನು ಸೇರಿಸಬಹುದು. ಸಂಬಳಗಳನ್ನು ನೋಡಲು ಅಥವಾ ಸೆಟ್ಟಿಂಗ್‌ಗಳನ್ನು ಬದಲಾಯಿಸಲು ಆಗುವುದಿಲ್ಲ.',
+  'access.hint.manager': 'ಅಕೌಂಟ್ಸ್ ಡೆಸ್ಕ್‌ನಲ್ಲಿರುವ ಎಲ್ಲವೂ, ಜೊತೆಗೆ ಕೊಠಡಿಗಳು, ತೆರವುಗಳು, ಸೂಚನೆಗಳು ಮತ್ತು ಸಿಬ್ಬಂದಿ ಹಾಜರಾತಿ. ಸೆಟ್ಟಿಂಗ್‌ಗಳು, ಸಿಬ್ಬಂದಿ ಅಥವಾ ಸಂಬಳಗಳನ್ನು ಬದಲಾಯಿಸಲು ಆಗುವುದಿಲ್ಲ.',
+  'field.customRole': 'ಪಾತ್ರದ ಹೆಸರು',
+  'staff.customRolePh': 'ಉದಾ. ತೋಟಗಾರ',
+  'val.staffrole.accountant': 'ಅಕೌಂಟೆಂಟ್',
+  'val.staffrole.operator': 'ಕಂಪ್ಯೂಟರ್ ಆಪರೇಟರ್',
+  'err.pin_format': 'PIN 4 ರಿಂದ 6 ಅಂಕಿಗಳಾಗಿರಬೇಕು.',
+  'err.pin_wrong': 'ತಪ್ಪು PIN.',
+  'err.pin_not_set': 'ಈ ಸಾಧನದಲ್ಲಿ ಈ ಸಂಖ್ಯೆಗೆ PIN ಹೊಂದಿಸಿಲ್ಲ. ಹೊಂದಿಸಲು ಮಾಲೀಕರನ್ನು ಕೇಳಿ.',
+  'err.pin_locked': 'ತುಂಬಾ ಸಲ ತಪ್ಪಾಗಿ ಪ್ರಯತ್ನಿಸಿದ್ದೀರಿ. ಐದು ನಿಮಿಷಗಳ ನಂತರ ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.'
 };

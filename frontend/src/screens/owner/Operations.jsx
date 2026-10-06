@@ -1,11 +1,11 @@
 // Expenses, staff (attendance, salary, checklists), requests, notices and food.
 import { useMemo, useState } from 'react';
 import { Plus, Trash2, Wallet, Users, Wrench, Megaphone, Eye, UtensilsCrossed, ListChecks } from 'lucide-react';
-import { EXPENSE_CATEGORIES, PAYMENT_MODES, STAFF_ROLES, WEEKDAYS, periodOf, shiftPeriod, expenseBreakdown, staffAttendanceOn, attendanceSummary, salaryStatus, headcount, addDays, activeNotices, MEALS } from '@basera/domain';
+import { EXPENSE_CATEGORIES, PAYMENT_MODES, STAFF_ROLES, STAFF_ACCESS, WEEKDAYS, periodOf, shiftPeriod, expenseBreakdown, staffAttendanceOn, attendanceSummary, salaryStatus, headcount, addDays, activeNotices, MEALS } from '@basera/domain';
 import { useApp } from '../../app/store.jsx';
 import { useI18n } from '../../app/i18n.jsx';
 import { useUi, Modal, Input, Select, Seg, Empty, Money, Avatar, ShareBars, useForm } from '../../ui/kit.jsx';
-import { RequestCard, RequestForm, NoticeCard, MenuWeek, DocumentsPanel } from '../shared.jsx';
+import { RequestCard, RequestForm, NoticeCard, MenuWeek, DocumentsPanel, PinModal, roleName } from '../shared.jsx';
 
 const CAT_COLORS = ['var(--accent)', 'var(--warn)', 'var(--info)', 'var(--good)', 'var(--bad)', 'var(--ink-3)'];
 
@@ -51,14 +51,16 @@ function StaffForm({ member, onClose }) {
   const app = useApp();
   const { t } = useI18n();
   const ui = useUi();
-  const [f, set] = useForm(member ? { name: member.name, phone: member.phone, role: member.role, salary: member.salary, joinedOn: member.joinedOn, shift: member.shift } : { name: '', phone: '', role: 'cook', salary: '', joinedOn: app.today, shift: '' });
-  const save = async () => { const payload = { ...f, salary: Number(f.salary) }; if (await ui.run(() => app.dispatch(member ? { type: 'staff.update', payload: { staffId: member.id, ...payload } } : { type: 'staff.add', payload }), t('toast.saved'))) onClose(); };
+  const [f, set] = useForm(member ? { name: member.name, phone: member.phone, role: member.role, roleLabel: member.roleLabel || '', access: member.access || 'basic', salary: member.salary, joinedOn: member.joinedOn, shift: member.shift } : { name: '', phone: '', role: 'cook', roleLabel: '', access: 'basic', salary: '', joinedOn: app.today, shift: '' });
+  const save = async () => { const payload = { ...f, roleLabel: f.role === 'other' ? f.roleLabel : '', salary: Number(f.salary) }; if (await ui.run(() => app.dispatch(member ? { type: 'staff.update', payload: { staffId: member.id, ...payload } } : { type: 'staff.add', payload }), t('toast.saved'))) onClose(); };
   return (
-    <Modal title={member ? t('staff.edit') : t('staff.add')} onClose={onClose} footer={<><button className="btn" onClick={onClose}>{t('common.cancel')}</button><button className="btn primary" onClick={save} disabled={!f.name || !f.phone || f.salary === ''} data-testid="staff-save">{t('common.save')}</button></>}>
+    <Modal title={member ? t('staff.edit') : t('staff.add')} onClose={onClose} footer={<><button className="btn" onClick={onClose}>{t('common.cancel')}</button><button className="btn primary" onClick={save} disabled={!f.name || !f.phone || f.salary === '' || (f.role === 'other' && !f.roleLabel.trim())} data-testid="staff-save">{t('common.save')}</button></>}>
       <div className="form-grid">
         <Input id="staff-name" label={t('field.fullName')} value={f.name} onChange={set('name')} />
         <Input id="staff-phone" label={t('field.phone')} type="tel" value={f.phone} onChange={set('phone')} hint={t('staff.phoneHint')} />
         <Select id="staff-role" label={t('field.staffRole')} value={f.role} onChange={set('role')} options={STAFF_ROLES.map((r) => ({ value: r, label: t(`val.staffrole.${r}`) }))} />
+        {f.role === 'other' && <Input id="staff-role-custom" label={t('field.customRole')} value={f.roleLabel} onChange={set('roleLabel')} placeholder={t('staff.customRolePh')} maxLength={40} />}
+        <Select id="staff-access" full label={t('field.access')} value={f.access} onChange={set('access')} options={STAFF_ACCESS.map((a) => ({ value: a, label: t(`access.${a}`) }))} hint={t(`access.hint.${f.access}`)} />
         <Input id="staff-salary" label={t('field.monthlySalary')} type="number" min="0" value={f.salary} onChange={set('salary')} />
         <Input id="staff-joined" label={t('field.joinedOn')} type="date" value={f.joinedOn} onChange={set('joinedOn')} />
         <Input id="staff-shift" label={t('field.shift')} value={f.shift} onChange={set('shift')} />
@@ -66,11 +68,12 @@ function StaffForm({ member, onClose }) {
   );
 }
 
-function StaffDetail({ member, onClose }) {
+function StaffDetail({ member, onClose, onEdit }) {
   const app = useApp();
   const { state, today } = app;
   const { t, formatPeriod, formatMoney, formatDate } = useI18n();
   const ui = useUi();
+  const [pin, setPin] = useState(false);
   const due = shiftPeriod(periodOf(today), -1);
   const unpaid = [due, periodOf(today)].filter((p) => p >= periodOf(member.joinedOn) && !salaryStatus(state, member, p));
   const sum = attendanceSummary(state, member.id, periodOf(today));
@@ -78,9 +81,12 @@ function StaffDetail({ member, onClose }) {
   return (
     <Modal wide title={member.name} onClose={onClose} footer={<>
       <button className="btn danger" onClick={async () => { if (await ui.confirm({ title: t('staff.removeTitle', { name: member.name }), body: t('staff.removeBody'), danger: true, action: t('common.remove') })) { await ui.run(() => app.dispatch({ type: 'staff.remove', payload: { staffId: member.id } }), t('toast.removed')); onClose(); } }}>{t('staff.remove')}</button>
-      {app.full && <button className="btn" onClick={() => { app.startPreview('staff', member.id, member.name); onClose(); }}><Eye />{t('res.viewAs')}</button>}</>}>
+      {app.mode === 'local' && <button className="btn" onClick={() => setPin(true)} data-testid="set-pin">{t('pin.set')}</button>}
+      {app.full && <button className="btn" onClick={() => { app.startPreview('staff', member.id, member.name); onClose(); }}><Eye />{t('res.viewAs')}</button>}
+      <button className="btn primary" onClick={onEdit} data-testid="staff-edit">{t('common.edit')}</button></>}>
+      {pin && <PinModal phone={member.phone} name={member.name} onClose={() => setPin(false)} />}
       <div className="stack">
-        <dl className="kv"><dt>{t('field.staffRole')}</dt><dd>{t(`val.staffrole.${member.role}`)}</dd><dt>{t('field.phone')}</dt><dd className="num">{member.phone}</dd><dt>{t('field.monthlySalary')}</dt><dd><Money value={member.salary} /></dd>
+        <dl className="kv"><dt>{t('field.staffRole')}</dt><dd>{roleName(t, member)}</dd><dt>{t('field.access')}</dt><dd>{t(`access.${member.access || 'basic'}`)}</dd><dt>{t('field.phone')}</dt><dd className="num">{member.phone}</dd><dt>{t('field.monthlySalary')}</dt><dd><Money value={member.salary} /></dd>
           <dt>{t('staff.thisMonth')}</dt><dd>{t('staff.attSummary', { present: sum.present, absent: sum.absent, leave: sum.leave })}</dd></dl>
         {unpaid.map((p) => (<div className="banner" key={p}>{t('staff.salaryDue', { month: formatPeriod(p) })}<button className="btn sm primary" onClick={() => pay(p)} data-testid="pay-salary">{t('staff.pay')}</button></div>))}
         <h3>{t('staff.slips')}</h3>
@@ -123,10 +129,10 @@ export function Staff() {
       <Seg value={tab} onChange={setTab} options={[{ value: 'team', label: t('staff.tabTeam') }, { value: 'tasks', label: t('tasks.title') }]} />
       {tab === 'tasks' ? <Tasks /> : rows.length === 0 ? <div className="card"><Empty icon={Users} title={t('staff.emptyTitle')} body={t('staff.emptyBody')} /></div> : (
         <div className="card flush"><div className="list">{rows.map(({ member, record }) => (
-          <div key={member.id} style={{ flexWrap: 'wrap' }}><Avatar name={member.name} /><button className="grow btn ghost" style={{ justifyContent: 'flex-start', height: 'auto', padding: '4px 6px', textAlign: 'left' }} onClick={() => setModal({ detail: member.id })} data-testid="staff-row"><span><b>{member.name}</b><br /><span className="small muted">{t(`val.staffrole.${member.role}`)}{record?.inAt ? ` · ${t('staff.inAt', { time: formatTime(record.inAt) })}` : ''}</span></span></button>
+          <div key={member.id} style={{ flexWrap: 'wrap' }}><Avatar name={member.name} /><button className="grow btn ghost" style={{ justifyContent: 'flex-start', height: 'auto', padding: '4px 6px', textAlign: 'left' }} onClick={() => setModal({ detail: member.id })} data-testid="staff-row"><span><b>{member.name}</b><br /><span className="small muted">{roleName(t, member)}{member.access && member.access !== 'basic' ? ` · ${t(`access.${member.access}`)}` : ''}{record?.inAt ? ` · ${t('staff.inAt', { time: formatTime(record.inAt) })}` : ''}</span></span></button>
             <div className="seg">{['present', 'absent', 'leave'].map((s) => (<button key={s} className={record?.status === s ? 'on' : ''} onClick={() => mark(member.id, s)}>{t(`val.${s}`)}</button>))}</div></div>))}</div></div>)}
-      {modal?.form && <StaffForm onClose={() => setModal(null)} />}
-      {detail && <StaffDetail member={detail} onClose={() => setModal(null)} />}
+      {modal?.form && <StaffForm member={modal.member} onClose={() => setModal(null)} />}
+      {detail && <StaffDetail member={detail} onClose={() => setModal(null)} onEdit={() => setModal({ form: true, member: detail })} />}
     </div>
   );
 }

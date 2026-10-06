@@ -20,7 +20,7 @@ export default {
   'start.title': 'ଆପଣଙ୍କ PG ଚାଲୁ କରନ୍ତୁ', 'start.rooms': 'ଆପଣଙ୍କ ରୁମ୍ ଓ ବେଡ୍ ଯୋଡ଼ନ୍ତୁ', 'start.residents': 'ପ୍ରଥମ ବାସିନ୍ଦା ଯୋଡ଼ନ୍ତୁ', 'start.bills': 'ଏହି ମାସର ଭଡ଼ା ବିଲ୍ ତିଆରି କରନ୍ତୁ', 'start.upi': 'ବାସିନ୍ଦାମାନେ ଆପଣଙ୍କୁ ଟଙ୍କା ଦେବା ପାଇଁ ଆପଣଙ୍କ UPI ID ଯୋଡ଼ନ୍ତୁ', 'start.staff': 'ଆପଣଙ୍କ କର୍ମଚାରୀ ଯୋଡ଼ନ୍ତୁ',
   // shell
   'nav.home': 'ହୋମ୍', 'nav.rooms': 'ରୁମ୍', 'nav.residents': 'ବାସିନ୍ଦା', 'nav.billing': 'ଭଡ଼ା', 'nav.expenses': 'ଖର୍ଚ୍ଚ', 'nav.staff': 'କର୍ମଚାରୀ', 'nav.requests': 'ଅନୁରୋଧ', 'nav.community': 'ନୋଟିସ୍ ଓ ଖାଇବା', 'nav.reports': 'ରିପୋର୍ଟ', 'nav.settings': 'ସେଟିଂସ୍',
-  'shell.menu': 'ମେନୁ', 'shell.more': 'ଅଧିକ', 'shell.switch': 'PG କିମ୍ବା ଭୂମିକା ବଦଳାନ୍ତୁ', 'shell.previewing': 'ଆପଣ {name} ({role}) ଭାବରେ ଆପ୍ ଦେଖୁଛନ୍ତି।', 'shell.stopPreview': 'ମାଲିକ ଭ୍ୟୁକୁ ଫେରନ୍ତୁ',
+  'shell.menu': 'ମେନୁ', 'shell.more': 'ଅଧିକ', 'shell.switch': 'ମୋର PG', 'shell.previewing': 'ଆପଣ {name} ({role}) ଭାବରେ ଆପ୍ ଦେଖୁଛନ୍ତି।', 'shell.stopPreview': 'ମାଲିକ ଭ୍ୟୁକୁ ଫେରନ୍ତୁ',
   // fields
   'field.address': 'ଠିକଣା', 'field.amount': 'ପରିମାଣ (₹)', 'field.bed': 'ବେଡ୍', 'field.beds': 'ବେଡ୍', 'field.bedsPerRoom': 'ପ୍ରତି ରୁମରେ ବେଡ୍', 'field.category': 'ବିଭାଗ', 'field.city': 'ସହର', 'field.date': 'ତାରିଖ', 'field.deposit': 'ସିକ୍ୟୁରିଟି ଡିପୋଜିଟ୍ (₹)',
   'field.depositPaidNow': 'ଏବେ ମିଳିଥିବା ଡିପୋଜିଟ୍ (₹)', 'field.description': 'ବିବରଣୀ', 'field.details': 'ବିବରଣୀ', 'field.docKind': 'ଡକ୍ୟୁମେଣ୍ଟ ପ୍ରକାର', 'field.dueDay': 'ଭଡ଼ା ଦେବା ତାରିଖ', 'field.electricity': 'ବିଜୁଳି', 'field.email': 'ଇମେଲ୍', 'field.emailOptional': 'ଇମେଲ୍ (ଇଚ୍ଛାଧୀନ)',
@@ -104,7 +104,7 @@ export default {
   'val.expcat.groceries': 'ସଉଦା', 'val.expcat.electricity': 'ବିଜୁଳି ବିଲ୍', 'val.expcat.water': 'ପାଣି', 'val.expcat.gas': 'ରୋଷେଇ ଗ୍ୟାସ୍', 'val.expcat.internet': 'ଇଣ୍ଟରନେଟ୍', 'val.expcat.salary': 'ଦରମା', 'val.expcat.maintenance': 'ମରାମତି', 'val.expcat.cleaning': 'ସଫେଇ',
   'val.expcat.rent': 'ଘର ଭଡ଼ା', 'val.expcat.tax': 'ଟିକସ', 'val.expcat.other': 'ଅନ୍ୟ',
   'val.reqcat.plumbing': 'ପାଣି ପାଇପ୍ କାମ', 'val.reqcat.electrical': 'ବିଜୁଳି କାମ', 'val.reqcat.cleaning': 'ସଫେଇ', 'val.reqcat.wifi': 'Wi-Fi', 'val.reqcat.food': 'ଖାଇବା', 'val.reqcat.furniture': 'ଆସବାବପତ୍ର', 'val.reqcat.security': 'ସୁରକ୍ଷା', 'val.reqcat.noise': 'ପାଟିତୁଣ୍ଡ', 'val.reqcat.other': 'ଅନ୍ୟ',
-  'val.staffrole.cook': 'ରୋଷେୟା', 'val.staffrole.cleaner': 'ସଫେଇବାଲା', 'val.staffrole.warden': 'ୱାର୍ଡେନ୍', 'val.staffrole.security': 'ସିକ୍ୟୁରିଟି', 'val.staffrole.maintenance': 'ମରାମତି', 'val.staffrole.manager': 'ମ୍ୟାନେଜର', 'val.staffrole.other': 'ଅନ୍ୟ',
+  'val.staffrole.cook': 'ରୋଷେୟା', 'val.staffrole.cleaner': 'ସଫେଇବାଲା', 'val.staffrole.warden': 'ୱାର୍ଡେନ୍', 'val.staffrole.security': 'ସିକ୍ୟୁରିଟି', 'val.staffrole.maintenance': 'ମରାମତି', 'val.staffrole.manager': 'ମ୍ୟାନେଜର', 'val.staffrole.other': 'ଅନ୍ୟ (ନିଜେ ଲେଖନ୍ତୁ)',
   'val.audience.all': 'ସମସ୍ତେ', 'val.audience.tenants': 'ବାସିନ୍ଦା', 'val.audience.staff': 'କର୍ମଚାରୀ', 'val.meal.breakfast': 'ଜଳଖିଆ', 'val.meal.lunch': 'ଦିନ ଖାଇବା', 'val.meal.dinner': 'ରାତି ଖାଇବା',
   'val.theme.system': 'ଡିଭାଇସ୍ ଅନୁସାରେ', 'val.theme.light': 'ଉଜ୍ଜ୍ୱଳ', 'val.theme.dark': 'ଗାଢ଼', 'val.server.online': 'ଯୋଡ଼ା ଅଛି', 'val.server.offline': 'ଯୋଗାଯୋଗ ହେଉନାହିଁ', 'val.server.checking': 'ଯାଞ୍ଚ ଚାଲିଛି…', 'val.server.idle': 'ସେଟ୍ ହୋଇନାହିଁ',
   // activity
@@ -129,5 +129,30 @@ export default {
   'time.am': 'ପୂର୍ବାହ୍ନ', 'time.pm': 'ଅପରାହ୍ନ', 'time.justNow': 'ଏଇମାତ୍ର', 'time.minutesAgo': '{n} ମିନିଟ୍ ଆଗରୁ', 'time.hoursAgo': '{n} ଘଣ୍ଟା ଆଗରୁ', 'time.daysAgo': '{n} ଦିନ ଆଗରୁ',
   'month.1': 'ଜାନୁଆରୀ', 'month.2': 'ଫେବୃଆରୀ', 'month.3': 'ମାର୍ଚ୍ଚ', 'month.4': 'ଅପ୍ରେଲ', 'month.5': 'ମଇ', 'month.6': 'ଜୁନ୍', 'month.7': 'ଜୁଲାଇ', 'month.8': 'ଅଗଷ୍ଟ', 'month.9': 'ସେପ୍ଟେମ୍ବର', 'month.10': 'ଅକ୍ଟୋବର', 'month.11': 'ନଭେମ୍ବର', 'month.12': 'ଡିସେମ୍ବର',
   'monthShort.1': 'ଜାନୁ', 'monthShort.2': 'ଫେବୃ', 'monthShort.3': 'ମାର୍ଚ୍ଚ', 'monthShort.4': 'ଅପ୍ରେ', 'monthShort.5': 'ମଇ', 'monthShort.6': 'ଜୁନ୍', 'monthShort.7': 'ଜୁଲାଇ', 'monthShort.8': 'ଅଗ', 'monthShort.9': 'ସେପ୍ଟେ', 'monthShort.10': 'ଅକ୍ଟୋ', 'monthShort.11': 'ନଭେ', 'monthShort.12': 'ଡିସେ',
-  'weekday.mon': 'ସୋମବାର', 'weekday.tue': 'ମଙ୍ଗଳବାର', 'weekday.wed': 'ବୁଧବାର', 'weekday.thu': 'ଗୁରୁବାର', 'weekday.fri': 'ଶୁକ୍ରବାର', 'weekday.sat': 'ଶନିବାର', 'weekday.sun': 'ରବିବାର'
+  'weekday.mon': 'ସୋମବାର', 'weekday.tue': 'ମଙ୍ଗଳବାର', 'weekday.wed': 'ବୁଧବାର', 'weekday.thu': 'ଗୁରୁବାର', 'weekday.fri': 'ଶୁକ୍ରବାର', 'weekday.sat': 'ଶନିବାର', 'weekday.sun': 'ରବିବାର',
+  // PIN sign-in, staff access
+  'nav.mywork': 'ମୋର କାମ',
+  'choose.addPg': 'ଆଉ ଏକ PG ଯୋଡ଼ନ୍ତୁ',
+  'field.pin': 'ସାଇନ୍ ଇନ୍ PIN',
+  'signin.pinHint': 'ଏହି ଫୋନ୍‌ରେ ଏହି ନମ୍ବରର PIN। ନମୁନା PG ପାଇଁ ଦରକାର ନାହିଁ।',
+  'setup.pinHint': '4 ରୁ 6 ଟି ଅଙ୍କ ବାଛନ୍ତୁ।',
+  'pin.set': 'ସାଇନ୍ ଇନ୍ PIN ସେଟ୍ କରନ୍ତୁ',
+  'pin.title': '{name} ଙ୍କ ସାଇନ୍ ଇନ୍ PIN',
+  'pin.body': 'ସେମାନେ ଏହି ଫୋନ୍‌ରେ ନିଜ ମୋବାଇଲ୍ ନମ୍ବର ଓ ଏହି PIN ଦେଇ ସାଇନ୍ ଇନ୍ କରନ୍ତି। କେବଳ ସେମାନଙ୍କୁ ହିଁ କୁହନ୍ତୁ। ନୂଆ PIN ସେଟ୍ କଲେ ପୁରୁଣାଟି ବଦଳିଯିବ।',
+  'pin.saved': 'PIN ସେଭ୍ ହେଲା',
+  'field.access': 'ଆପ୍‌ରେ ସେମାନେ କଣ କରିପାରିବେ',
+  'access.basic': 'କେବଳ ନିଜ କାମ',
+  'access.accounts': 'ହିସାବ ଡେସ୍କ',
+  'access.manager': 'ମ୍ୟାନେଜର',
+  'access.hint.basic': 'ହାଜିରା, ଦୈନିକ କାମ ଓ ସେମାନଙ୍କୁ ଦିଆଯାଇଥିବା ଅନୁରୋଧ।',
+  'access.hint.accounts': 'ବାସିନ୍ଦା ଯୋଡ଼ିପାରିବେ, ବିଲ୍ ତିଆରି କରିପାରିବେ, ପେମେଣ୍ଟ ଲେଖିପାରିବେ ଓ ନିଶ୍ଚିତ କରିପାରିବେ, ଖର୍ଚ୍ଚ ଯୋଡ଼ିପାରିବେ। ଦରମା ଦେଖିପାରିବେ ନାହିଁ କି ସେଟିଂସ୍ ବଦଳାଇପାରିବେ ନାହିଁ।',
+  'access.hint.manager': 'ହିସାବ ଡେସ୍କର ସବୁକିଛି, ସାଙ୍ଗକୁ ରୁମ୍, ରୁମ୍ ଛାଡ଼ିବା, ନୋଟିସ୍ ଓ କର୍ମଚାରୀଙ୍କ ହାଜିରା। ସେଟିଂସ୍, କର୍ମଚାରୀ କିମ୍ବା ଦରମା ବଦଳାଇପାରିବେ ନାହିଁ।',
+  'field.customRole': 'କାମର ନାମ',
+  'staff.customRolePh': 'ଯେପରି ମାଳୀ',
+  'val.staffrole.accountant': 'ହିସାବରକ୍ଷକ',
+  'val.staffrole.operator': 'କମ୍ପ୍ୟୁଟର ଅପରେଟର',
+  'err.pin_format': 'PIN 4 ରୁ 6 ଟି ଅଙ୍କର ହେବା ଦରକାର।',
+  'err.pin_wrong': 'PIN ଭୁଲ୍।',
+  'err.pin_not_set': 'ଏହି ଫୋନ୍‌ରେ ଏହି ନମ୍ବର ପାଇଁ କୌଣସି PIN ସେଟ୍ ହୋଇନାହିଁ। ମାଲିକଙ୍କୁ ସେଟ୍ କରିବାକୁ କୁହନ୍ତୁ।',
+  'err.pin_locked': 'ବହୁତ ଥର ଭୁଲ୍ ହେଲା। ପାଞ୍ଚ ମିନିଟ୍ ପରେ ପୁଣି ଚେଷ୍ଟା କରନ୍ତୁ।'
 };

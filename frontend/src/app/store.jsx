@@ -2,7 +2,7 @@
 // open in which role, the property document, and dispatch() for commands. Screens read from
 // useApp() and never touch storage or the network directly.
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
-import { scopeState, toISODate, DomainError } from '@basera/domain';
+import { scopeState, toISODate, DomainError, canPerform } from '@basera/domain';
 import { createLocalBackend } from './backends/local.js';
 import { createServerBackend, defaultApiUrl, savedApiUrl, saveApiUrl, ApiError } from './backends/server.js';
 import { prefs } from './storage.js';
@@ -176,9 +176,11 @@ export function AppProvider({ children }) {
   // ----- sign in / out -----
 
   const localSignIn = useCallback(
-    async (identifier) => {
+    async (identifier, pin) => {
       const members = await localBackend.resolvePerson(identifier);
       if (!members.length) throw new DomainError('no_account_on_device');
+      // The sample PG is open to anyone; real PGs need the PIN for this number.
+      if (members.some((m) => !m.sample)) await localBackend.pins.check(identifier, pin);
       const user = { name: members[0].name, phone: String(identifier).replace(/\D/g, '').slice(-10), email: String(identifier).includes('@') ? identifier : '' };
       const sess = { mode: 'local', user };
       setSession(sess);
@@ -192,7 +194,13 @@ export function AppProvider({ children }) {
   );
 
   const localCreateProperty = useCallback(
-    async (input) => {
+    async (input, pin) => {
+      // A number that already has a PIN must prove it; a new number chooses one.
+      const signedInAs = session?.mode === 'local' && session.user.phone === String(input.ownerPhone).replace(/\D/g, '').slice(-10);
+      if (!signedInAs) {
+        if (await localBackend.pins.has(input.ownerPhone)) await localBackend.pins.check(input.ownerPhone, pin);
+        else await localBackend.pins.set(input.ownerPhone, pin);
+      }
       const state = await localBackend.createProperty(input);
       await refreshLocalIndex();
       const user = { name: state.property.ownerName, phone: state.property.ownerPhone, email: state.property.ownerEmail || '' };
@@ -205,8 +213,10 @@ export function AppProvider({ children }) {
       await openMembership(member, sess);
       return state;
     },
-    [localBackend, openMembership, persistSession, refreshLocalIndex]
+    [localBackend, openMembership, persistSession, refreshLocalIndex, session]
   );
+
+  const setLocalPin = useCallback((phone, pin) => localBackend.pins.set(phone, pin), [localBackend]);
 
   const localLoadSample = useCallback(
     async (owner) => {
@@ -389,9 +399,18 @@ export function AppProvider({ children }) {
     closeProperty();
   }, [session, serverBackend, localBackend, current?.propertyId, closeProperty, refreshLocalIndex]);
 
+  const liveRole = preview ? preview.role : current?.role || null;
+  const access = liveRole === 'staff' ? doc?.state?.access || 'basic' : 'basic';
+  const manages = liveRole === 'owner' || (liveRole === 'staff' && access !== 'basic');
+  const can = useCallback((type) => canPerform(type, liveRole, access), [liveRole, access]);
+
   const value = useMemo(
     () => ({
       booted,
+      access,
+      manages,
+      can,
+      setLocalPin,
       mode: session?.mode || null,
       session,
       memberships,
@@ -430,7 +449,7 @@ export function AppProvider({ children }) {
       importProperty,
       deleteProperty
     }),
-    [booted, session, memberships, current, doc, preview, today, persistent, localProperties, lastError, serverUrl, serverStatus, serverInfo, serverBackend, setServerUrl, checkServer, localSignIn, localCreateProperty, localLoadSample, serverRequestOtp, serverVerifyOtp, serverPasswordLogin, serverCreateProperty, reloadMemberships, openMembership, closeProperty, signOut, dispatch, refresh, startPreview, stopPreview, files, exportProperty, importProperty, deleteProperty]
+    [access, manages, can, setLocalPin, booted, session, memberships, current, doc, preview, today, persistent, localProperties, lastError, serverUrl, serverStatus, serverInfo, serverBackend, setServerUrl, checkServer, localSignIn, localCreateProperty, localLoadSample, serverRequestOtp, serverVerifyOtp, serverPasswordLogin, serverCreateProperty, reloadMemberships, openMembership, closeProperty, signOut, dispatch, refresh, startPreview, stopPreview, files, exportProperty, importProperty, deleteProperty]
   );
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

@@ -29,6 +29,50 @@ function indexEntry(state) {
   };
 }
 
+const PINS_KEY = 'pins';
+const MAX_TRIES = 5;
+const LOCK_MS = 5 * 60 * 1000;
+const tenDigits = (v) => String(v || '').replace(/\D/g, '').slice(-10);
+
+async function hashPin(salt, pin) {
+  const text = `${salt}:${pin}`;
+  try {
+    const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(text));
+    return [...new Uint8Array(buf)].map((b) => b.toString(16).padStart(2, '0')).join('');
+  } catch {
+    let h = 5381; // very old webviews without WebCrypto
+    for (let i = 0; i < text.length; i++) h = ((h << 5) + h + text.charCodeAt(i)) >>> 0;
+    return `x${h.toString(16)}`;
+  }
+}
+
+/**
+ * Sign-in PINs for device mode, kept per phone number as a salted hash. The owner chooses theirs
+ * at setup and sets one for each resident or staff member who should sign in on this device.
+ */
+const pins = {
+  async all() { return (await idb.get('meta', PINS_KEY)) || {}; },
+  async has(phone) { return Boolean((await pins.all())[tenDigits(phone)]); },
+  async set(phone, pin) {
+    if (!/^\d{4,6}$/.test(String(pin || ''))) throw new DomainError('pin_format');
+    const all = await pins.all();
+    const salt = newId('s');
+    all[tenDigits(phone)] = { salt, hash: await hashPin(salt, pin), tries: 0, lockedUntil: 0 };
+    await idb.set('meta', PINS_KEY, all);
+  },
+  async check(phone, pin) {
+    const all = await pins.all();
+    const rec = all[tenDigits(phone)];
+    if (!rec) throw new DomainError('pin_not_set');
+    if (rec.lockedUntil > Date.now()) throw new DomainError('pin_locked');
+    const ok = rec.hash === (await hashPin(rec.salt, String(pin || '')));
+    rec.tries = ok ? 0 : (rec.tries || 0) + 1;
+    if (rec.tries >= MAX_TRIES) { rec.tries = 0; rec.lockedUntil = Date.now() + LOCK_MS; }
+    await idb.set('meta', PINS_KEY, all);
+    if (!ok) throw new DomainError('pin_wrong');
+  }
+};
+
 export function createLocalBackend() {
   const cache = new Map();
 
@@ -52,6 +96,7 @@ export function createLocalBackend() {
 
   return {
     kind: 'local',
+    pins,
 
     async listProperties() {
       return (await readIndex()).sort((a, b) => (a.updatedAt < b.updatedAt ? 1 : -1));

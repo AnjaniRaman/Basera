@@ -50,7 +50,7 @@ export function MembershipChooser() {
         {!app.memberships.length && <p className="muted">{t('choose.none')}</p>}
       </div>
       <div className="row wrap">
-        <button className="btn primary" onClick={() => setAdding(true)}><Building2 />{t('welcome.setup')}</button>
+        <button className="btn primary" onClick={() => setAdding(true)} data-testid="add-pg"><Building2 />{t('choose.addPg')}</button>
         <button className="btn ghost" onClick={app.signOut}>{t('common.signOut')}</button>
       </div>
     </div>
@@ -65,6 +65,7 @@ function SignIn({ onBack }) {
   const [method, setMethod] = useState('phone');
   const [phone, setPhone] = useState('');
   const [code, setCode] = useState('');
+  const [pin, setPin] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [sent, setSent] = useState(false);
@@ -73,7 +74,7 @@ function SignIn({ onBack }) {
   const act = async (fn) => { setBusy(true); setError(''); try { await fn(); } catch (err) { setError(errorText(t, err)); } finally { setBusy(false); } };
   const submit = (e) => {
     e.preventDefault();
-    if (where === 'local') return act(() => app.localSignIn(phone));
+    if (where === 'local') return act(() => app.localSignIn(phone, pin));
     if (method === 'email') return act(() => app.serverPasswordLogin(email, password));
     if (!sent) return act(async () => { const r = await app.serverRequestOtp(phone); setSent(true); if (r.devCode) setCode(r.devCode); });
     return act(() => app.serverVerifyOtp(phone, code));
@@ -90,6 +91,7 @@ function SignIn({ onBack }) {
       </>) : (<>
         <Input id="signin-phone" label={t('field.phone')} type="tel" inputMode="numeric" value={phone} onChange={(v) => { setPhone(v); setSent(false); }} placeholder="98765 43210" required autoComplete="tel"
           hint={where === 'local' ? t('signin.localHint') : t('signin.otpHint')} />
+        {where === 'local' && <Input id="signin-pin" label={t('field.pin')} type="password" inputMode="numeric" maxLength={6} value={pin} onChange={setPin} autoComplete="current-password" hint={t('signin.pinHint')} />}
         {where === 'server' && sent && <Input id="signin-code" label={t('signin.code')} inputMode="numeric" value={code} onChange={setCode} required autoComplete="one-time-code" hint={t('signin.codeSent', { phone })} />}
       </>)}
       {error && <p className="error-text" role="alert">{error}</p>}
@@ -104,7 +106,7 @@ function SetupWizard({ onBack, signedIn }) {
   const online = app.server.status === 'online';
   const [where, setWhere] = useState(signedIn ? app.mode : online ? 'server' : 'local');
   const [step, setStep] = useState(signedIn ? 1 : 0);
-  const [f, setF] = useState({ ownerName: app.session?.user?.name || '', ownerPhone: app.session?.user?.phone || '', code: '', name: '', city: '', address: '', upiId: '', floors: 2, roomsPerFloor: 4, beds: 2, rent: 7000, dueDay: 5, electricityMode: 'meter' });
+  const [f, setF] = useState({ ownerName: app.session?.user?.name || '', ownerPhone: app.session?.user?.phone || '', pin: '', code: '', name: '', city: '', address: '', upiId: '', floors: 2, roomsPerFloor: 4, beds: 2, rent: 7000, dueDay: 5, electricityMode: 'meter' });
   const [sent, setSent] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
@@ -119,13 +121,14 @@ function SetupWizard({ onBack, signedIn }) {
         if (!sent) return act(async () => { const r = await app.serverRequestOtp(f.ownerPhone); setSent(true); if (r.devCode) set('code')(r.devCode); });
         return act(async () => { await app.serverVerifyOtp(f.ownerPhone, f.code, f.ownerName); setStep(1); });
       }
+      if (!/^\d{4,6}$/.test(f.pin)) return setError(t('err.pin_format'));
       setError(''); return setStep(1);
     }
     if (step === 1) { setError(''); return setStep(2); }
     return act(async () => {
       const input = { name: f.name, city: f.city, address: f.address, upiId: f.upiId, ownerName: f.ownerName, ownerPhone: f.ownerPhone,
         rules: { dueDay: Number(f.dueDay) || 5, electricityMode: f.electricityMode, billingStart: periodOf(app.today) } };
-      if (where === 'server') await app.serverCreateProperty(input); else await app.localCreateProperty(input);
+      if (where === 'server') await app.serverCreateProperty(input); else await app.localCreateProperty(input, f.pin);
     });
   };
   // Rooms are added right after the property opens (see OwnerApp first-run), driven by this stash.
@@ -143,6 +146,7 @@ function SetupWizard({ onBack, signedIn }) {
         </div>)}
         <Input id="setup-owner-name" label={t('field.yourName')} value={f.ownerName} onChange={set('ownerName')} required autoComplete="name" />
         <Input id="setup-owner-phone" label={t('field.phone')} type="tel" inputMode="numeric" value={f.ownerPhone} onChange={(v) => { set('ownerPhone')(v); setSent(false); }} required hint={t('setup.phoneHint')} />
+        {where === 'local' && <Input id="setup-pin" label={t('field.pin')} type="password" inputMode="numeric" maxLength={6} value={f.pin} onChange={set('pin')} required autoComplete="new-password" hint={t('setup.pinHint')} />}
         {where === 'server' && sent && <Input id="setup-code" label={t('signin.code')} inputMode="numeric" value={f.code} onChange={set('code')} required />}
       </>)}
       {step === 1 && (<>

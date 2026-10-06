@@ -20,7 +20,7 @@ export default {
   'start.title': 'നിങ്ങളുടെ PG തുടങ്ങാം', 'start.rooms': 'മുറികളും ബെഡുകളും ചേർക്കുക', 'start.residents': 'ആദ്യത്തെ താമസക്കാരനെ ചേർക്കുക', 'start.bills': 'ഈ മാസത്തെ വാടക ബില്ലുകൾ ഉണ്ടാക്കുക', 'start.upi': 'താമസക്കാർക്ക് പണം അടയ്ക്കാൻ നിങ്ങളുടെ UPI ID ചേർക്കുക', 'start.staff': 'ജീവനക്കാരെ ചേർക്കുക',
   // shell
   'nav.home': 'ഹോം', 'nav.rooms': 'മുറികൾ', 'nav.residents': 'താമസക്കാർ', 'nav.billing': 'വാടക', 'nav.expenses': 'ചെലവുകൾ', 'nav.staff': 'ജീവനക്കാർ', 'nav.requests': 'പരാതികൾ', 'nav.community': 'അറിയിപ്പും ഭക്ഷണവും', 'nav.reports': 'റിപ്പോർട്ടുകൾ', 'nav.settings': 'സെറ്റിംഗ്സ്',
-  'shell.menu': 'മെനു', 'shell.more': 'കൂടുതൽ', 'shell.switch': 'PG അല്ലെങ്കിൽ റോൾ മാറ്റുക', 'shell.previewing': 'നിങ്ങൾ ആപ്പ് കാണുന്നത് {name} ({role}) ആയിട്ടാണ്.', 'shell.stopPreview': 'ഉടമയുടെ കാഴ്ചയിലേക്ക് മടങ്ങുക',
+  'shell.menu': 'മെനു', 'shell.more': 'കൂടുതൽ', 'shell.switch': 'എന്റെ PG-കൾ', 'shell.previewing': 'നിങ്ങൾ ആപ്പ് കാണുന്നത് {name} ({role}) ആയിട്ടാണ്.', 'shell.stopPreview': 'ഉടമയുടെ കാഴ്ചയിലേക്ക് മടങ്ങുക',
   // fields
   'field.address': 'വിലാസം', 'field.amount': 'തുക (₹)', 'field.bed': 'ബെഡ്', 'field.beds': 'ബെഡുകൾ', 'field.bedsPerRoom': 'ഒരു മുറിയിലെ ബെഡുകൾ', 'field.category': 'വിഭാഗം', 'field.city': 'നഗരം', 'field.date': 'തീയതി', 'field.deposit': 'സെക്യൂരിറ്റി ഡെപ്പോസിറ്റ് (₹)',
   'field.depositPaidNow': 'ഇപ്പോൾ കിട്ടിയ ഡെപ്പോസിറ്റ് (₹)', 'field.description': 'വിവരണം', 'field.details': 'വിശദാംശങ്ങൾ', 'field.docKind': 'രേഖയുടെ തരം', 'field.dueDay': 'വാടക അടയ്ക്കേണ്ട തീയതി', 'field.electricity': 'കറന്റ്', 'field.email': 'ഇമെയിൽ', 'field.emailOptional': 'ഇമെയിൽ (വേണമെങ്കിൽ)',
@@ -104,7 +104,7 @@ export default {
   'val.expcat.groceries': 'പലചരക്ക്', 'val.expcat.electricity': 'കറന്റ് ബിൽ', 'val.expcat.water': 'വെള്ളം', 'val.expcat.gas': 'പാചക ഗ്യാസ്', 'val.expcat.internet': 'ഇന്റർനെറ്റ്', 'val.expcat.salary': 'ശമ്പളം', 'val.expcat.maintenance': 'അറ്റകുറ്റപ്പണി', 'val.expcat.cleaning': 'വൃത്തിയാക്കൽ',
   'val.expcat.rent': 'കെട്ടിട വാടക', 'val.expcat.tax': 'നികുതി', 'val.expcat.other': 'മറ്റുള്ളവ',
   'val.reqcat.plumbing': 'പ്ലംബിംഗ്', 'val.reqcat.electrical': 'ഇലക്ട്രിക്കൽ', 'val.reqcat.cleaning': 'വൃത്തിയാക്കൽ', 'val.reqcat.wifi': 'വൈഫൈ', 'val.reqcat.food': 'ഭക്ഷണം', 'val.reqcat.furniture': 'ഫർണിച്ചർ', 'val.reqcat.security': 'സുരക്ഷ', 'val.reqcat.noise': 'ശബ്ദശല്യം', 'val.reqcat.other': 'മറ്റുള്ളവ',
-  'val.staffrole.cook': 'പാചകക്കാരൻ', 'val.staffrole.cleaner': 'ക്ലീനർ', 'val.staffrole.warden': 'വാർഡൻ', 'val.staffrole.security': 'സെക്യൂരിറ്റി', 'val.staffrole.maintenance': 'മെയിന്റനൻസ്', 'val.staffrole.manager': 'മാനേജർ', 'val.staffrole.other': 'മറ്റുള്ളവ',
+  'val.staffrole.cook': 'പാചകക്കാരൻ', 'val.staffrole.cleaner': 'ക്ലീനർ', 'val.staffrole.warden': 'വാർഡൻ', 'val.staffrole.security': 'സെക്യൂരിറ്റി', 'val.staffrole.maintenance': 'മെയിന്റനൻസ്', 'val.staffrole.manager': 'മാനേജർ', 'val.staffrole.other': 'മറ്റുള്ളവ (സ്വയം ടൈപ്പ് ചെയ്യുക)',
   'val.audience.all': 'എല്ലാവരും', 'val.audience.tenants': 'താമസക്കാർ', 'val.audience.staff': 'ജീവനക്കാർ', 'val.meal.breakfast': 'പ്രാതൽ', 'val.meal.lunch': 'ഊണ്', 'val.meal.dinner': 'അത്താഴം',
   'val.theme.system': 'ഫോണിലേതുപോലെ', 'val.theme.light': 'ലൈറ്റ്', 'val.theme.dark': 'ഡാർക്ക്', 'val.server.online': 'കണക്റ്റ് ആയി', 'val.server.offline': 'കിട്ടുന്നില്ല', 'val.server.checking': 'നോക്കുന്നു…', 'val.server.idle': 'സെറ്റ് ചെയ്തിട്ടില്ല',
   // activity
@@ -129,5 +129,30 @@ export default {
   'time.am': 'AM', 'time.pm': 'PM', 'time.justNow': 'ഇപ്പോൾ', 'time.minutesAgo': '{n} മിനിറ്റ് മുമ്പ്', 'time.hoursAgo': '{n} മണിക്കൂർ മുമ്പ്', 'time.daysAgo': '{n} ദിവസം മുമ്പ്',
   'month.1': 'ജനുവരി', 'month.2': 'ഫെബ്രുവരി', 'month.3': 'മാർച്ച്', 'month.4': 'ഏപ്രിൽ', 'month.5': 'മേയ്', 'month.6': 'ജൂൺ', 'month.7': 'ജൂലൈ', 'month.8': 'ഓഗസ്റ്റ്', 'month.9': 'സെപ്റ്റംബർ', 'month.10': 'ഒക്ടോബർ', 'month.11': 'നവംബർ', 'month.12': 'ഡിസംബർ',
   'monthShort.1': 'ജനു', 'monthShort.2': 'ഫെബ്രു', 'monthShort.3': 'മാർ', 'monthShort.4': 'ഏപ്രി', 'monthShort.5': 'മേയ്', 'monthShort.6': 'ജൂൺ', 'monthShort.7': 'ജൂലൈ', 'monthShort.8': 'ഓഗ', 'monthShort.9': 'സെപ്റ്റം', 'monthShort.10': 'ഒക്ടോ', 'monthShort.11': 'നവം', 'monthShort.12': 'ഡിസം',
-  'weekday.mon': 'തിങ്കൾ', 'weekday.tue': 'ചൊവ്വ', 'weekday.wed': 'ബുധൻ', 'weekday.thu': 'വ്യാഴം', 'weekday.fri': 'വെള്ളി', 'weekday.sat': 'ശനി', 'weekday.sun': 'ഞായർ'
+  'weekday.mon': 'തിങ്കൾ', 'weekday.tue': 'ചൊവ്വ', 'weekday.wed': 'ബുധൻ', 'weekday.thu': 'വ്യാഴം', 'weekday.fri': 'വെള്ളി', 'weekday.sat': 'ശനി', 'weekday.sun': 'ഞായർ',
+  // PIN sign-in, staff access
+  'nav.mywork': 'എന്റെ ജോലി',
+  'choose.addPg': 'മറ്റൊരു PG ചേർക്കുക',
+  'field.pin': 'സൈൻ ഇൻ PIN',
+  'signin.pinHint': 'ഈ ഫോണിൽ ഈ നമ്പറിനുള്ള PIN. സാമ്പിൾ PG-ക്ക് ഇത് വേണ്ട.',
+  'setup.pinHint': '4 മുതൽ 6 വരെ അക്കങ്ങൾ തിരഞ്ഞെടുക്കുക.',
+  'pin.set': 'സൈൻ ഇൻ PIN സജ്ജമാക്കുക',
+  'pin.title': '{name}-ന്റെ സൈൻ ഇൻ PIN',
+  'pin.body': 'മൊബൈൽ നമ്പറും ഈ PIN-ഉം വച്ചാണ് അവർ ഈ ഫോണിൽ സൈൻ ഇൻ ചെയ്യുക. ഇത് അവരോട് മാത്രം പറയുക. പുതിയ PIN ഇട്ടാൽ പഴയത് മാറും.',
+  'pin.saved': 'PIN സേവ് ചെയ്തു',
+  'field.access': 'ആപ്പിൽ അവർക്ക് എന്തെല്ലാം ചെയ്യാം',
+  'access.basic': 'സ്വന്തം ജോലി മാത്രം',
+  'access.accounts': 'അക്കൗണ്ട്സ് ഡെസ്ക്',
+  'access.manager': 'മാനേജർ',
+  'access.hint.basic': 'ഹാജർ, ദിവസേനയുള്ള ജോലി, അവർക്ക് ഏൽപ്പിച്ച പരാതികൾ.',
+  'access.hint.accounts': 'താമസക്കാരെ ചേർക്കാം, ബില്ലുകൾ ഉണ്ടാക്കാം, പണമടവ് രേഖപ്പെടുത്താം, ഉറപ്പാക്കാം, ചെലവുകൾ ചേർക്കാം. ശമ്പളം കാണാനോ സെറ്റിംഗ്സ് മാറ്റാനോ കഴിയില്ല.',
+  'access.hint.manager': 'അക്കൗണ്ട്സ് ഡെസ്കിലെ എല്ലാം, കൂടാതെ മുറികൾ, ഒഴിഞ്ഞുപോകൽ, അറിയിപ്പുകൾ, ജീവനക്കാരുടെ ഹാജർ. സെറ്റിംഗ്സോ ജീവനക്കാരെയോ ശമ്പളമോ മാറ്റാൻ കഴിയില്ല.',
+  'field.customRole': 'ജോലിയുടെ പേര്',
+  'staff.customRolePh': 'ഉദാ. തോട്ടക്കാരൻ',
+  'val.staffrole.accountant': 'അക്കൗണ്ടന്റ്',
+  'val.staffrole.operator': 'കമ്പ്യൂട്ടർ ഓപ്പറേറ്റർ',
+  'err.pin_format': 'PIN 4 മുതൽ 6 വരെ അക്കങ്ങൾ ആയിരിക്കണം.',
+  'err.pin_wrong': 'PIN തെറ്റാണ്.',
+  'err.pin_not_set': 'ഈ ഫോണിൽ ഈ നമ്പറിന് PIN ഇട്ടിട്ടില്ല. ഉടമയോട് ഒരെണ്ണം ഇടാൻ പറയുക.',
+  'err.pin_locked': 'പല തവണ തെറ്റി. അഞ്ച് മിനിറ്റ് കഴിഞ്ഞ് വീണ്ടും ശ്രമിക്കുക.'
 };

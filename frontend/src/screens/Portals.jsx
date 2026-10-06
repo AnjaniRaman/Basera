@@ -5,7 +5,7 @@ import { tenantOverview, activeNotices, menuFor, addDays, MEALS, tasksFor, atten
 import { useApp } from '../app/store.jsx';
 import { useI18n } from '../app/i18n.jsx';
 import { useUi, Modal, Input, Empty, Money, StatePill, Stat, Seg, copyText, useForm } from '../ui/kit.jsx';
-import { InvoiceModal, ReceiptModal, RequestCard, RequestForm, NoticeCard, MenuWeek, DocumentsPanel } from './shared.jsx';
+import { InvoiceModal, ReceiptModal, RequestCard, RequestForm, NoticeCard, MenuWeek, DocumentsPanel, roleName } from './shared.jsx';
 
 function PayModal({ amount, invoice, onClose }) {
   const app = useApp();
@@ -93,7 +93,7 @@ export function StaffPortal() {
   const [tab, setTab] = useState('today');
   const me = state.me;
   const tasks = useMemo(() => tasksFor(state, me, today), [state, me, today]);
-  const record = state.attendance.find((a) => a.date === today);
+  const record = state.attendance.find((a) => a.date === today && a.staffId === me.id);
   const now = () => { const d = new Date(); return `${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`; };
   const sum = attendanceSummary(state, me.id, periodOf(today));
   const mine = state.requests.filter((r) => (r.status === 'open' || r.status === 'in_progress') && (!r.assignedTo || r.assignedTo === me.id));
@@ -102,7 +102,7 @@ export function StaffPortal() {
   const done = tasks.filter((x) => x.log).length;
   return (
     <div className="stack lg">
-      <div className="page-head"><div><p className="eyebrow">{state.property.name} · {t(`val.staffrole.${me.role}`)}</p><h1>{t('me.hello', { name: me.name.split(' ')[0] })}</h1></div></div>
+      <div className="page-head"><div><p className="eyebrow">{state.property.name} · {roleName(t, me)}</p><h1>{t('me.hello', { name: me.name.split(' ')[0] })}</h1></div></div>
       <Seg value={tab} onChange={setTab} options={[{ value: 'today', label: t('staffp.today') }, { value: 'requests', label: t('nav.requests'), count: mine.length }, ...(kitchen ? [{ value: 'food', label: t('menu.title') }] : []), { value: 'me', label: t('me.tabMe') }]} />
       {tab === 'today' && (<>
         <div className="card row between wrap" data-testid="staff-attendance"><div><span className="eyebrow">{formatDate(today, 'weekday')}</span><h2>{record?.inAt ? t('staffp.checkedIn', { time: formatTime(record.inAt) }) : t('staffp.notIn')}</h2>{record?.outAt && <p className="small muted">{t('staffp.checkedOut', { time: formatTime(record.outAt) })}</p>}</div>

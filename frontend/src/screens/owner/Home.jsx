@@ -34,7 +34,7 @@ function GetStarted({ state }) {
 }
 
 export default function Home() {
-  const { state, today } = useApp();
+  const { state, today, role } = useApp();
   const { t, formatMoney, formatPeriod, formatRelative, formatDate } = useI18n();
   const { navigate } = useRouter();
   const period = periodOf(today);
@@ -48,7 +48,7 @@ export default function Home() {
     <div className="stack lg">
       <div className="page-head"><div><p className="eyebrow">{formatDate(today, 'weekday')}</p><h1>{state.property.name}</h1></div>
         <div className="row wrap"><button className="btn" onClick={() => navigate('/residents/new')}><UserPlus />{t('res.add')}</button><button className="btn primary" onClick={() => navigate('/billing')}><Receipt />{t('nav.billing')}</button></div></div>
-      <GetStarted state={state} />
+      {role === 'owner' && <GetStarted state={state} />}
       {fresh ? <div className="card"><Empty icon={BedDouble} title={t('home.emptyTitle')} body={t('home.emptyBody')} action={<button className="btn primary" onClick={() => navigate('/rooms')}>{t('rooms.add')}</button>} /></div> : (<>
         <div className="grid c4">
           <Stat label={t('home.collected', { month: formatPeriod(period, true) })} value={formatMoney(v.month.collected)} sub={t('home.ofBilled', { billed: formatMoney(v.month.billed), pct: v.month.collectionRate })} />

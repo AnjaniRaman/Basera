@@ -23,7 +23,7 @@ function publicProperty(property) {
 }
 
 const tenantCard = (t) => ({ id: t.id, name: t.name, roomId: t.roomId, bed: t.bed, status: t.status, occupation: t.occupation, homeTown: t.homeTown });
-const staffCard = (s) => ({ id: s.id, name: s.name, role: s.role, phone: s.phone, active: s.active, shift: s.shift });
+const staffCard = (s) => ({ id: s.id, name: s.name, role: s.role, roleLabel: s.roleLabel, phone: s.phone, active: s.active, shift: s.shift });
 
 export function scopeForTenant(state, tenantId) {
   const me = state.tenants.find((t) => t.id === tenantId);
@@ -56,7 +56,24 @@ export function scopeForTenant(state, tenantId) {
 export function scopeForStaff(state, staffId) {
   const me = state.staff.find((s) => s.id === staffId);
   if (!me) return null;
+  const access = me.active ? me.access || 'basic' : 'basic';
+  if (access !== 'basic') {
+    // Accounts desk / manager: the working books, but never other people's salaries.
+    return {
+      ...state,
+      role: 'staff',
+      access,
+      me: { ...me },
+      staff: state.staff.map((s) => (s.id === me.id ? { ...s } : staffCard(s))),
+      salaryPayments: state.salaryPayments.filter((s) => s.staffId === me.id),
+      expenses: state.expenses.filter((e) => !e.salaryId),
+      attendance: access === 'manager' ? state.attendance : state.attendance.filter((a) => a.staffId === me.id),
+      documents: state.documents.filter((d) => d.ownerType === 'tenant' || d.ownerId === me.id),
+      activity: state.activity.filter((a) => !a.type.startsWith('staff.') && a.type !== 'property.updated')
+    };
+  }
   return {
+    access,
     schemaVersion: state.schemaVersion,
     id: state.id,
     updatedAt: state.updatedAt,

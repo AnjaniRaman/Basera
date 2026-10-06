@@ -20,7 +20,7 @@ export default {
   'start.title': 'మీ PG ని మొదలుపెట్టండి', 'start.rooms': 'మీ రూములు, బెడ్లు జోడించండి', 'start.residents': 'మొదటి నివాసిని జోడించండి', 'start.bills': 'ఈ నెల అద్దె బిల్లులు తయారు చేయండి', 'start.upi': 'నివాసులు చెల్లించడానికి మీ UPI ID జోడించండి', 'start.staff': 'మీ సిబ్బందిని జోడించండి',
   // shell
   'nav.home': 'హోమ్', 'nav.rooms': 'రూములు', 'nav.residents': 'నివాసులు', 'nav.billing': 'అద్దె', 'nav.expenses': 'ఖర్చులు', 'nav.staff': 'సిబ్బంది', 'nav.requests': 'రిక్వెస్ట్‌లు', 'nav.community': 'నోటీసులు, భోజనం', 'nav.reports': 'రిపోర్టులు', 'nav.settings': 'సెట్టింగ్స్',
-  'shell.menu': 'మెనూ', 'shell.more': 'మరిన్ని', 'shell.switch': 'PG లేదా పాత్ర మార్చు', 'shell.previewing': 'మీరు యాప్‌ను {name} ({role}) గా చూస్తున్నారు.', 'shell.stopPreview': 'ఓనర్ వ్యూకి తిరిగి వెళ్ళు',
+  'shell.menu': 'మెనూ', 'shell.more': 'మరిన్ని', 'shell.switch': 'నా PGలు', 'shell.previewing': 'మీరు యాప్‌ను {name} ({role}) గా చూస్తున్నారు.', 'shell.stopPreview': 'ఓనర్ వ్యూకి తిరిగి వెళ్ళు',
   // fields
   'field.address': 'చిరునామా', 'field.amount': 'మొత్తం (₹)', 'field.bed': 'బెడ్', 'field.beds': 'బెడ్లు', 'field.bedsPerRoom': 'రూమ్‌కి బెడ్లు', 'field.category': 'రకం', 'field.city': 'ఊరు', 'field.date': 'తేదీ', 'field.deposit': 'సెక్యూరిటీ డిపాజిట్ (₹)',
   'field.depositPaidNow': 'ఇప్పుడు అందిన డిపాజిట్ (₹)', 'field.description': 'వివరణ', 'field.details': 'వివరాలు', 'field.docKind': 'డాక్యుమెంట్ రకం', 'field.dueDay': 'అద్దె కట్టాల్సిన తేదీ', 'field.electricity': 'కరెంటు', 'field.email': 'ఈమెయిల్', 'field.emailOptional': 'ఈమెయిల్ (ఐచ్ఛికం)',
@@ -104,7 +104,7 @@ export default {
   'val.expcat.groceries': 'కిరాణా', 'val.expcat.electricity': 'కరెంటు బిల్లు', 'val.expcat.water': 'నీళ్ళు', 'val.expcat.gas': 'వంట గ్యాస్', 'val.expcat.internet': 'ఇంటర్నెట్', 'val.expcat.salary': 'జీతం', 'val.expcat.maintenance': 'రిపేర్లు', 'val.expcat.cleaning': 'క్లీనింగ్',
   'val.expcat.rent': 'బిల్డింగ్ అద్దె', 'val.expcat.tax': 'పన్ను', 'val.expcat.other': 'ఇతర',
   'val.reqcat.plumbing': 'ప్లంబింగ్', 'val.reqcat.electrical': 'ఎలక్ట్రికల్', 'val.reqcat.cleaning': 'క్లీనింగ్', 'val.reqcat.wifi': 'Wi-Fi', 'val.reqcat.food': 'భోజనం', 'val.reqcat.furniture': 'ఫర్నిచర్', 'val.reqcat.security': 'సెక్యూరిటీ', 'val.reqcat.noise': 'శబ్దం', 'val.reqcat.other': 'ఇతర',
-  'val.staffrole.cook': 'వంటమనిషి', 'val.staffrole.cleaner': 'క్లీనర్', 'val.staffrole.warden': 'వార్డెన్', 'val.staffrole.security': 'సెక్యూరిటీ', 'val.staffrole.maintenance': 'మెయింటెనెన్స్', 'val.staffrole.manager': 'మేనేజర్', 'val.staffrole.other': 'ఇతర',
+  'val.staffrole.cook': 'వంటమనిషి', 'val.staffrole.cleaner': 'క్లీనర్', 'val.staffrole.warden': 'వార్డెన్', 'val.staffrole.security': 'సెక్యూరిటీ', 'val.staffrole.maintenance': 'మెయింటెనెన్స్', 'val.staffrole.manager': 'మేనేజర్', 'val.staffrole.other': 'ఇతర (మీరే టైప్ చేయండి)',
   'val.audience.all': 'అందరూ', 'val.audience.tenants': 'నివాసులు', 'val.audience.staff': 'సిబ్బంది', 'val.meal.breakfast': 'టిఫిన్', 'val.meal.lunch': 'మధ్యాహ్న భోజనం', 'val.meal.dinner': 'రాత్రి భోజనం',
   'val.theme.system': 'ఫోన్ ప్రకారం', 'val.theme.light': 'లైట్', 'val.theme.dark': 'డార్క్', 'val.server.online': 'కనెక్ట్ అయింది', 'val.server.offline': 'అందుబాటులో లేదు', 'val.server.checking': 'చూస్తున్నాం…', 'val.server.idle': 'సెట్ చేయలేదు',
   // activity
@@ -129,5 +129,29 @@ export default {
   'time.am': 'AM', 'time.pm': 'PM', 'time.justNow': 'ఇప్పుడే', 'time.minutesAgo': '{n} ని. క్రితం', 'time.hoursAgo': '{n} గం. క్రితం', 'time.daysAgo': '{n} రో. క్రితం',
   'month.1': 'జనవరి', 'month.2': 'ఫిబ్రవరి', 'month.3': 'మార్చి', 'month.4': 'ఏప్రిల్', 'month.5': 'మే', 'month.6': 'జూన్', 'month.7': 'జూలై', 'month.8': 'ఆగస్టు', 'month.9': 'సెప్టెంబర్', 'month.10': 'అక్టోబర్', 'month.11': 'నవంబర్', 'month.12': 'డిసెంబర్',
   'monthShort.1': 'జన', 'monthShort.2': 'ఫిబ్ర', 'monthShort.3': 'మార్చి', 'monthShort.4': 'ఏప్రి', 'monthShort.5': 'మే', 'monthShort.6': 'జూన్', 'monthShort.7': 'జూలై', 'monthShort.8': 'ఆగ', 'monthShort.9': 'సెప్టెం', 'monthShort.10': 'అక్టో', 'monthShort.11': 'నవం', 'monthShort.12': 'డిసెం',
-  'weekday.mon': 'సోమవారం', 'weekday.tue': 'మంగళవారం', 'weekday.wed': 'బుధవారం', 'weekday.thu': 'గురువారం', 'weekday.fri': 'శుక్రవారం', 'weekday.sat': 'శనివారం', 'weekday.sun': 'ఆదివారం'
+  'weekday.mon': 'సోమవారం', 'weekday.tue': 'మంగళవారం', 'weekday.wed': 'బుధవారం', 'weekday.thu': 'గురువారం', 'weekday.fri': 'శుక్రవారం', 'weekday.sat': 'శనివారం', 'weekday.sun': 'ఆదివారం',
+  'nav.mywork': 'నా పని',
+  'choose.addPg': 'మరో PG జోడించు',
+  'field.pin': 'సైన్-ఇన్ PIN',
+  'signin.pinHint': 'ఈ పరికరంలో ఈ నంబర్‌కు ఉన్న PIN. నమూనా PGకి అవసరం లేదు.',
+  'setup.pinHint': '4 నుండి 6 అంకెలు ఎంచుకోండి.',
+  'pin.set': 'సైన్-ఇన్ PIN సెట్ చేయి',
+  'pin.title': '{name} కోసం సైన్-ఇన్ PIN',
+  'pin.body': 'వారు ఈ పరికరంలో తమ మొబైల్ నంబర్ మరియు ఈ PINతో సైన్ ఇన్ చేస్తారు. దీన్ని వారికి మాత్రమే చెప్పండి. కొత్త PIN సెట్ చేస్తే పాతది రద్దవుతుంది.',
+  'pin.saved': 'PIN సేవ్ అయింది',
+  'field.access': 'యాప్‌లో వారు ఏమి చేయగలరు',
+  'access.basic': 'సొంత పని మాత్రమే',
+  'access.accounts': 'అకౌంట్స్ డెస్క్',
+  'access.manager': 'మేనేజర్',
+  'access.hint.basic': 'హాజరు, రోజువారీ పని మరియు వారికి అప్పగించిన అభ్యర్థనలు.',
+  'access.hint.accounts': 'నివాసితులను జోడించగలరు, బిల్లులు తయారు చేయగలరు, చెల్లింపులను నమోదు చేసి నిర్ధారించగలరు, ఖర్చులు జోడించగలరు. జీతాలు చూడలేరు, సెట్టింగ్‌లు మార్చలేరు.',
+  'access.hint.manager': 'అకౌంట్స్ డెస్క్‌లోని అన్నీ, అదనంగా గదులు, ఖాళీ చేయడాలు, నోటీసులు మరియు సిబ్బంది హాజరు. సెట్టింగ్‌లు, సిబ్బంది లేదా జీతాలను మార్చలేరు.',
+  'field.customRole': 'పాత్ర పేరు',
+  'staff.customRolePh': 'ఉదా. తోటమాలి',
+  'val.staffrole.accountant': 'అకౌంటెంట్',
+  'val.staffrole.operator': 'కంప్యూటర్ ఆపరేటర్',
+  'err.pin_format': 'PIN 4 నుండి 6 అంకెలు ఉండాలి.',
+  'err.pin_wrong': 'తప్పు PIN.',
+  'err.pin_not_set': 'ఈ పరికరంలో ఈ నంబర్‌కు PIN సెట్ చేయలేదు. సెట్ చేయమని ఓనర్‌ను అడగండి.',
+  'err.pin_locked': 'చాలాసార్లు తప్పుగా ప్రయత్నించారు. ఐదు నిమిషాల తర్వాత మళ్ళీ ప్రయత్నించండి.'
 };

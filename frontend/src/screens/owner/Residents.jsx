@@ -5,7 +5,7 @@ import { useApp } from '../../app/store.jsx';
 import { useI18n } from '../../app/i18n.jsx';
 import { useRouter, Link } from '../../app/router.jsx';
 import { useUi, Modal, Input, Select, Seg, Empty, Money, Avatar, StatePill, Stat, useForm, copyText } from '../../ui/kit.jsx';
-import { InvoiceModal, ReceiptModal, PaymentModal, DocumentsPanel } from '../shared.jsx';
+import { InvoiceModal, ReceiptModal, PaymentModal, DocumentsPanel, PinModal } from '../shared.jsx';
 
 function freeBeds(state, room, exceptTenantId) {
   if (!room) return [];
@@ -144,7 +144,7 @@ export function ResidentDetail({ id }) {
         <div className="row wrap">
           {isLiving(tenant) && <button className="btn primary" onClick={() => setModal({ pay: true })} data-testid="resident-pay">{t('pay.record')}</button>}
           <button className="btn" onClick={() => navigate(`/residents/${tenant.id}/edit`)}>{t('common.edit')}</button>
-          {isLiving(tenant) && app.full && <button className="btn" onClick={() => app.startPreview('tenant', tenant.id, tenant.name)} data-testid="view-as"><Eye />{t('res.viewAs')}</button>}
+          {isLiving(tenant) && app.full && app.role === 'owner' && <button className="btn" onClick={() => app.startPreview('tenant', tenant.id, tenant.name)} data-testid="view-as"><Eye />{t('res.viewAs')}</button>}
         </div>
       </div>
       {tenant.status === 'notice' && <div className="banner info">{t('res.onNotice', { date: formatDate(tenant.leaveOn) })}<button className="btn sm" onClick={() => ui.run(() => app.dispatch({ type: 'tenant.cancelNotice', payload: { tenantId: tenant.id } }), t('toast.saved'))}>{t('res.cancelNotice')}</button></div>}
@@ -182,13 +182,15 @@ export function ResidentDetail({ id }) {
           {isLiving(tenant) && (<div className="card stack"><h2>{t('res.stay')}</h2><div className="row wrap">
             <button className="btn sm" onClick={() => setModal({ move: true })}>{t('res.move')}</button>
             {tenant.status === 'active' && <button className="btn sm" onClick={notice}>{t('res.giveNotice')}</button>}
-            <button className="btn sm danger" onClick={() => setModal({ settle: true })} data-testid="resident-moveout"><LogOut />{t('res.moveOut')}</button></div></div>)}
+            {app.mode === 'local' && app.role === 'owner' && <button className="btn sm" onClick={() => setModal({ pin: true })}>{t('pin.set')}</button>}
+            {app.can('tenant.settle') && <button className="btn sm danger" onClick={() => setModal({ settle: true })} data-testid="resident-moveout"><LogOut />{t('res.moveOut')}</button>}</div></div>)}
         </div>
       </div>
       {modal?.invoice && <InvoiceModal invoiceId={modal.invoice} onClose={() => setModal(null)} onPay={(inv) => setModal({ pay: true, invoice: inv })} />}
       {modal?.pay && <PaymentModal tenantId={tenant.id} invoice={typeof modal.invoice === 'object' ? modal.invoice : null} onClose={() => setModal(null)} onDone={(pid) => setModal({ receipt: pid })} />}
       {modal?.receipt && <ReceiptModal paymentId={modal.receipt} onClose={() => setModal(null)} />}
       {modal?.settle && <SettleModal tenant={tenant} onClose={() => setModal(null)} />}
+      {modal?.pin && <PinModal phone={tenant.phone} name={tenant.name} onClose={() => setModal(null)} />}
       {modal?.move && <MoveModal tenant={tenant} onClose={() => setModal(null)} />}
     </div>
   );

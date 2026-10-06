@@ -111,6 +111,8 @@ export function buildSampleState(opts = {}) {
   const cook = run('staff.add', { name: 'Lakshmi Prasad', phone: '9848012345', role: 'cook', salary: 14000, payDay: 1, joinedOn: addDays(today, -380), shift: '6:00 – 14:00' }, at(addDays(today, -380))).staffId;
   const cleaner = run('staff.add', { name: 'Ravi Kumar', phone: '9848054321', role: 'cleaner', salary: 9000, payDay: 1, joinedOn: addDays(today, -300), shift: '7:00 – 12:00' }, at(addDays(today, -300))).staffId;
   const warden = run('staff.add', { name: 'Suresh Babu', phone: '9848098765', role: 'warden', salary: 16000, payDay: 1, joinedOn: addDays(today, -390), shift: 'Night' }, at(addDays(today, -390))).staffId;
+  run('staff.add', { name: 'Fatima Sheikh', phone: '9848011223', role: 'accountant', access: 'accounts', salary: 15000, payDay: 1, joinedOn: addDays(today, -40), shift: '10:00 – 18:00' }, at(addDays(today, -40)));
+  run('staff.update', { staffId: warden, access: 'manager' }, at(addDays(today, -200)));
   const tasks = [
     ['Breakfast ready by 7:30', 'cook', '07:00'], ['Lunch tiffin packing', 'cook', '11:30'], ['Dinner ready by 20:00', 'cook', '19:00'],
     ['Kitchen deep clean', 'cook', '14:00'], ['Sweep and mop all floors', 'cleaner', '07:30'], ['Clean common bathrooms', 'cleaner', '09:00'],

@@ -268,3 +268,31 @@ test('leaving inside a prorated first month credits the days not stayed', () => 
   assert.equal(get().invoices[0].total, 2000);
   assert.equal(res.refund, 4200);
 });
+
+test('delegated access: accounts desk and manager can do the daily work, never settings, staff or salaries', () => {
+  const { run, get } = setup({ electricityMode: 'none' });
+  const { roomId } = run('room.add', { number: '701', floor: 7, beds: 2, rent: 5000 });
+  const desk = run('staff.add', { name: 'Desk', phone: '9000000091', role: 'other', roleLabel: 'Front desk', access: 'accounts', salary: 12000, joinedOn: '2026-01-01' }).staffId;
+  const plain = run('staff.add', { name: 'Cook', phone: '9000000092', role: 'cook', salary: 9000, joinedOn: '2026-01-01' }).staffId;
+  const mgr = run('staff.add', { name: 'Mgr', phone: '9000000093', role: 'manager', access: 'manager', salary: 20000, joinedOn: '2026-01-01' }).staffId;
+  assert.equal(get().staff[0].roleLabel, 'Front desk');
+  const D = { role: 'staff', refId: desk, name: 'Desk' }; const P = { role: 'staff', refId: plain, name: 'Cook' }; const M = { role: 'staff', refId: mgr, name: 'Mgr' };
+  const t = run('tenant.add', { name: 'K', phone: '9000000094', roomId, bed: 'A', rent: 5000, joinedOn: '2026-10-01' }, D).tenantId;
+  run('billing.generate', { period: '2026-10' }, D);
+  run('payment.record', { tenantId: t, amount: 5000, date: '2026-10-06', mode: 'cash' }, D);
+  assert.equal(get().payments[0].collectedBy, 'Desk');
+  for (const [type, payload] of [['property.update', { name: 'X' }], ['staff.update', { staffId: desk, access: 'manager' }], ['staff.paySalary', { staffId: desk, period: '2026-09', amount: 1, date: '2026-10-01' }], ['payment.delete', { paymentId: get().payments[0].id }], ['room.add', { number: '702', beds: 1, rent: 1 }], ['tenant.settle', { tenantId: t, leftOn: '2026-10-06' }]]) {
+    assert.throws(() => run(type, payload, D), (e) => e.code === 'forbidden', type);
+  }
+  assert.throws(() => run('payment.record', { tenantId: t, amount: 1, date: '2026-10-06', mode: 'cash' }, P), (e) => e.code === 'forbidden');
+  run('room.add', { number: '702', beds: 1, rent: 4000 }, M);
+  run('tenant.settle', { tenantId: t, leftOn: '2026-10-06', deductions: [] }, M);
+  assert.throws(() => run('staff.remove', { staffId: plain }, M), (e) => e.code === 'forbidden');
+  // The desk sees the books but not salaries; a claimed access level in the actor is ignored.
+  const view = scopeState(get(), D);
+  assert.equal(view.access, 'accounts'); assert.ok(view.invoices.length > 0); assert.equal(view.staff.find((s) => s.id === mgr).salary, undefined); assert.equal(view.salaryPayments.length, 0);
+  assert.throws(() => run('room.add', { number: '703', beds: 1, rent: 1 }, { ...P, access: 'manager' }), (e) => e.code === 'forbidden');
+  // Removing access takes effect at once.
+  run('staff.update', { staffId: desk, access: 'basic' });
+  assert.throws(() => run('billing.generate', { period: '2026-11' }, D), (e) => e.code === 'forbidden');
+});
