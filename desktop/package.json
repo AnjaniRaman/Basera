@@ -1,0 +1,21 @@
+{
+  "name": "basera-desktop",
+  "productName": "Basera",
+  "version": "2.0.0",
+  "description": "Desktop app for Basera (Windows, macOS, Linux)",
+  "private": true,
+  "main": "main.js",
+  "author": "Basera",
+  "license": "UNLICENSED",
+  "scripts": {
+    "prepare-app": "node prepare-app.mjs",
+    "start": "npm run prepare-app && electron .",
+    "build:win": "npm run prepare-app && electron-builder --win --x64 && node checksums.mjs",
+    "build:mac": "npm run prepare-app && electron-builder --mac dmg && node checksums.mjs",
+    "build:linux": "npm run prepare-app && electron-builder --linux AppImage && node checksums.mjs"
+  },
+  "devDependencies": {
+    "electron": "^44.4.5",
+    "electron-builder": "^26.15.3"
+  }
+}

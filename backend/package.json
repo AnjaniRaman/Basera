@@ -1,18 +1,21 @@
 {
-  "name": "pg-manager-backend",
-  "version": "1.0.0",
+  "name": "@basera/api",
+  "version": "2.0.0",
   "private": true,
-  "description": "Production Multi-Tenant API for PG Management SaaS",
-  "main": "src/server.js",
+  "description": "Basera API: online accounts, OTP sign-in, property documents, role-scoped snapshots and file storage",
   "type": "module",
+  "main": "src/server.js",
   "scripts": {
     "start": "node src/server.js",
     "dev": "node --watch src/server.js",
-    "db:migrate": "node src/db/migrate.js"
+    "test": "node --test test/*.test.mjs"
   },
   "dependencies": {
+    "@basera/domain": "*",
+    "@electric-sql/pglite": "^0.5.8",
     "cors": "^2.8.5",
-    "dotenv": "^16.4.7",
-    "express": "^4.21.2"
+    "express": "^4.21.2",
+    "pg": "^8.16.3",
+    "zod": "^4.6.5"
   }
 }

@@ -1,37 +1,9 @@
-// backend/src/server.js
-import express from 'express';
-import cors from 'cors';
-import dotenv from 'dotenv';
-import apiRoutes from './routes/api.routes.js';
+import { createApp } from './app.js';
 
-dotenv.config();
+const { app, config, otp } = await createApp();
 
-const app = express();
-const PORT = process.env.PORT || 4000;
-
-// CORS configuration (allow frontend SPA on port 5173 / mobile webview)
-app.use(cors({
-  origin: ['http://localhost:5173', 'http://localhost:3000', 'capacitor://localhost'],
-  credentials: true
-}));
-
-app.use(express.json());
-
-// Mount API Routes
-app.use('/api', apiRoutes);
-
-// Root Welcome
-app.get('/', (req, res) => {
-  res.json({
-    name: 'PG Manager Multi-Tenant Core API',
-    status: 'online',
-    docs: '/api/health',
-    version: '1.0.0'
-  });
+app.listen(config.port, config.host, () => {
+  console.log(`${config.appName} API listening on http://${config.host}:${config.port} (${config.production ? 'production' : 'development'})`);
+  if (otp.provider === 'console') console.log('OTP codes are printed to this log (OTP_PROVIDER=console). Set OTP_PROVIDER=msg91|twilio|webhook for real SMS.');
+  if (config.devOtp) console.log(`A fixed development OTP is enabled (AUTH_DEV_OTP).${config.production ? ' Remove ALLOW_DEV_OTP before going live.' : ''}`);
 });
-
-app.listen(PORT, () => {
-  console.log(`🚀 PG Manager Backend API running on http://localhost:${PORT}`);
-});
-
-export default app;

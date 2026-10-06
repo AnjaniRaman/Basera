@@ -1,0 +1,12 @@
+node_modules/
+dist/
+.env
+*.log
+.DS_Store
+backend/data/
+desktop/app/
+desktop/release/
+frontend/android/upload-keystore.jks
+frontend/android/keystore.properties
+*.jks
+preview/

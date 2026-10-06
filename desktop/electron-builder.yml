@@ -1,0 +1,35 @@
+appId: in.basera.app
+productName: Basera
+copyright: Basera
+directories:
+  output: release
+  buildResources: build
+files:
+  - main.js
+  - app/**/*
+  - package.json
+asar: true
+win:
+  target:
+    - target: nsis
+      arch: [x64]
+    - target: portable
+      arch: [x64]
+portable:
+  artifactName: Basera-${version}-portable.exe
+nsis:
+  oneClick: false
+  perMachine: false
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+  shortcutName: Basera
+  artifactName: Basera-Setup-${version}.exe
+mac:
+  category: public.app-category.business
+  target: [dmg]
+linux:
+  target: [AppImage]
+  category: Office
+
+publish: null

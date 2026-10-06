@@ -1,16 +1,27 @@
 {
-  "name": "pg-manager-workspace",
-  "version": "1.0.0",
+  "name": "basera",
+  "version": "2.0.0",
   "private": true,
-  "description": "Multi-Tenant PG Accommodation Management Platform (Web, Android, iOS)",
+  "description": "Basera: PG and hostel management for owners, residents and staff in one app (web, Android, iOS, Windows)",
   "workspaces": [
-    "frontend",
-    "backend"
+    "shared",
+    "backend",
+    "frontend"
   ],
   "scripts": {
-    "dev:frontend": "npm run dev --prefix frontend",
-    "dev:backend": "npm run dev --prefix backend",
-    "build:frontend": "npm run build --prefix frontend",
-    "start:backend": "npm start --prefix backend"
+    "dev": "node scripts/dev.mjs",
+    "build": "npm run build --workspace frontend",
+    "start": "npm start --workspace backend",
+    "test": "npm test --workspace shared && npm test --workspace backend",
+    "test:e2e": "node tests/e2e.mjs",
+    "check:locales": "node frontend/scripts/check-locales.mjs",
+    "lint": "npm run lint --workspace frontend",
+    "preview:build": "node scripts/make-preview.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "devDependencies": {
+    "playwright": "^1.56.0"
   }
 }

@@ -1,0 +1,18 @@
+{
+  "name": "@basera/domain",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Basera domain model: billing engine, reducer, selectors and role scoping shared by the app and the API",
+  "type": "module",
+  "main": "./src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./sample": "./src/sample.js"
+  },
+  "scripts": {
+    "test": "node --test test/*.test.mjs"
+  },
+  "dependencies": {
+    "zod": "^4.6.5"
+  }
+}
