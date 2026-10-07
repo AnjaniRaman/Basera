@@ -2,6 +2,8 @@
 
 PG and hostel management for owners, residents and staff in one app: web, Android, iOS and Windows from the same code, in ten Indian languages.
 
+![How Basera works](docs/workflow.png)
+
 ## What it does
 
 **Owner**

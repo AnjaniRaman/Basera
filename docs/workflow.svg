@@ -1,0 +1,108 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="900" viewBox="0 0 1400 900" font-family="Liberation Sans, Arial, Helvetica, sans-serif">
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#4a584f"/></marker>
+    <marker id="ag" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#0e6b55"/></marker>
+    <style>
+      .t{fill:#152019;font-size:15px}.s{fill:#4a584f;font-size:13px}.h{fill:#152019;font-size:20px;font-weight:700}.eyebrow{fill:#7b877f;font-size:11px;font-weight:700;letter-spacing:1.5px}
+      .box{fill:#fff;stroke:#c5ccc3;stroke-width:1.2;rx:10}.lane{fill:#eceeea;rx:12}.green{fill:#0e6b55}.gt{fill:#fff;font-size:15px;font-weight:600}
+      .flow{fill:none;stroke:#4a584f;stroke-width:1.6;marker-end:url(#a)}.flowg{fill:none;stroke:#0e6b55;stroke-width:2;marker-end:url(#ag)}
+      .mono{font-size:12px;fill:#4a584f}.pill{rx:10;fill:#dcefe8}.pt{fill:#094c3c;font-size:11px;font-weight:700}
+    </style>
+  </defs>
+  <rect width="1400" height="900" fill="#f5f6f4"/>
+  <g transform="translate(40,34)">
+    <rect width="30" height="30" rx="8" class="green"/><rect x="6" y="6" width="8" height="8" rx="2" fill="#fff"/><rect x="16" y="6" width="8" height="8" rx="2" fill="#fff"/><rect x="6" y="16" width="8" height="8" rx="2" fill="#fff" opacity=".45"/><rect x="16" y="16" width="8" height="8" rx="2" fill="#fff"/>
+    <text x="42" y="22" class="h">Basera · how the app works</text>
+    <text x="42" y="44" class="s">One app for owners, residents and staff. Every change is a command that one rules engine applies, on the device or on the server.</text>
+  </g>
+
+  <!-- Section 1: people -->
+  <text x="40" y="118" class="eyebrow">1 · WHO SIGNS IN</text>
+  <g>
+    <rect x="40" y="130" width="300" height="150" class="lane"/>
+    <text x="60" y="158" class="t" font-weight="700">Owner</text>
+    <text x="60" y="180" class="s">Rooms and beds · residents · rent bills</text>
+    <text x="60" y="198" class="s">payments and receipts · expenses · staff</text>
+    <text x="60" y="216" class="s">notices · menu · reports · settings</text>
+    <rect x="60" y="236" width="140" height="22" class="pill"/><text x="70" y="251" class="pt">ONE SIGN-IN, MANY PGs</text>
+
+    <rect x="360" y="130" width="300" height="150" class="lane"/>
+    <text x="380" y="158" class="t" font-weight="700">Resident</text>
+    <text x="380" y="180" class="s">Amount due · bills · receipts</text>
+    <text x="380" y="198" class="s">pay by UPI → "I have paid" · requests</text>
+    <text x="380" y="216" class="s">skip a meal · notices · give notice · ID upload</text>
+    <rect x="380" y="236" width="178" height="22" class="pill"/><text x="390" y="251" class="pt">SEES ONLY THEIR OWN DATA</text>
+
+    <rect x="680" y="130" width="300" height="150" class="lane"/>
+    <text x="700" y="158" class="t" font-weight="700">Staff</text>
+    <text x="700" y="180" class="s">Check in / out · daily checklist</text>
+    <text x="700" y="198" class="s">requests assigned to them · plate counts</text>
+    <text x="700" y="216" class="s">Accounts desk / Manager: owner's daily work</text>
+    <rect x="700" y="236" width="214" height="22" class="pill"/><text x="710" y="251" class="pt">ACCESS LEVEL SET BY THE OWNER</text>
+
+    <rect x="1000" y="130" width="360" height="150" class="box"/>
+    <text x="1020" y="158" class="t" font-weight="700">Sign-in</text>
+    <text x="1020" y="182" class="s">Online account: phone number + one-time code</text>
+    <text x="1020" y="200" class="s">by SMS (or email + password).</text>
+    <text x="1020" y="224" class="s">Shared device, no server: phone number + 4–6 digit</text>
+    <text x="1020" y="242" class="s">PIN per person; 5 wrong tries lock it for 5 minutes.</text>
+    <text x="1020" y="266" class="s">Who you are decides what you see and may do.</text>
+  </g>
+
+  <!-- Section 2: engine -->
+  <text x="40" y="330" class="eyebrow">2 · ONE RULES ENGINE, TWO PLACES TO KEEP DATA</text>
+  <path class="flow" d="M190 280 L190 345 L470 345 L470 360"/>
+  <path class="flow" d="M510 280 L510 360"/>
+  <path class="flow" d="M830 280 L830 345 L550 345 L550 360"/>
+  <rect x="330" y="360" width="380" height="92" rx="12" class="green"/>
+  <text x="350" y="388" class="gt">Command</text>
+  <text x="350" y="410" fill="#dcefe8" font-size="13">tenant.add · billing.generate · payment.claim</text>
+  <text x="350" y="430" fill="#dcefe8" font-size="13">payment.confirm · meter.record · tenant.settle · notice.post …</text>
+
+  <path class="flowg" d="M520 452 L520 480"/>
+  <rect x="120" y="480" width="820" height="118" class="box"/>
+  <text x="140" y="508" class="t" font-weight="700">shared/ · validate → check role and access → apply rules → log activity</text>
+  <text x="140" y="532" class="s">Billing: rent by the day for part months · electricity per room split by meter reading · charges, discounts, late fees after grace</text>
+  <text x="140" y="552" class="s">Payments: oldest bill first, overpayment kept as advance, numbered receipts · Move-out: unused days credited, dues from deposit</text>
+  <text x="140" y="572" class="s">Scoping: residents see only themselves, staff see their work (or the books, with access) · tested against 14 rule tests</text>
+
+  <path class="flow" d="M360 598 L360 640"/>
+  <path class="flow" d="M680 598 L680 640"/>
+  <rect x="200" y="640" width="300" height="110" class="box"/>
+  <text x="220" y="668" class="t" font-weight="700">This device only</text>
+  <text x="220" y="692" class="s">Browser storage (IndexedDB). No account,</text>
+  <text x="220" y="710" class="s">no server. Backup and restore from Settings;</text>
+  <text x="220" y="728" class="s">copy to an online account any time.</text>
+
+  <rect x="540" y="640" width="300" height="110" class="box"/>
+  <text x="560" y="668" class="t" font-weight="700">Online account (API)</text>
+  <text x="560" y="692" class="s">Express + PostgreSQL (or embedded PGlite).</text>
+  <text x="560" y="710" class="s">Same engine runs on the server; phones poll for</text>
+  <text x="560" y="728" class="s">changes, so a claim shows up on the owner's phone.</text>
+
+  <!-- Section 3: monthly cycle -->
+  <text x="1000" y="330" class="eyebrow">3 · THE MONTHLY RENT CYCLE</text>
+  <g transform="translate(1000,345)">
+    <rect width="360" height="405" class="box"/>
+    <g class="mono">
+      <g transform="translate(20,30)"><circle cx="8" cy="-4" r="8" class="green"/><text x="5" y="0" fill="#fff" font-size="11" font-weight="700">1</text><text x="26" y="0" class="t" font-size="14" font-weight="600">Record meter readings per room</text><text x="26" y="18" class="s">units × rate, split among the room</text></g>
+      <g transform="translate(20,80)"><circle cx="8" cy="-4" r="8" class="green"/><text x="5" y="0" fill="#fff" font-size="11" font-weight="700">2</text><text x="26" y="0" class="t" font-size="14" font-weight="600">Generate bills for the month</text><text x="26" y="18" class="s">INV-2610-001 … due on the 5th</text></g>
+      <g transform="translate(20,130)"><circle cx="8" cy="-4" r="8" class="green"/><text x="5" y="0" fill="#fff" font-size="11" font-weight="700">3</text><text x="26" y="0" class="t" font-size="14" font-weight="600">Resident pays by UPI, taps "I have paid"</text><text x="26" y="18" class="s">money goes straight to the owner</text></g>
+      <g transform="translate(20,180)"><circle cx="8" cy="-4" r="8" class="green"/><text x="5" y="0" fill="#fff" font-size="11" font-weight="700">4</text><text x="26" y="0" class="t" font-size="14" font-weight="600">Owner confirms → receipt RCP-0031</text><text x="26" y="18" class="s">or records cash / bank payments</text></g>
+      <g transform="translate(20,230)"><circle cx="8" cy="-4" r="8" class="green"/><text x="5" y="0" fill="#fff" font-size="11" font-weight="700">5</text><text x="26" y="0" class="t" font-size="14" font-weight="600">Remind who still owes (WhatsApp)</text><text x="26" y="18" class="s">late fee once after the grace period</text></g>
+      <g transform="translate(20,280)"><circle cx="8" cy="-4" r="8" class="green"/><text x="5" y="0" fill="#fff" font-size="11" font-weight="700">6</text><text x="26" y="0" class="t" font-size="14" font-weight="600">Expenses, salaries, reports</text><text x="26" y="18" class="s">income vs spending, age of dues, CSV</text></g>
+      <g transform="translate(20,330)"><circle cx="8" cy="-4" r="8" class="green"/><text x="5" y="0" fill="#fff" font-size="11" font-weight="700">7</text><text x="26" y="0" class="t" font-size="14" font-weight="600">Move-out: settle against the deposit</text><text x="26" y="18" class="s">unused days credited, bed freed</text></g>
+    </g>
+    <path d="M24 44 L24 334" fill="none" stroke="#dcefe8" stroke-width="3"/>
+  </g>
+
+  <!-- Section 4: platforms -->
+  <text x="40" y="800" class="eyebrow">4 · ONE CODEBASE, EVERY DEVICE</text>
+  <g transform="translate(40,815)">
+    <rect width="150" height="44" class="box"/><text x="16" y="27" class="t">Web (PWA)</text>
+    <rect x="166" width="150" height="44" class="box"/><text x="182" y="27" class="t">Android (APK)</text>
+    <rect x="332" width="150" height="44" class="box"/><text x="348" y="27" class="t">iOS</text>
+    <rect x="498" width="190" height="44" class="box"/><text x="514" y="27" class="t">Windows (installer)</text>
+    <text x="710" y="18" class="s">React + Vite · Capacitor · Electron · 10 Indian languages · light and dark</text><text x="710" y="36" class="s">GitHub Actions builds the apps on every push</text>
+  </g>
+</svg>
