@@ -136,5 +136,6 @@ export default {
   'pin.saved': 'PIN सेव्ह झाला', 'field.access': 'ते ॲपमध्ये काय करू शकतात', 'access.basic': 'फक्त स्वतःचं काम', 'access.accounts': 'हिशेब डेस्क',
   'access.manager': 'मॅनेजर', 'access.hint.basic': 'हजेरी, रोजचं काम आणि त्यांना दिलेल्या तक्रारी.', 'access.hint.accounts': 'रहिवासी जोडू शकतात, बिलं बनवू शकतात, पेमेंट नोंदवून पक्कं करू शकतात आणि खर्च जोडू शकतात. पगार पाहता येत नाही आणि सेटिंग्ज बदलता येत नाहीत.', 'access.hint.manager': 'हिशेब डेस्कवरचं सगळं, शिवाय खोल्या, खोली सोडणं, सूचना आणि कर्मचाऱ्यांची हजेरी. सेटिंग्ज, कर्मचारी किंवा पगार बदलता येत नाहीत.',
   'field.customRole': 'कामाचं नाव', 'staff.customRolePh': 'उदा. माळी', 'val.staffrole.accountant': 'अकाउंटंट', 'val.staffrole.operator': 'कॉम्प्युटर ऑपरेटर',
-  'err.pin_format': 'PIN ४ ते ६ अंकी असला पाहिजे.', 'err.pin_wrong': 'चुकीचा PIN.', 'err.pin_not_set': 'या डिव्हाइसवर या नंबरसाठी PIN सेट केलेला नाही. मालकाला PIN सेट करायला सांगा.', 'err.pin_locked': 'खूप वेळा चुकीचा PIN टाकला. पाच मिनिटांनी पुन्हा प्रयत्न करा.'
+  'err.pin_format': 'PIN ४ ते ६ अंकी असला पाहिजे.', 'err.pin_wrong': 'चुकीचा PIN.', 'err.pin_not_set': 'या डिव्हाइसवर या नंबरसाठी PIN सेट केलेला नाही. मालकाला PIN सेट करायला सांगा.', 'err.pin_locked': 'खूप वेळा चुकीचा PIN टाकला. पाच मिनिटांनी पुन्हा प्रयत्न करा.',
+  'receipt.whatsapp': "WhatsApp वर पाठवा", 'res.remindWhatsapp': "WhatsApp वर आठवण करा"
 };

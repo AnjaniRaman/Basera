@@ -136,5 +136,6 @@ export default {
   'pin.saved': 'PIN सेव हो गया', 'field.access': 'वे ऐप में क्या कर सकते हैं', 'access.basic': 'सिर्फ़ अपना काम', 'access.accounts': 'हिसाब-किताब डेस्क',
   'access.manager': 'मैनेजर', 'access.hint.basic': 'हाज़िरी, रोज़ का काम और उन्हें सौंपी गई शिकायतें।', 'access.hint.accounts': 'किरायेदार जोड़ सकते हैं, बिल बना सकते हैं, पेमेंट दर्ज और पक्का कर सकते हैं और ख़र्च जोड़ सकते हैं। वेतन नहीं देख सकते और सेटिंग नहीं बदल सकते।', 'access.hint.manager': 'हिसाब-किताब डेस्क का सब कुछ, साथ में कमरे, कमरा ख़ाली कराना, सूचनाएँ और स्टाफ की हाज़िरी। सेटिंग, स्टाफ या वेतन नहीं बदल सकते।',
   'field.customRole': 'काम का नाम', 'staff.customRolePh': 'जैसे माली', 'val.staffrole.accountant': 'अकाउंटेंट', 'val.staffrole.operator': 'कंप्यूटर ऑपरेटर',
-  'err.pin_format': 'PIN 4 से 6 अंकों का होना चाहिए।', 'err.pin_wrong': 'ग़लत PIN।', 'err.pin_not_set': 'इस फ़ोन पर इस नंबर के लिए कोई PIN सेट नहीं है। मालिक से PIN सेट करने को कहें।', 'err.pin_locked': 'बहुत बार ग़लत PIN डाला गया। पाँच मिनट बाद फिर कोशिश करें।'
+  'err.pin_format': 'PIN 4 से 6 अंकों का होना चाहिए।', 'err.pin_wrong': 'ग़लत PIN।', 'err.pin_not_set': 'इस फ़ोन पर इस नंबर के लिए कोई PIN सेट नहीं है। मालिक से PIN सेट करने को कहें।', 'err.pin_locked': 'बहुत बार ग़लत PIN डाला गया। पाँच मिनट बाद फिर कोशिश करें।',
+  'receipt.whatsapp': "WhatsApp पर भेजें", 'res.remindWhatsapp': "WhatsApp पर याद दिलाएँ"
 };

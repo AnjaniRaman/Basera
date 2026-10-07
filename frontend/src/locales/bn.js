@@ -154,5 +154,6 @@ export default {
   'err.pin_format': 'PIN ৪ থেকে ৬টি সংখ্যার হতে হবে।',
   'err.pin_wrong': 'PIN ভুল।',
   'err.pin_not_set': 'এই ফোনে এই নম্বরের জন্য কোনো PIN সেট করা নেই। মালিককে সেট করতে বলুন।',
-  'err.pin_locked': 'অনেকবার ভুল হয়েছে। পাঁচ মিনিট পরে আবার চেষ্টা করুন।'
+  'err.pin_locked': 'অনেকবার ভুল হয়েছে। পাঁচ মিনিট পরে আবার চেষ্টা করুন।',
+  'receipt.whatsapp': "WhatsApp-এ পাঠান", 'res.remindWhatsapp': "WhatsApp-এ মনে করিয়ে দিন"
 };

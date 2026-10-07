@@ -1,7 +1,7 @@
 // Pieces used by more than one portal: bill and receipt views, payment form, documents,
 // requests, notices and the weekly menu.
 import { useEffect, useState } from 'react';
-import { Printer, Copy, Trash2, Upload, FileText, Pin, Check, MessageSquare } from 'lucide-react';
+import { Printer, Copy, Trash2, MessageCircle, Upload, FileText, Pin, Check, MessageSquare } from 'lucide-react';
 import { invoiceBalance, invoiceStatus, PAYMENT_MODES, DOCUMENT_KINDS, REQUEST_CATEGORIES, WEEKDAYS, MEALS, weekdayKey } from '@basera/domain';
 import { useApp } from '../app/store.jsx';
 import { useI18n } from '../app/i18n.jsx';
@@ -33,9 +33,12 @@ export function PinModal({ phone, name, onClose }) {
   );
 }
 
+/** Printing and downloads are blocked inside the embedded preview; the website and the apps have them. */
+export const canPrint = !import.meta.env.VITE_STATIC_ONLY;
 export function printPage() {
-  try { window.print(); } catch { /* blocked in previews */ }
+  try { window.print(); } catch { /* blocked */ }
 }
+export const whatsappLink = (phone, text) => `https://wa.me/91${String(phone || '').replace(/\D/g, '').slice(-10)}?text=${encodeURIComponent(text)}`;
 
 export function InvoiceModal({ invoiceId, onClose, onPay }) {
   const app = useApp();
@@ -56,7 +59,7 @@ export function InvoiceModal({ invoiceId, onClose, onPay }) {
   return (
     <Modal wide title={`${t('bill.title')} ${inv.number}`} onClose={onClose}
       footer={<>
-        <button className="btn no-print" onClick={printPage}><Printer />{t('common.print')}</button>
+        {canPrint && <button className="btn no-print" onClick={printPage}><Printer />{t('common.print')}</button>}
         {app.can('billing.void') && inv.status !== 'void' && inv.paid === 0 && <button className="btn danger" onClick={async () => { if (await ui.confirm({ title: t('bill.voidTitle'), body: t('bill.voidBody'), action: t('bill.void'), danger: true })) { await ui.run(() => app.dispatch({ type: 'billing.void', payload: { invoiceId } }), t('toast.saved')); onClose(); } }}>{t('bill.void')}</button>}
         {balance > 0 && onPay && <button className="btn primary" onClick={() => onPay(inv)} data-testid="invoice-pay">{owner ? t('pay.record') : t('pay.payNow')}</button>}
       </>}>
@@ -106,7 +109,8 @@ export function ReceiptModal({ paymentId, onClose }) {
     <Modal title={`${t('receipt.title')} ${p.number || ''}`} onClose={onClose}
       footer={<>
         <button className="btn no-print" onClick={async () => ui.toast((await copyText(text)) ? t('toast.copied') : text)}><Copy />{t('receipt.copy')}</button>
-        <button className="btn primary no-print" onClick={printPage}><Printer />{t('common.print')}</button>
+        {tenant?.phone && app.manages && <a className="btn primary no-print" href={whatsappLink(tenant.phone, text)} target="_blank" rel="noreferrer"><MessageCircle />{t('receipt.whatsapp')}</a>}
+        {canPrint && <button className="btn no-print" onClick={printPage}><Printer />{t('common.print')}</button>}
       </>}>
       <div className="receipt stack">
         <div><h2>{prop.name}</h2><p className="small muted">{[prop.address, prop.city].filter(Boolean).join(', ')}</p></div>

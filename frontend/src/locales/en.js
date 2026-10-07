@@ -27,6 +27,7 @@ export default {
   'access.hint.accounts': 'Can add residents, make bills, record and confirm payments and add expenses. Cannot see salaries or change settings.', 'access.hint.manager': 'Everything on the accounts desk, plus rooms, move-outs, notices and staff attendance. Cannot change settings, staff or salaries.',
   'field.customRole': 'Role name', 'staff.customRolePh': 'e.g. Gardener', 'val.staffrole.accountant': 'Accountant', 'val.staffrole.operator': 'Computer operator',
   'err.pin_format': 'The PIN must be 4 to 6 digits.', 'err.pin_wrong': 'Wrong PIN.', 'err.pin_not_set': 'No PIN is set for this number on this device. Ask the owner to set one.', 'err.pin_locked': 'Too many wrong tries. Try again in five minutes.',
+  'receipt.whatsapp': 'Send on WhatsApp', 'res.remindWhatsapp': 'Remind on WhatsApp',
   'shell.menu': 'Menu', 'shell.more': 'More', 'shell.switch': 'My PGs', 'shell.previewing': 'You are viewing the app as {name} ({role}).', 'shell.stopPreview': 'Back to owner view',
   // fields
   'field.address': 'Address', 'field.amount': 'Amount (₹)', 'field.bed': 'Bed', 'field.beds': 'Beds', 'field.bedsPerRoom': 'Beds per room', 'field.category': 'Category', 'field.city': 'City', 'field.date': 'Date', 'field.deposit': 'Security deposit (₹)',

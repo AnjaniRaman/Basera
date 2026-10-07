@@ -5,7 +5,7 @@ import { useApp } from '../../app/store.jsx';
 import { useI18n } from '../../app/i18n.jsx';
 import { useRouter, Link } from '../../app/router.jsx';
 import { useUi, Modal, Input, Select, Seg, Empty, Money, Avatar, StatePill, Stat, useForm, copyText } from '../../ui/kit.jsx';
-import { InvoiceModal, ReceiptModal, PaymentModal, DocumentsPanel, PinModal } from '../shared.jsx';
+import { InvoiceModal, ReceiptModal, PaymentModal, DocumentsPanel, PinModal, whatsappLink } from '../shared.jsx';
 
 function freeBeds(state, room, exceptTenantId) {
   if (!room) return [];
@@ -177,7 +177,7 @@ export function ResidentDetail({ id }) {
             {tenant.idType && (<><dt>{tv('val.id', tenant.idType)}</dt><dd className="num">{tenant.idNumber}</dd></>)}
             {tenant.emergencyPhone && (<><dt>{t('field.emergencyName')}</dt><dd>{tenant.emergencyName} · <span className="num">{tenant.emergencyPhone}</span></dd></>)}
           </dl>
-            {ledger.net > 0 && <button className="btn sm" onClick={async () => ui.toast((await copyText(reminder)) ? t('toast.reminderCopied') : reminder)}><Copy />{t('res.copyReminder')}</button>}</div>
+            {ledger.net > 0 && <div className="row wrap"><a className="btn sm primary" href={whatsappLink(tenant.phone, reminder)} target="_blank" rel="noreferrer">{t('res.remindWhatsapp')}</a><button className="btn sm" onClick={async () => ui.toast((await copyText(reminder)) ? t('toast.reminderCopied') : reminder)}><Copy />{t('res.copyReminder')}</button></div>}</div>
           <div className="card stack"><h2>{t('docs.title')}</h2><DocumentsPanel ownerType="tenant" ownerId={tenant.id} /></div>
           {isLiving(tenant) && (<div className="card stack"><h2>{t('res.stay')}</h2><div className="row wrap">
             <button className="btn sm" onClick={() => setModal({ move: true })}>{t('res.move')}</button>

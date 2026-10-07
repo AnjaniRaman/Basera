@@ -154,5 +154,6 @@ export default {
   'err.pin_format': 'PIN 4 മുതൽ 6 വരെ അക്കങ്ങൾ ആയിരിക്കണം.',
   'err.pin_wrong': 'PIN തെറ്റാണ്.',
   'err.pin_not_set': 'ഈ ഫോണിൽ ഈ നമ്പറിന് PIN ഇട്ടിട്ടില്ല. ഉടമയോട് ഒരെണ്ണം ഇടാൻ പറയുക.',
-  'err.pin_locked': 'പല തവണ തെറ്റി. അഞ്ച് മിനിറ്റ് കഴിഞ്ഞ് വീണ്ടും ശ്രമിക്കുക.'
+  'err.pin_locked': 'പല തവണ തെറ്റി. അഞ്ച് മിനിറ്റ് കഴിഞ്ഞ് വീണ്ടും ശ്രമിക്കുക.',
+  'receipt.whatsapp': "WhatsApp-ൽ അയയ്ക്കുക", 'res.remindWhatsapp': "WhatsApp-ൽ ഓർമ്മിപ്പിക്കുക"
 };

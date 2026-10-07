@@ -136,5 +136,6 @@ export default {
   'pin.saved': 'PIN ਸੇਵ ਹੋ ਗਿਆ', 'field.access': 'ਉਹ ਐਪ ਵਿੱਚ ਕੀ ਕਰ ਸਕਦੇ ਹਨ', 'access.basic': 'ਸਿਰਫ਼ ਆਪਣਾ ਕੰਮ', 'access.accounts': 'ਹਿਸਾਬ-ਕਿਤਾਬ ਡੈਸਕ',
   'access.manager': 'ਮੈਨੇਜਰ', 'access.hint.basic': 'ਹਾਜ਼ਰੀ, ਰੋਜ਼ ਦਾ ਕੰਮ ਤੇ ਉਨ੍ਹਾਂ ਨੂੰ ਦਿੱਤੀਆਂ ਬੇਨਤੀਆਂ।', 'access.hint.accounts': 'ਕਿਰਾਏਦਾਰ ਜੋੜ ਸਕਦੇ ਹਨ, ਬਿੱਲ ਬਣਾ ਸਕਦੇ ਹਨ, ਭੁਗਤਾਨ ਦਰਜ ਤੇ ਪੱਕੇ ਕਰ ਸਕਦੇ ਹਨ ਅਤੇ ਖ਼ਰਚੇ ਜੋੜ ਸਕਦੇ ਹਨ। ਤਨਖ਼ਾਹਾਂ ਨਹੀਂ ਵੇਖ ਸਕਦੇ ਤੇ ਸੈਟਿੰਗਾਂ ਨਹੀਂ ਬਦਲ ਸਕਦੇ।', 'access.hint.manager': 'ਹਿਸਾਬ-ਕਿਤਾਬ ਡੈਸਕ ਦਾ ਸਭ ਕੁਝ, ਨਾਲ ਹੀ ਕਮਰੇ, ਕਮਰਾ ਖਾਲੀ ਕਰਾਉਣਾ, ਨੋਟਿਸ ਤੇ ਸਟਾਫ਼ ਦੀ ਹਾਜ਼ਰੀ। ਸੈਟਿੰਗਾਂ, ਸਟਾਫ਼ ਜਾਂ ਤਨਖ਼ਾਹਾਂ ਨਹੀਂ ਬਦਲ ਸਕਦੇ।',
   'field.customRole': 'ਕੰਮ ਦਾ ਨਾਂ', 'staff.customRolePh': 'ਜਿਵੇਂ ਮਾਲੀ', 'val.staffrole.accountant': 'ਅਕਾਊਂਟੈਂਟ', 'val.staffrole.operator': 'ਕੰਪਿਊਟਰ ਆਪਰੇਟਰ',
-  'err.pin_format': 'PIN 4 ਤੋਂ 6 ਅੰਕਾਂ ਦਾ ਹੋਣਾ ਚਾਹੀਦਾ ਹੈ।', 'err.pin_wrong': 'ਗ਼ਲਤ PIN।', 'err.pin_not_set': 'ਇਸ ਫ਼ੋਨ ਤੇ ਇਸ ਨੰਬਰ ਲਈ ਕੋਈ PIN ਸੈੱਟ ਨਹੀਂ ਹੈ। ਮਾਲਕ ਨੂੰ PIN ਸੈੱਟ ਕਰਨ ਲਈ ਕਹੋ।', 'err.pin_locked': 'ਬਹੁਤ ਵਾਰ ਗ਼ਲਤ PIN ਪਾਇਆ ਗਿਆ। ਪੰਜ ਮਿੰਟ ਬਾਅਦ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ।'
+  'err.pin_format': 'PIN 4 ਤੋਂ 6 ਅੰਕਾਂ ਦਾ ਹੋਣਾ ਚਾਹੀਦਾ ਹੈ।', 'err.pin_wrong': 'ਗ਼ਲਤ PIN।', 'err.pin_not_set': 'ਇਸ ਫ਼ੋਨ ਤੇ ਇਸ ਨੰਬਰ ਲਈ ਕੋਈ PIN ਸੈੱਟ ਨਹੀਂ ਹੈ। ਮਾਲਕ ਨੂੰ PIN ਸੈੱਟ ਕਰਨ ਲਈ ਕਹੋ।', 'err.pin_locked': 'ਬਹੁਤ ਵਾਰ ਗ਼ਲਤ PIN ਪਾਇਆ ਗਿਆ। ਪੰਜ ਮਿੰਟ ਬਾਅਦ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ।',
+  'receipt.whatsapp': "WhatsApp ਤੇ ਭੇਜੋ", 'res.remindWhatsapp': "WhatsApp ਤੇ ਯਾਦ ਕਰਾਓ"
 };
