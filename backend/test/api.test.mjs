@@ -171,3 +171,28 @@ test('password sign-in works once an email and password are set', async () => {
   const wrong = await call('POST', '/api/auth/password/login', { body: { email: 'pass@example.com', password: 'nope nope nope' } });
   assert.equal(wrong.status, 401);
 });
+
+test('forgot password: an OTP on the phone resets it and signs other devices out', async () => {
+  const session = await signIn('9444444444', 'Reset User');
+  await call('PATCH', '/api/me', { token: session.token, body: { email: 'reset@example.com' } });
+  await call('POST', '/api/auth/password/set', { token: session.token, body: { password: 'old password 123' } });
+  await call('POST', '/api/auth/otp/request', { body: { phone: '9444444444' } });
+  const reset = await call('POST', '/api/auth/password/reset', { body: { phone: '9444444444', code: '246810', password: 'new password 456' } });
+  assert.equal(reset.status, 200, JSON.stringify(reset.data));
+  assert.equal((await call('GET', '/api/me', { token: session.token })).status, 401, 'old session is gone');
+  assert.equal((await call('POST', '/api/auth/password/login', { body: { email: 'reset@example.com', password: 'old password 123' } })).status, 401);
+  assert.equal((await call('POST', '/api/auth/password/login', { body: { email: 'reset@example.com', password: 'new password 456' } })).status, 200);
+  const bad = await call('POST', '/api/auth/password/reset', { body: { phone: '9444444444', code: '000000', password: 'whatever 12345' } });
+  assert.equal(bad.status, 401);
+});
+
+test('security headers and rate limits are on', async () => {
+  const res = await fetch(base + '/api/health');
+  assert.equal(res.headers.get('x-content-type-options'), 'nosniff');
+  assert.equal(res.headers.get('x-frame-options'), 'SAMEORIGIN');
+  assert.ok(res.headers.get('content-security-policy')?.includes("default-src 'self'"));
+  let last;
+  for (let i = 0; i < 16; i++) last = await call('POST', '/api/auth/password/login', { body: { email: `x${i}@example.com`, password: 'nope nope nope' } });
+  assert.equal(last.status, 429);
+  assert.ok(['login_locked', 'too_many_requests'].includes(last.data.error));
+});

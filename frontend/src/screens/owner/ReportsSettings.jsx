@@ -64,6 +64,9 @@ export function Settings() {
   const doExport = () => ui.run(async () => { const data = await app.exportProperty(); setExp({ name: `${p.name.replace(/\W+/g, '-').toLowerCase()}-backup.json`, text: JSON.stringify(data) }); });
   const doImport = () => ui.run(async () => { let parsed; try { parsed = JSON.parse(raw); } catch { throw { code: 'invalid_document' }; } if (!parsed?.property) throw { code: 'invalid_document' }; await app.importProperty(parsed); await app.reloadMemberships(); setImporting(false); setRaw(''); }, t('settings.imported'));
   const moveOnline = () => ui.run(async () => { if (!app.server.backend?.token) throw { code: 'sign_in_required' }; const data = await app.exportProperty(); await app.server.backend.importProperty(data); }, t('settings.movedOnline'));
+  const [newRecovery, setNewRecovery] = useState('');
+  const regenRecovery = async () => { if (await ui.confirm({ title: t('recovery.regenTitle'), body: t('recovery.regenBody'), action: t('recovery.regen') })) ui.run(async () => setNewRecovery(await app.localRecoveryCode(app.session.user.phone))); };
+  const signOutAll = async () => { if (await ui.confirm({ title: t('security.signOutAllTitle'), body: t('security.signOutAllBody'), action: t('security.signOutAll'), danger: true })) ui.run(async () => { await app.server.backend.logoutAll(); await app.signOut(); }); };
   const remove = async () => { if (await ui.confirm({ title: t('settings.deleteTitle', { name: p.name }), body: t('settings.deleteBody'), danger: true, action: t('settings.delete') })) ui.run(() => app.deleteProperty(), t('toast.removed')); };
   return (
     <div className="stack lg">
@@ -89,6 +92,11 @@ export function Settings() {
         <Select id="set-lang" label={t('settings.language')} value={lang} onChange={setLang} options={LANGUAGES.map((l) => ({ value: l.code, label: `${l.native} · ${l.name}` }))} />
         <div className="field"><span className="label">{t('settings.theme')}</span><Seg value={theme} onChange={setTheme} options={['system', 'light', 'dark'].map((x) => ({ value: x, label: t(`val.theme.${x}`) }))} /></div>
       </div></div>
+      <div className="card stack"><h2>{t('security.title')}</h2>
+        {app.mode === 'local' ? (<><p className="small muted">{t('security.deviceBody')}</p><div className="row wrap"><button className="btn" onClick={regenRecovery}>{t('recovery.regen')}</button></div>
+          {newRecovery && <div className="card" style={{ textAlign: 'center' }}><div className="eyebrow">{t('forgot.recoveryCode')}</div><div className="num" style={{ fontSize: '1.6rem', fontWeight: 600, letterSpacing: '.08em', userSelect: 'all' }}>{newRecovery}</div><p className="small muted">{t('recovery.body')}</p></div>}</>)
+          : (<><p className="small muted">{t('security.onlineBody')}</p><div className="row wrap"><button className="btn danger" onClick={signOutAll}>{t('security.signOutAll')}</button></div></>)}
+      </div>
       <div className="card stack"><h2>{t('settings.data')}</h2>
         <p className="small muted row">{app.mode === 'server' ? <Cloud size={16} /> : <Smartphone size={16} />}{app.mode === 'server' ? t('settings.dataOnline', { url: app.server.url }) : t('settings.dataDevice')}</p>
         <div className="row wrap"><button className="btn" onClick={doExport} data-testid="export-backup"><Download />{t('settings.backup')}</button><button className="btn" onClick={() => setImporting(true)}><Upload />{t('settings.restore')}</button>

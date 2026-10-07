@@ -99,6 +99,8 @@ export function createServerBackend(baseUrl) {
     verifyOtp: (phone, code, name) => request('POST', '/auth/otp/verify', { body: { phone, code, name } }),
     loginPassword: (email, password) => request('POST', '/auth/password/login', { body: { email, password } }),
     setPassword: (password) => request('POST', '/auth/password/set', { body: { password } }),
+    resetPassword: (phone, code, password) => request('POST', '/auth/password/reset', { body: { phone, code, password } }),
+    logoutAll: () => request('POST', '/auth/logout-all'),
     logout: () => request('POST', '/auth/logout'),
     me: () => request('GET', '/me'),
     updateMe: (fields) => request('PATCH', '/me', { body: fields }),

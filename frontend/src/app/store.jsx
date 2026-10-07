@@ -195,13 +195,15 @@ export function AppProvider({ children }) {
 
   const localCreateProperty = useCallback(
     async (input, pin) => {
+      const state0 = {};
       // A number that already has a PIN must prove it; a new number chooses one.
       const signedInAs = session?.mode === 'local' && session.user.phone === String(input.ownerPhone).replace(/\D/g, '').slice(-10);
       if (!signedInAs) {
         if (await localBackend.pins.has(input.ownerPhone)) await localBackend.pins.check(input.ownerPhone, pin);
-        else await localBackend.pins.set(input.ownerPhone, pin);
+        else { await localBackend.pins.set(input.ownerPhone, pin); state0.recovery = await localBackend.pins.setRecovery(input.ownerPhone); }
       }
       const state = await localBackend.createProperty(input);
+      state.recoveryCode = state0.recovery;
       await refreshLocalIndex();
       const user = { name: state.property.ownerName, phone: state.property.ownerPhone, email: state.property.ownerEmail || '' };
       const sess = { mode: 'local', user };
@@ -217,6 +219,8 @@ export function AppProvider({ children }) {
   );
 
   const setLocalPin = useCallback((phone, pin) => localBackend.pins.set(phone, pin), [localBackend]);
+  const localRecoveryCode = useCallback((phone) => localBackend.pins.setRecovery(phone), [localBackend]);
+  const localResetPin = useCallback((phone, code, pin) => localBackend.pins.resetWithRecovery(phone, code, pin), [localBackend]);
 
   const localLoadSample = useCallback(
     async (owner) => {
@@ -250,6 +254,7 @@ export function AppProvider({ children }) {
 
   const serverRequestOtp = useCallback((phone) => serverBackend.requestOtp(phone), [serverBackend]);
   const serverVerifyOtp = useCallback(async (phone, code, name) => serverSignedIn(await serverBackend.verifyOtp(phone, code, name)), [serverBackend, serverSignedIn]);
+  const serverResetPassword = useCallback(async (phone, code, password) => serverSignedIn(await serverBackend.resetPassword(phone, code, password)), [serverBackend, serverSignedIn]);
   const serverPasswordLogin = useCallback(async (email, password) => serverSignedIn(await serverBackend.loginPassword(email, password)), [serverBackend, serverSignedIn]);
 
   const serverCreateProperty = useCallback(
@@ -411,6 +416,9 @@ export function AppProvider({ children }) {
       manages,
       can,
       setLocalPin,
+      localRecoveryCode,
+      localResetPin,
+      serverResetPassword,
       mode: session?.mode || null,
       session,
       memberships,
@@ -449,7 +457,7 @@ export function AppProvider({ children }) {
       importProperty,
       deleteProperty
     }),
-    [access, manages, can, setLocalPin, booted, session, memberships, current, doc, preview, today, persistent, localProperties, lastError, serverUrl, serverStatus, serverInfo, serverBackend, setServerUrl, checkServer, localSignIn, localCreateProperty, localLoadSample, serverRequestOtp, serverVerifyOtp, serverPasswordLogin, serverCreateProperty, reloadMemberships, openMembership, closeProperty, signOut, dispatch, refresh, startPreview, stopPreview, files, exportProperty, importProperty, deleteProperty]
+    [access, manages, can, setLocalPin, localRecoveryCode, localResetPin, serverResetPassword, booted, session, memberships, current, doc, preview, today, persistent, localProperties, lastError, serverUrl, serverStatus, serverInfo, serverBackend, setServerUrl, checkServer, localSignIn, localCreateProperty, localLoadSample, serverRequestOtp, serverVerifyOtp, serverPasswordLogin, serverCreateProperty, reloadMemberships, openMembership, closeProperty, signOut, dispatch, refresh, startPreview, stopPreview, files, exportProperty, importProperty, deleteProperty]
   );
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

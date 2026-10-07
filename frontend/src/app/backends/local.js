@@ -50,14 +50,50 @@ async function hashPin(salt, pin) {
  * Sign-in PINs for device mode, kept per phone number as a salted hash. The owner chooses theirs
  * at setup and sets one for each resident or staff member who should sign in on this device.
  */
+function recoveryCode() {
+  const alphabet = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  const bytes = new Uint8Array(8);
+  crypto.getRandomValues(bytes);
+  const chars = [...bytes].map((b) => alphabet[b % alphabet.length]);
+  return `${chars.slice(0, 4).join('')}-${chars.slice(4).join('')}`;
+}
+const normCode = (c) => String(c || '').toUpperCase().replace(/[^A-Z0-9]/g, '');
+
 const pins = {
+  /** The owner's recovery code: shown once when their PIN is first set, usable to reset a forgotten PIN. */
+  async setRecovery(phone) {
+    const all = await pins.all();
+    const rec = all[tenDigits(phone)];
+    if (!rec) throw new DomainError('pin_not_set');
+    const code = recoveryCode();
+    rec.recoverySalt = newId('r');
+    rec.recoveryHash = await hashPin(rec.recoverySalt, normCode(code));
+    await idb.set('meta', PINS_KEY, all);
+    return code;
+  },
+  async resetWithRecovery(phone, code, newPin) {
+    const all = await pins.all();
+    const rec = all[tenDigits(phone)];
+    if (!rec?.recoveryHash) throw new DomainError('recovery_not_set');
+    if (rec.lockedUntil > Date.now()) throw new DomainError('pin_locked');
+    const ok = rec.recoveryHash === (await hashPin(rec.recoverySalt, normCode(code)));
+    if (!ok) {
+      rec.tries = (rec.tries || 0) + 1;
+      if (rec.tries >= MAX_TRIES) { rec.tries = 0; rec.lockedUntil = Date.now() + LOCK_MS; }
+      await idb.set('meta', PINS_KEY, all);
+      throw new DomainError('recovery_wrong');
+    }
+    await pins.set(phone, newPin);
+    return pins.setRecovery(phone); // a used code is replaced by a fresh one
+  },
   async all() { return (await idb.get('meta', PINS_KEY)) || {}; },
   async has(phone) { return Boolean((await pins.all())[tenDigits(phone)]); },
   async set(phone, pin) {
     if (!/^\d{4,6}$/.test(String(pin || ''))) throw new DomainError('pin_format');
     const all = await pins.all();
     const salt = newId('s');
-    all[tenDigits(phone)] = { salt, hash: await hashPin(salt, pin), tries: 0, lockedUntil: 0 };
+    const prev = all[tenDigits(phone)] || {};
+    all[tenDigits(phone)] = { ...prev, salt, hash: await hashPin(salt, pin), tries: 0, lockedUntil: 0 };
     await idb.set('meta', PINS_KEY, all);
   },
   async check(phone, pin) {

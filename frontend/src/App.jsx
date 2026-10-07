@@ -7,7 +7,7 @@ import { useRouter, matchRoute } from './app/router.jsx';
 import { useTheme, resolvedTheme } from './app/theme.jsx';
 import { setupNativeShell, onHardwareBack } from './app/native.js';
 import { useUi } from './ui/kit.jsx';
-import Welcome, { sessionStash } from './screens/Welcome.jsx';
+import Welcome, { sessionStash, RecoveryCard } from './screens/Welcome.jsx';
 import Home from './screens/owner/Home.jsx';
 import Rooms from './screens/owner/Rooms.jsx';
 import Residents, { ResidentDetail, ResidentForm } from './screens/owner/Residents.jsx';
@@ -60,6 +60,8 @@ export default function App() {
   const { theme } = useTheme();
   const ui = useUi();
   const [drawer, setDrawer] = useState(false);
+  const [recovery, setRecovery] = useState(null);
+  useEffect(() => { if (sessionStash.recovery) { setRecovery(sessionStash.recovery); sessionStash.recovery = null; } }, [app.current]);
   const seeded = useRef(false);
 
   useEffect(() => { if (app.booted) setupNativeShell(resolvedTheme(theme)); }, [app.booted, theme]);
@@ -73,6 +75,7 @@ export default function App() {
 
   if (!app.booted) return <div className="empty" style={{ height: '100%' }}><Brand /></div>;
   if (!app.session || !app.current || !app.state) return <Welcome />;
+  if (recovery) return <div className="welcome"><div className="welcome-pane" style={{ gridColumn: '1 / -1' }}><RecoveryCard code={recovery} onDone={() => setRecovery(null)} /></div></div>;
 
   const role = app.role;
   const nav = allowedNav(app);

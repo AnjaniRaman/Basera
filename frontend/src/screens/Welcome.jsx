@@ -5,7 +5,7 @@ import { Building2, LogIn, FlaskConical, ArrowLeft, Smartphone, Cloud, Home, Use
 import { periodOf } from '@basera/domain';
 import { useApp } from '../app/store.jsx';
 import { useI18n, LANGUAGES } from '../app/i18n.jsx';
-import { useUi, Input, Select, Seg, errorText } from '../ui/kit.jsx';
+import { useUi, Input, Select, Seg, errorText, copyText } from '../ui/kit.jsx';
 
 function Art() {
   const { t } = useI18n();
@@ -57,10 +57,60 @@ export function MembershipChooser() {
   );
 }
 
+function Forgot({ onBack, where }) {
+  const app = useApp();
+  const { t } = useI18n();
+  const [phone, setPhone] = useState('');
+  const [code, setCode] = useState('');
+  const [secret, setSecret] = useState('');
+  const [sent, setSent] = useState(false);
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState('');
+  const [newCode, setNewCode] = useState('');
+  const act = async (fn) => { setBusy(true); setError(''); try { await fn(); } catch (err) { setError(errorText(t, err)); } finally { setBusy(false); } };
+  const submit = (e) => {
+    e.preventDefault();
+    if (where === 'local') return act(async () => { const c = await app.localResetPin(phone, code, secret); setNewCode(c); });
+    if (!sent) return act(async () => { const r = await app.serverRequestOtp(phone); setSent(true); if (r.devCode) setCode(r.devCode); });
+    return act(() => app.serverResetPassword(phone, code, secret));
+  };
+  if (newCode) return <RecoveryCard code={newCode} onDone={onBack} />;
+  return (
+    <form className="welcome-box" onSubmit={submit}>
+      <button type="button" className="btn ghost sm" style={{ alignSelf: 'flex-start' }} onClick={onBack}><ArrowLeft />{t('common.back')}</button>
+      <div><h1>{where === 'local' ? t('forgot.pinTitle') : t('forgot.title')}</h1><p className="muted">{where === 'local' ? t('forgot.pinSub') : t('forgot.sub')}</p></div>
+      <Input id="forgot-phone" label={t('field.phone')} type="tel" inputMode="numeric" value={phone} onChange={(v) => { setPhone(v); setSent(false); }} required autoComplete="tel" />
+      {where === 'local' ? (<>
+        <Input id="forgot-recovery" label={t('forgot.recoveryCode')} value={code} onChange={setCode} required placeholder="ABCD-EFGH" autoComplete="off" />
+        <Input id="forgot-newpin" label={t('forgot.newPin')} type="password" inputMode="numeric" maxLength={6} value={secret} onChange={setSecret} required hint={t('setup.pinHint')} />
+      </>) : sent && (<>
+        <Input id="forgot-code" label={t('signin.code')} inputMode="numeric" value={code} onChange={setCode} required autoComplete="one-time-code" hint={t('signin.codeSent', { phone })} />
+        <Input id="forgot-password" label={t('forgot.newPassword')} type="password" value={secret} onChange={setSecret} required minLength={8} autoComplete="new-password" hint={t('forgot.passwordHint')} />
+      </>)}
+      {error && <p className="error-text" role="alert">{error}</p>}
+      <button className="btn primary block" disabled={busy} data-testid="forgot-submit">{where === 'server' && !sent ? t('signin.sendCode') : t('forgot.reset')}</button>
+    </form>
+  );
+}
+
+/** Shown once: the code that resets a forgotten device PIN. */
+export function RecoveryCard({ code, onDone }) {
+  const { t } = useI18n();
+  const ui = useUi();
+  return (
+    <div className="welcome-box">
+      <div><h1>{t('recovery.title')}</h1><p className="muted">{t('recovery.body')}</p></div>
+      <div className="card" style={{ textAlign: 'center' }}><div className="eyebrow">{t('forgot.recoveryCode')}</div><div className="num" style={{ fontSize: '2rem', fontWeight: 600, letterSpacing: '.08em', userSelect: 'all' }} data-testid="recovery-code">{code}</div></div>
+      <div className="row wrap"><button className="btn" onClick={async () => ui.toast((await copyText(code)) ? t('toast.copied') : code)}>{t('common.copy')}</button><button className="btn primary grow" onClick={onDone} data-testid="recovery-done">{t('recovery.saved')}</button></div>
+    </div>
+  );
+}
+
 function SignIn({ onBack }) {
   const app = useApp();
   const { t } = useI18n();
   const online = app.server.status === 'online';
+  const [forgot, setForgot] = useState(false);
   const [where, setWhere] = useState(online ? 'server' : 'local');
   const [method, setMethod] = useState('phone');
   const [phone, setPhone] = useState('');
@@ -79,6 +129,7 @@ function SignIn({ onBack }) {
     if (!sent) return act(async () => { const r = await app.serverRequestOtp(phone); setSent(true); if (r.devCode) setCode(r.devCode); });
     return act(() => app.serverVerifyOtp(phone, code));
   };
+  if (forgot) return <Forgot where={where} onBack={() => setForgot(false)} />;
   return (
     <form className="welcome-box" onSubmit={submit}>
       <button type="button" className="btn ghost sm" style={{ alignSelf: 'flex-start' }} onClick={onBack}><ArrowLeft />{t('common.back')}</button>
@@ -96,6 +147,7 @@ function SignIn({ onBack }) {
       </>)}
       {error && <p className="error-text" role="alert">{error}</p>}
       <button className="btn primary block" disabled={busy} data-testid="signin-submit">{where === 'server' && method === 'phone' && !sent ? t('signin.sendCode') : t('signin.submit')}</button>
+      {(where === 'local' || method === 'email') && <button type="button" className="btn ghost sm" onClick={() => setForgot(true)} data-testid="forgot-link">{where === 'local' ? t('forgot.pinLink') : t('forgot.link')}</button>}
     </form>
   );
 }
@@ -110,6 +162,7 @@ function SetupWizard({ onBack, signedIn }) {
   const [sent, setSent] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
+  const [recovery, setRecovery] = useState('');
   const set = (k) => (v) => setF((s) => ({ ...s, [k]: v }));
   const act = async (fn) => { setBusy(true); setError(''); try { await fn(); } catch (err) { setError(errorText(t, err)); } finally { setBusy(false); } };
 
@@ -128,12 +181,13 @@ function SetupWizard({ onBack, signedIn }) {
     return act(async () => {
       const input = { name: f.name, city: f.city, address: f.address, upiId: f.upiId, ownerName: f.ownerName, ownerPhone: f.ownerPhone,
         rules: { dueDay: Number(f.dueDay) || 5, electricityMode: f.electricityMode, billingStart: periodOf(app.today) } };
-      if (where === 'server') await app.serverCreateProperty(input); else await app.localCreateProperty(input, f.pin);
+      if (where === 'server') await app.serverCreateProperty(input); else { const st = await app.localCreateProperty(input, f.pin); if (st.recoveryCode) { sessionStash.recovery = st.recoveryCode; setRecovery(st.recoveryCode); } }
     });
   };
   // Rooms are added right after the property opens (see OwnerApp first-run), driven by this stash.
   if (step === 2) sessionStash.rooms = { floors: Number(f.floors) || 1, roomsPerFloor: Number(f.roomsPerFloor) || 1, beds: Number(f.beds) || 1, rent: Number(f.rent) || 0, startFloor: 1 };
 
+  if (recovery) return <RecoveryCard code={recovery} onDone={() => setRecovery('')} />;
   return (
     <form className="welcome-box" onSubmit={next}>
       <button type="button" className="btn ghost sm" style={{ alignSelf: 'flex-start' }} onClick={() => (step > (signedIn ? 1 : 0) ? setStep(step - 1) : onBack())}><ArrowLeft />{t('common.back')}</button>
@@ -177,7 +231,7 @@ function SetupWizard({ onBack, signedIn }) {
 }
 
 /** Handed from the wizard to the owner console, which creates the rooms once the PG is open. */
-export const sessionStash = { rooms: null };
+export const sessionStash = { rooms: null, recovery: null };
 
 export default function Welcome() {
   const app = useApp();

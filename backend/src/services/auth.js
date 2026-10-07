@@ -6,6 +6,9 @@ import { newId, randomToken, sha256, hashSecret, verifySecret, normalizePhone, n
 const OTP_TTL_MS = 10 * 60 * 1000;
 const OTP_MAX_PER_HOUR = 6;
 const OTP_MAX_ATTEMPTS = 5;
+const LOGIN_MAX_FAILS = 5;
+const LOGIN_LOCK_MS = 15 * 60 * 1000;
+const loginFails = new Map(); // email -> { n, until }
 
 export function createAuthService({ db, config, otp }) {
   async function requestOtp(rawPhone) {
@@ -110,8 +113,15 @@ export function createAuthService({ db, config, otp }) {
   async function loginWithPassword({ email: rawEmail, password, userAgent }) {
     const email = normalizeEmail(rawEmail);
     if (!email || !password) throw badRequest('invalid_credentials');
+    const lock = loginFails.get(email);
+    if (lock && lock.until > Date.now()) throw tooMany('login_locked');
     const user = await db.one(`SELECT * FROM users WHERE email = $1`, [email]);
-    if (!user || !verifySecret(password, user.password_hash)) throw unauthorized('invalid_credentials');
+    if (!user || !verifySecret(password, user.password_hash)) {
+      const n = (lock?.n || 0) + 1;
+      loginFails.set(email, { n, until: n >= LOGIN_MAX_FAILS ? Date.now() + LOGIN_LOCK_MS : 0 });
+      throw unauthorized('invalid_credentials');
+    }
+    loginFails.delete(email);
     await db.query(`UPDATE users SET last_login_at = now() WHERE id = $1`, [user.id]);
     return signInResponse(user, userAgent);
   }
@@ -120,6 +130,24 @@ export function createAuthService({ db, config, otp }) {
     if (!password || String(password).length < 8) throw badRequest('password_too_short', { min: 8 });
     if (!user.email) throw badRequest('email_required');
     await db.query(`UPDATE users SET password_hash = $2 WHERE id = $1`, [user.id, hashSecret(password)]);
+  }
+
+  /** Forgot password: prove the phone with a one-time code, set a new password, sign every other device out. */
+  async function resetPasswordWithOtp({ phone: rawPhone, code, password, userAgent }) {
+    const phone = normalizePhone(rawPhone);
+    if (!phone) throw badRequest('invalid_phone');
+    if (!password || String(password).length < 8) throw badRequest('password_too_short', { min: 8 });
+    await checkOtp(phone, code);
+    const user = await db.one(`SELECT * FROM users WHERE phone = $1`, [phone]);
+    if (!user) throw notFound('user_not_found');
+    await db.query(`UPDATE users SET password_hash = $2, last_login_at = now() WHERE id = $1`, [user.id, hashSecret(password)]);
+    await db.query(`DELETE FROM sessions WHERE user_id = $1`, [user.id]);
+    loginFails.delete(user.email || '');
+    return signInResponse(user, userAgent);
+  }
+
+  async function signOutEverywhere(user) {
+    await db.query(`DELETE FROM sessions WHERE user_id = $1`, [user.id]);
   }
 
   async function updateProfile(user, { name, email, lang }) {
@@ -144,5 +172,5 @@ export function createAuthService({ db, config, otp }) {
     return user;
   }
 
-  return { requestOtp, loginWithOtp, loginWithPassword, setPassword, updateProfile, userForToken, revokeSession, membershipsFor, publicUser, getUser };
+  return { requestOtp, loginWithOtp, loginWithPassword, setPassword, resetPasswordWithOtp, signOutEverywhere, updateProfile, userForToken, revokeSession, membershipsFor, publicUser, getUser };
 }

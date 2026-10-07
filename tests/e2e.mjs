@@ -39,6 +39,9 @@ try {
   await page.fill('#setup-owner-name', 'Meena Rao'); await page.fill('#setup-owner-phone', '9811100001'); await page.fill('#setup-pin', '4321'); await page.click(tid('setup-next'));
   await page.fill('#setup-pg-name', 'Rao Ladies PG'); await page.fill('#setup-city', 'Mysuru'); await page.fill('#setup-upi', 'meena@okhdfc'); await page.click(tid('setup-next'));
   await page.fill('#setup-floors', '2'); await page.fill('#setup-rooms-per-floor', '3'); await page.fill('#setup-beds', '2'); await page.fill('#setup-rent', '6500'); await page.click(tid('setup-next'));
+  await page.waitForSelector(tid('recovery-code')); const recovery = (await page.locator(tid('recovery-code')).innerText()).trim();
+  check('recovery code shown once after setup', /^[A-Z2-9]{4}-[A-Z2-9]{4}$/.test(recovery), recovery);
+  await page.click(tid('recovery-done'));
   await page.waitForSelector('h1:has-text("Rao Ladies PG")');
   await page.click(tid('nav-rooms')); await page.waitForSelector(tid('room-101'));
   check('wizard created 6 rooms', (await page.locator('.room').count()) === 6);
@@ -93,6 +96,13 @@ try {
   await page.click(tid('sign-out')); await page.click(tid('start-signin')); await page.click('.seg button:has-text("This device only")');
   await page.fill('#signin-phone', '9811100001'); await page.fill('#signin-pin', '0000'); await page.click(tid('signin-submit')); await page.waitForSelector('.error-text');
   check('wrong PIN is refused', (await page.locator('.error-text').innerText()).includes('Wrong PIN'));
+  // forgot PIN: recovery code resets it
+  await page.click(tid('forgot-link')); await page.fill('#forgot-phone', '9811100001'); await page.fill('#forgot-recovery', recovery.toLowerCase()); await page.fill('#forgot-newpin', '5555'); await page.click(tid('forgot-submit'));
+  await page.waitForSelector(tid('recovery-code')); await page.click(tid('recovery-done'));
+  await page.waitForSelector('#signin-phone'); await page.click('.seg button:has-text("This device only")');
+  await page.fill('#signin-phone', '9811100001'); await page.fill('#signin-pin', '5555'); await page.click(tid('signin-submit')); await page.waitForSelector(tid('open-owner'));
+  check('forgotten PIN reset with the recovery code', true);
+  await page.click('button:has-text("Sign out")'); await page.waitForSelector('#signin-phone'); await page.click('.seg button:has-text("This device only")');
   await page.fill('#signin-phone', '9811100003'); await page.fill('#signin-pin', '7788'); await page.click(tid('signin-submit')); await page.waitForSelector(tid('staff-attendance'));
   await page.click(tid('check-in')); await page.waitForSelector('h2:has-text("Checked in at")'); check('staff signs in and checks in (device)', true);
   check('no page errors (device)', errors.length === 0, errors.join(' | '));
@@ -165,6 +175,15 @@ try {
   check('staff portal fits a phone', await noOverflow(sp));
   await tp.click('.seg button:has-text("Requests")'); await tp.waitForSelector('button:has-text("Yes, it is fixed")', { timeout: 30000 }); check('resident is asked to confirm the fix', true);
   for (const [who, e] of [['owner', owner.errors], ['resident', tenant.errors], ['staff', staff.errors]]) check(`no page errors (${who}, online)`, e.length === 0, e.join(' | '));
+
+  // forgot password online: OTP resets it
+  const fp = await open(); const fpage = fp.page;
+  await fpage.click(tid('start-signin')); await fpage.click('.seg button:has-text("Email")'); await fpage.click(tid('forgot-link'));
+  await fpage.fill('#forgot-phone', '9822200001'); await fpage.click(tid('forgot-submit')); await fpage.waitForSelector('#forgot-code');
+  await fpage.fill('#forgot-code', '123456'); await fpage.fill('#forgot-password', 'brand new password'); await fpage.click(tid('forgot-submit'));
+  await fpage.waitForSelector(tid('open-owner'), { timeout: 15000 }).catch(() => {});
+  check('owner resets a forgotten password with an OTP', (await fpage.locator(`${tid('open-owner')}, h1:has-text("Khan Boys Hostel")`).count()) > 0);
+  await fp.context.close();
 
   // accounts-desk staff: can run the money side, cannot reach settings or staff
   const desk = await open();

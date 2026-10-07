@@ -1,6 +1,8 @@
 // HTTP layer. Thin: parse, authenticate, call a service, answer. Business rules live in shared/.
 import express from 'express';
 import cors from 'cors';
+import helmet from 'helmet';
+import rateLimit from 'express-rate-limit';
 import { existsSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { loadConfig } from './config.js';
@@ -23,8 +25,37 @@ export async function createApp(overrides = {}) {
   const app = express();
   app.disable('x-powered-by');
   if (config.trustProxy) app.set('trust proxy', 1);
+  // Security headers. The web app is served from this origin, so the CSP below is for it:
+  // own scripts/styles only, images from itself and data/blob (uploaded photos), API calls to itself.
+  app.use(helmet({
+    contentSecurityPolicy: {
+      useDefaults: true,
+      directives: {
+        'default-src': ["'self'"],
+        'script-src': ["'self'"],
+        'style-src': ["'self'", "'unsafe-inline'"],
+        'img-src': ["'self'", 'data:', 'blob:'],
+        'font-src': ["'self'", 'data:'],
+        'connect-src': ["'self'"],
+        'frame-ancestors': ["'none'"],
+        'object-src': ["'none'"],
+        'upgrade-insecure-requests': config.production ? [] : null
+      }
+    },
+    crossOriginEmbedderPolicy: false,
+    hsts: config.production ? { maxAge: 15552000, includeSubDomains: true } : false,
+    referrerPolicy: { policy: 'no-referrer' }
+  }));
   app.use(cors({ origin: config.corsOrigin === '*' ? true : config.corsOrigin.split(',').map((s) => s.trim()), credentials: false }));
   app.use(express.json({ limit: '2mb' }));
+
+  // Brute-force and abuse limits (per client IP; TRUST_PROXY=1 behind a host's load balancer).
+  const limiter = (windowMs, limit, code) => rateLimit({ windowMs, limit, standardHeaders: 'draft-7', legacyHeaders: false, handler: (_req, res) => res.status(429).json({ error: code }) });
+  app.use('/api/auth/otp/request', limiter(60 * 60 * 1000, 10, 'otp_rate_limited'));
+  app.use('/api/auth/password/login', limiter(15 * 60 * 1000, 15, 'login_locked'));
+  app.use('/api/auth/password/reset', limiter(60 * 60 * 1000, 10, 'login_locked'));
+  app.use('/api/auth/', limiter(15 * 60 * 1000, 60, 'too_many_requests'));
+  app.use('/api/', limiter(60 * 1000, 300, 'too_many_requests'));
 
   const tokenOf = (req) => {
     const header = req.get('authorization') || '';
@@ -53,6 +84,14 @@ export async function createApp(overrides = {}) {
   }));
   app.post('/api/auth/password/set', requireUser, wrap(async (req, res) => {
     await auth.setPassword(req.user, req.body?.password);
+    res.json({ ok: true });
+  }));
+  app.post('/api/auth/password/reset', wrap(async (req, res) => {
+    const { phone, code, password } = req.body || {};
+    res.json(await auth.resetPasswordWithOtp({ phone, code, password, userAgent: req.get('user-agent') }));
+  }));
+  app.post('/api/auth/logout-all', requireUser, wrap(async (req, res) => {
+    await auth.signOutEverywhere(req.user);
     res.json({ ok: true });
   }));
   app.post('/api/auth/logout', wrap(async (req, res) => {
@@ -118,7 +157,7 @@ export async function createApp(overrides = {}) {
   // ----- web app (single deployment: API + static files) -----
   const dist = fileURLToPath(new URL('../../frontend/dist/', import.meta.url));
   if (config.serveFrontend && existsSync(dist + 'index.html')) {
-    app.use(express.static(dist, { index: 'index.html', maxAge: '1h' }));
+    app.use(express.static(dist, { index: 'index.html', maxAge: '1h', setHeaders: (res, path) => { if (path.endsWith('.html')) res.set('cache-control', 'no-cache'); } }));
     app.get(/^(?!\/api\/).*/, (_req, res) => res.sendFile(dist + 'index.html'));
     log('serving web app from frontend/dist');
   }
